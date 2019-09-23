@@ -2,12 +2,12 @@
 
 const {Pool} = require('pg');
 
-const pool = {
+const myPool = {
   host: '127.0.0.1',
   port: '5432',
   database: 'architecture',
   user: 'postgres',
-  password: 'postgres'
+  password: 'password'
 };
 
 class dbAccess {
@@ -21,8 +21,11 @@ class dbAccess {
 };
 
 class db {
-  constructor(pool) {
-    this.pool = new dbAccess(pool);
+  constructor(pool = myPool) {
+    this.pool = new dbAccess().getInstance(pool);
+  }
+  query(text) {
+    this.pool.query(text);
   }
 }
 

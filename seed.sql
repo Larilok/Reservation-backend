@@ -2,7 +2,7 @@
 
 -- drop table inventory cascade    ;
 -- drop table stock cascade        ;
--- drop table accounting cascade ;
+-- drop table accounting cascade   ;
 
 
 
