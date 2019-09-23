@@ -4,9 +4,6 @@ let db = require('./db.js');
 
 // let db = new dba.dbAccess().getInstance(dba.pool);
 
-<<<<<<< HEAD
-// console.log(db);
-=======
 const fields = ['schemaname', 'tablename', 'tableowner'].join(', ');
 const sql = `SELECT ${fields} FROM pg_tables WHERE tableowner = $1 and schemaname = $2`;
 db.query(sql, ['postgres', 'public'], (err, res) => {
@@ -20,4 +17,3 @@ db.query(sql, ['postgres', 'public'], (err, res) => {
 });
 // console.log(db);
 
->>>>>>> Succes sql
