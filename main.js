@@ -1,7 +1,7 @@
 'use strict';
 
-let dba = require('./db.js');
+let db = require('./db.js');
 
-let db = new dba.dbAccess().getInstance(dba.pool);
+// let db = new dba.dbAccess().getInstance(dba.pool);
 
-console.log(db);
+// console.log(db);
