@@ -9,12 +9,12 @@ http.createServer((req, res) => {
     const uri = url.parse(req.url).pathname;
     // console.log("uri", uri);
     // console.log(req,res);
-    if(req.method === 'POST') {
+    if(req.method === 'GET') {
       if(uri === '/getInventory'){
-        
+
       };
-      if(uri === '/getPriceById'){
-        
+      if(uri.match(/\/getPriceById:\d+/)){
+        const id = uri.match(/\d+/)[0];
       };
       if(uri === '/unretItems'){
         
