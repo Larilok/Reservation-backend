@@ -10,8 +10,7 @@ class dbAccess {
     }
     return dbAccess.instance;
   }
-}
-
+};
 
 const pool = {
   host: '127.0.0.1',
@@ -21,7 +20,4 @@ const pool = {
   password: 'postgres'
 };
 
-let test = new dbAccess().getInstance(pool);
-let e = new dbAccess().getInstance(pool);
-
-console.log(test === e);
+module.exports = {dbAccess, pool};
