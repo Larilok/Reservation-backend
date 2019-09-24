@@ -4,30 +4,30 @@ const RentalItem = require('./RentalItem.js');
 
 class RentalItemBuilder {
   constructor(props = {
-    name: null,
-    description: null,
-    totalAmount: null,
-    pricePerH: null
+    Name: null,
+    Description: null,
+    TotalAmount: null,
+    PricePerH: null
   }) {
     this.item = new RentalItem(props);
   }
   setName(name) {
-    this.item.name = name;
+    this.item.Name = name;
     return this;
   }
 
   setDescription(description) {
-    this.item.description = description;
+    this.item.Description = description;
     return this;
   }
 
   setAmount(amount) {
-    this.item.amount = amount;
+    this.item.Amount = amount;
     return this;
   }
 
   setPrice(price) {
-    this.item.price = price;
+    this.item.Price = price;
     return this;
   }
   
