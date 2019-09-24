@@ -4,7 +4,7 @@ const LedgerEntry = require('./LedgerEntry.js');
 
 class LedgerEntryBuilder {
   constructor(props = {
-    id: null,
+    // id: null,
     amountRented: null,
     startTime: null,
     endTime: null,
@@ -16,15 +16,39 @@ class LedgerEntryBuilder {
   }) {
     this.item = new LedgerEntry(props);
   }
-  setId(id) {this.item.id = id}
-  setAmountRented(amountRented) {this.item.amountRented = amountRented}
-  setStartTime(startTime) {this.item.startTime = startTime}
-  setEndTime(endTime) {this.item.endTime = endTime}
-  setPrice(price) {this.item.price = price}
-  setRenterName(renterName) {this.item.renterName = renterName}
-  setRenterSurname(renterSurname) {this.item.renterSurname = renterSurname}
-  setRenterPhone(renterPhone) {this.item.renterPhone = renterPhone}
-  setRenterCardDetails(renterCardDetails) {this.item.renterCardDetails = renterCardDetails}
+  // setId(id) {this.item.id = id}
+  setAmountRented(amountRented) {
+    this.item.amountRented = amountRented;
+    return this;
+  }
+  setStartTime(startTime) {
+    this.item.startTime = startTime;
+    return this;
+  }
+  setEndTime(endTime) {
+    this.item.endTime = endTime;
+    return this;
+  }
+  setPrice(price) {
+    this.item.price = price;
+    return this;
+  }
+  setRenterName(renterName) {
+    this.item.renterName = renterName;
+    return this;
+  }
+  setRenterSurname(renterSurname) {
+    this.item.renterSurname = renterSurname;
+    return this;
+  }
+  setRenterPhone(renterPhone) {
+    this.item.renterPhone = renterPhone;
+    return this;
+  }
+  setRenterCardDetails(renterCardDetails) {
+    this.item.renterCardDetails = renterCardDetails;
+    return this;
+  }
   build() {return this.item}
 }
 

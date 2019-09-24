@@ -61,6 +61,7 @@ class db {
     }
       return this.query(`SELECT * from ${table} WHERE "${field}" ${sign} '${value}'`, callback);
   }
+  
 }
 
 module.exports = db;
