@@ -7,7 +7,7 @@ const myPool = {
   port: '5432',
   database: 'Architecture',
   user: 'postgres',
-  password: '6545352misha'
+  password: 'passwd'
 };
 
 class dbAccess {
@@ -36,25 +36,8 @@ class db {
   close() {
     return this.pool.end();
   }
-<<<<<<< HEAD
   getTable(table, callback) {
     return this.query(`SELECT * from ${table}`, callback);
-=======
-  getTable(table) {
-    this.pool.query(`SELECT * from ${table}`)
-     .then(res => {
-      const { rows } = res;
-      console.table(rows);
-      return rows;
-    })
-    .catch(err => {
-      console.log(err);
-    })
-    .finally(() => {
-      pool.end();
-      
-    });
->>>>>>> h
   }
   getTableByValue(table, field, value, callback) {
     return this.query(`SELECT * from ${table} WHERE "${field}" = ${value}`);
