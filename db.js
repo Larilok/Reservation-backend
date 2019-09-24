@@ -5,9 +5,9 @@ const {Pool} = require('pg');
 const myPool = {
   host: '127.0.0.1',
   port: '5432',
-  database: 'architecture',
+  database: 'Architecture',
   user: 'postgres',
-  password: 'password'
+  password: '6545352misha'
 };
 
 class dbAccess {
@@ -36,8 +36,25 @@ class db {
   close() {
     return this.pool.end();
   }
+<<<<<<< HEAD
   getTable(table, callback) {
     return this.query(`SELECT * from ${table}`, callback);
+=======
+  getTable(table) {
+    this.pool.query(`SELECT * from ${table}`)
+     .then(res => {
+      const { rows } = res;
+      console.table(rows);
+      return rows;
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      pool.end();
+      
+    });
+>>>>>>> h
   }
   getTableByValue(table, field, value, callback) {
     return this.query(`SELECT * from ${table} WHERE "${field}" = ${value}`);

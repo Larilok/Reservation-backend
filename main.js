@@ -2,6 +2,8 @@
 
 let http = require('http');
 
+
+
 const options = {
     // headers: req.headers,
     host: '127.0.0.1',
@@ -12,6 +14,7 @@ const options = {
 };
 
 let data = '';
+<<<<<<< HEAD
 let request = http.request(options, (response) => {
   response.setEncoding('utf8');
   response.on('data', (chunk) => {
@@ -24,6 +27,20 @@ let request = http.request(options, (response) => {
       console.table(JSON.parse(data));
   })
 });
+=======
+// let request = http.request(options, (response) => {
+//   response.setEncoding('utf8');
+//   response.on('data', (chunk) => {
+//       data += chunk;
+//   });
+
+//   response.on('close', () => {
+//       // console.log(data);
+//       // return data;
+//       console.log(data);
+//   })
+// });
+>>>>>>> h
 
 request.on('error', e => {
   console.log('REQUEST ERROR:');

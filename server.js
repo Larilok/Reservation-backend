@@ -15,7 +15,9 @@ http.createServer((req, res) => {
     // console.log("uri", uri);
     // console.log(req,res);
     if(req.method === 'GET') {
+
       if(uri === '/getInventory'){
+<<<<<<< HEAD
         // let a = new Promise((res, rej) => {
         //   resolve(await base.getTable('inventory'));
         // }).then(console.log(a));
@@ -31,10 +33,17 @@ http.createServer((req, res) => {
         // a.then(console.log(a));
         // res.write("a");
         
+=======
+        console.log(base.getTable("inventory"));
+        res.write();
+        res.end();
+>>>>>>> h
       };
+
       if(uri.match(/\/getPriceById:\d+/)){
         const id = uri.match(/\d+/)[0];
       };
+
       if(uri === '/unretItems'){
         
       };
