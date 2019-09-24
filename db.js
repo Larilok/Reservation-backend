@@ -25,7 +25,23 @@ class db {
     this.pool = new dbAccess().getInstance(pool);
   }
   query(text) {
-    this.pool.query(text);
+    return this.pool.query(text, (err, res) => {
+      if (err) {
+        throw err;
+      }
+      // console.dir({ res });
+      // console.table(res.fields);
+      console.table(res.rows);
+    });
+  }
+   close() {
+    return this.pool.end();
+   }
+  getTable(table) {
+    return this.query(`SELECT * from ${table}`);
+  }
+  getTableByValue(table, field, value) {
+    return this.query(`SELECT * from ${table} WHERE ${field} = ${value}`);
   }
 }
 
