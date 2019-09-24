@@ -60,5 +60,5 @@ values ((select s."InventoryID" from inventory s where s."Name" = 'Mountain Bike
 
 insert into accounting("InventoryID", "AmRented", "RentTime", "StartTime", "EndTime",
                        "Price", "RenterName", "RenterSurname", "RenterPhone", "RenterCardDet")
-values ((select s."InventoryID" from inventory s where s."Name" = 'Mountain Bike'), 1, 24, current_date, null, 100,
+values ((select s."InventoryID" from inventory s where s."Name" = 'Mountain Bike'), 1, 24, current_date, 'infinity', 100,
         'Alex', 'Alex', '+380985678765', '5168 1241 5353 1516');

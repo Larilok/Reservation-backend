@@ -25,12 +25,13 @@ class db {
     this.pool = new dbAccess().getInstance(pool);
   }
   query(text, callback) {
+    console.log(text);
     return this.pool.query(text, (err, res) => {
       if (err) {
         throw err;
       }
       // console.table(res.rows);
-      return callback (res.rows);
+      return callback(res.rows);
     });
   }
   close() {
@@ -40,7 +41,25 @@ class db {
     return this.query(`SELECT * from ${table}`, callback);
   }
   getTableByValue(table, field, value, callback) {
-    return this.query(`SELECT * from ${table} WHERE "${field}" = ${value}`);
+    let sign = '';
+    if (value[0] === '>') {//sign in front
+      sign = '>';
+      value = value.slice(1);
+      if (value[1] === '=') {
+        sign += '=';
+        value = value.slice(1);
+      }
+    } else if(value[0] === '<') {
+      sign = '<';
+      value = value.slice(1);
+      if (value[1] === '=') {
+        sign += '=';
+        value = value.slice(1);
+      }
+    } else {
+    sign = '=';      
+    }
+      return this.query(`SELECT * from ${table} WHERE "${field}" ${sign} '${value}'`, callback);
   }
 }
 
