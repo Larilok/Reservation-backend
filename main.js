@@ -1,13 +1,37 @@
 'use strict';
 
-let db = require('./db.js');
+let http = require('http');
 
-let base = new db();
+const options = {
+    // headers: req.headers,
+    host: '127.0.0.1',
+    port: 4242,
+    method: 'GET',
+    path: '/getInventory',
+    timeout: 4000
+};
 
-let sql = 'SELECT * from inventory';
-base.query(sql);
-base.getTable('inventory');
-base.getTableByValue('inventory', 'InventoryID', 1);
-base.close();
-// console.log(db);
+let data = '';
+let request = http.request(options, (response) => {
+  response.setEncoding('utf8');
+  response.on('data', (chunk) => {
+      data += chunk;
+  });
+
+  response.on('close', () => {
+      // console.log(data);
+      // return data;
+      console.log(data);
+  })
+});
+
+request.on('error', e => {
+  console.log('REQUEST ERROR:');
+  console.log('\x1b[33mWARNING:\x1b[0m: ');
+  console.log('\x1b[33mWARNING:\x1b[0m: ', e);
+  // exit(e);
+});
+
+request.end();
+
 
