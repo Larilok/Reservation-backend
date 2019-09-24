@@ -4,42 +4,49 @@ const http = require("http");
 const url = require("url");
 
 let db = require('./db.js');
+let PriceListIdCheck = require('./PriceListIdCheck.js')
 
 const port = process.argv[2] || 4242;
 
 let base = new db();
 
 http.createServer((req, res) => {
-    console.log(req.url);
     const uri = url.parse(req.url).pathname;
+    // console.log(uri);
     // console.log("uri", uri);
     // console.log(req,res);
     if(req.method === 'GET') {
 
       if(uri === '/getInventory'){
-        // let a = new Promise((res, rej) => {
-        //   resolve(await base.getTable('inventory'));
-        // }).then(console.log(a));
-        // let pro = new Promise((res, rej) => {
-
-        // });
-        let a = base.getTable('inventory', (result) => {
-          console.log(result);
+        base.getTable('inventory', (result) => {
+          // res.write(JSON.stringify('Inventory contents:\n'));
           res.write(JSON.stringify(result));
           res.end();
         });
-        // console.log(a);
-        // a.then(console.log(a));
-        // res.write("a");
-        
       };
 
       if(uri.match(/\/getPriceById:\d+/)){
-        const id = uri.match(/\d+/)[0];
+        const id = +uri.match(/\d+/)[0];
+        if (PriceListIdCheck.isSatisfiedBy(id)) {
+          base.getTableByValue('price_list', 'InventoryID', id, (result) => {
+          // res.write(JSON.stringify(`Price for id ${id}:\n`));
+          res.write(JSON.stringify(result));
+          res.end();
+          });
+        } else {
+          res.write(JSON.stringify("Wrong id provided"));
+          res.end();
+        }
       };
 
       if(uri === '/unretItems'){
-        
+        let date = new Date();
+        let now = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+        base.getTableByValue('accounting', 'EndTime', ">" + now, (result) => {
+          // res.write(JSON.stringify('Unreturned Items:\n'));
+          res.write(JSON.stringify(result));
+          res.end();
+        });
       };
       return;
     };
