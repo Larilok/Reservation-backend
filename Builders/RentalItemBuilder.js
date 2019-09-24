@@ -11,10 +11,26 @@ class RentalItemBuilder {
   }) {
     this.item = new RentalItem(props);
   }
-  setName(name) {this.item.name = name}
-  setDescription(description) {this.item.description = description}
-  setAmount(amount) {this.item.amount = amount}
-  setPrice(price) {this.item.price = price}
+  setName(name) {
+    this.item.name = name;
+    return this;
+  }
+
+  setDescription(description) {
+    this.item.description = description;
+    return this;
+  }
+
+  setAmount(amount) {
+    this.item.amount = amount;
+    return this;
+  }
+
+  setPrice(price) {
+    this.item.price = price;
+    return this;
+  }
+  
   build() {return this.item}
 }
 
