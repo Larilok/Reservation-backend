@@ -10,10 +10,11 @@ let now = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' 
 let inAYear = date.getFullYear('2020') + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
 
 let newEntry = new LedgerEntryBuilder();
-newEntry.setAmountRented(1).setStartTime(now).setEndTime(inAYear).setPrice(1000).setRenterName('John')
+newEntry = newEntry.setAmountRented(1).setStartTime(now).setEndTime(inAYear).setPrice(1000).setRenterName('John')
 .setRenterSurname('Doe').setRenterPhone('+380123456789').setRenterCardDetails('Some card').build();
 
-
+base.insertIntoTable('accounting', newEntry, (res) => {return true;});
+// console.log(newEntry);
 
 
 base.close();

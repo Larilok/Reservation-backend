@@ -61,7 +61,20 @@ class db {
     }
       return this.query(`SELECT * from ${table} WHERE "${field}" ${sign} '${value}'`, callback);
   }
-  
+  insertIntoTable(table, values, callback) {
+    let myStr = '';
+    let myProps = '';
+    for (let prop in values) {
+      myProps += '"' + prop + '"';
+      myProps += ', ';
+      myStr += "'" + values[prop] + "'";
+      myStr += ', ';
+    }
+    myStr = myStr.slice(0, -2);
+    myProps = myProps.slice(0, -2);
+    return this.query(`INSERT INTO ${table} (${myProps}) values (${myStr})`, callback);
+    // console.log(myProps);
+  }
 }
 
 module.exports = db;

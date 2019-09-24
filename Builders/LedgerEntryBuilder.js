@@ -5,48 +5,48 @@ const LedgerEntry = require('./LedgerEntry.js');
 class LedgerEntryBuilder {
   constructor(props = {
     // id: null,
-    amountRented: null,
-    startTime: null,
-    endTime: null,
-    price: null,
-    renterName: null,
-    renterSurname: null,
-    renterPhone: null,
-    renterCardDetails: null
+    AmRented: null,
+    StartTime: null,
+    EndTime: null,
+    Price: null,
+    RenterName: null,
+    RenterSurname: null,
+    RenterPhone: null,
+    RenterCardDet: null
   }) {
     this.item = new LedgerEntry(props);
   }
   // setId(id) {this.item.id = id}
   setAmountRented(amountRented) {
-    this.item.amountRented = amountRented;
+    this.item.AmRented = amountRented;
     return this;
   }
   setStartTime(startTime) {
-    this.item.startTime = startTime;
+    this.item.StartTime = startTime;
     return this;
   }
   setEndTime(endTime) {
-    this.item.endTime = endTime;
+    this.item.EndTime = endTime;
     return this;
   }
   setPrice(price) {
-    this.item.price = price;
+    this.item.Price = price;
     return this;
   }
   setRenterName(renterName) {
-    this.item.renterName = renterName;
+    this.item.RenterName = renterName;
     return this;
   }
   setRenterSurname(renterSurname) {
-    this.item.renterSurname = renterSurname;
+    this.item.RenterSurname = renterSurname;
     return this;
   }
   setRenterPhone(renterPhone) {
-    this.item.renterPhone = renterPhone;
+    this.item.RenterPhone = renterPhone;
     return this;
   }
   setRenterCardDetails(renterCardDetails) {
-    this.item.renterCardDetails = renterCardDetails;
+    this.item.RenterCardDet = renterCardDetails;
     return this;
   }
   build() {return this.item}
