@@ -21,7 +21,7 @@ let request = http.request(options, (response) => {
   response.on('close', () => {
       // console.log(data);
       // return data;
-      console.log(data);
+      console.table(JSON.parse(data));
   })
 });
 
@@ -33,5 +33,3 @@ request.on('error', e => {
 });
 
 request.end();
-
-

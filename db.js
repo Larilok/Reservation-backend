@@ -24,23 +24,22 @@ class db {
   constructor(pool = myPool) {
     this.pool = new dbAccess().getInstance(pool);
   }
-  query(text) {
+  query(text, callback) {
     return this.pool.query(text, (err, res) => {
       if (err) {
         throw err;
       }
-      // console.dir({ res });
-      // console.table(res.fields);
-      console.table(res.rows);
+      // console.table(res.rows);
+      return callback (res.rows);
     });
   }
   close() {
     return this.pool.end();
   }
-  getTable(table) {
-    return this.query(`SELECT * from ${table}`);
+  getTable(table, callback) {
+    return this.query(`SELECT * from ${table}`, callback);
   }
-  getTableByValue(table, field, value) {
+  getTableByValue(table, field, value, callback) {
     return this.query(`SELECT * from ${table} WHERE "${field}" = ${value}`);
   }
 }
