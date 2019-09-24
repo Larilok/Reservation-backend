@@ -34,14 +34,14 @@ class db {
       console.table(res.rows);
     });
   }
-   close() {
+  close() {
     return this.pool.end();
-   }
+  }
   getTable(table) {
     return this.query(`SELECT * from ${table}`);
   }
   getTableByValue(table, field, value) {
-    return this.query(`SELECT * from ${table} WHERE ${field} = ${value}`);
+    return this.query(`SELECT * from ${table} WHERE "${field}" = ${value}`);
   }
 }
 
