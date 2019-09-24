@@ -7,7 +7,7 @@ const myPool = {
   port: '5432',
   database: 'Architecture',
   user: 'postgres',
-  password: '6545352'
+  password: 'psd'
 };
 
 class dbAccess {
