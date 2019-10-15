@@ -2,6 +2,7 @@
 
 const {Pool} = require('pg');
 
+<<<<<<< HEAD
 const myPool = {
   host: '127.0.0.1',
   port: '5432',
@@ -10,6 +11,8 @@ const myPool = {
   password: 'psd'
 };
 
+=======
+>>>>>>> b7d621ffa7190b807584f890ef094b7a7f435699
 class dbAccess {
   constructor() {}
   getInstance(details) {
@@ -21,7 +24,7 @@ class dbAccess {
 };
 
 class db {
-  constructor(pool = myPool) {
+  constructor(pool) {
     this.pool = new dbAccess().getInstance(pool);
   }
   query(text, callback) {
