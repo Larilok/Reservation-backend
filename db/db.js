@@ -2,17 +2,6 @@
 
 const {Pool} = require('pg');
 
-<<<<<<< HEAD
-const myPool = {
-  host: '127.0.0.1',
-  port: '5432',
-  database: 'Architecture',
-  user: 'postgres',
-  password: 'psd'
-};
-
-=======
->>>>>>> b7d621ffa7190b807584f890ef094b7a7f435699
 class dbAccess {
   constructor() {}
   getInstance(details) {
