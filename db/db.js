@@ -5,9 +5,9 @@ const {Pool} = require('pg');
 const myPool = {
   host: '127.0.0.1',
   port: '5432',
-  database: 'Architecture',
+  database: 'architecture',
   user: 'postgres',
-  password: '6545352'
+  password: 'password'
 };
 
 class dbAccess {
