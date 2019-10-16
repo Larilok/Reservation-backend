@@ -21,16 +21,24 @@ class db {
     this.pool = connectionsPool.getInstance(pool);
   }
   query(text, callback) {
-    console.log(text);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log(typeof text);
-    console.log(typeof callback);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log(text);
+    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log(typeof text);
+    // console.log(typeof callback);
+    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     return this.pool.query(text, (err, res) => {
       if (err) {
         throw err;
       }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
       //console.table(res.rows);
+=======
+      // console.table(res.rows);
+>>>>>>> Stashed changes
+=======
+      // console.table(res.rows);
+>>>>>>> Stashed changes
       if (callback) return callback(res.rows);
       else return res.rows;
     });
