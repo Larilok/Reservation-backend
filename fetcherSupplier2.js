@@ -16,7 +16,7 @@ let base = new db(supplier2Pool);
 let fetchPriceList = (callback) => {;
   return base.query(`select "Id", "Name", "Price" from "details" join "price_list" on details."PriceListId" = price_list."Id"`, (res) => {
     let response = res.map(obj => {
-    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(null).setPrice(obj.Price).setAmInStock(null).build();
+    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(null).setUnitPrice(obj.Price).setAmInStock(null).build();
     });
     return callback(response);
   });
@@ -25,7 +25,7 @@ let fetchPriceList = (callback) => {;
 let fetchDetails = (id, callback) => {
   return base.query(`select "Id", "Name", "Description" from "details" join "price_list" on details."PriceListId" = price_list."Id" where "Id" = ${id}`, (res) => {
     let response = res.map(obj => {
-    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setPrice(null).setAmInStock(null).build();
+    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(null).setAmInStock(null).build();
     });
     return callback(response);
   });

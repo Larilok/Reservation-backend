@@ -5,7 +5,7 @@ class DBResponse {
     Id: null,
     Name: null,
     Description: null,
-    Price: null,
+    UnitPrice: null,
     AmInSotck: null
   }) {
     for(let prop in props) this[prop] = props[prop];

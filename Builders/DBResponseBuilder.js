@@ -7,7 +7,7 @@ class DBResponseBuilder {
     Id: null,
     Name: null,
     Description: null,
-    Price: null,
+    UnitPrice: null,
     AmInStock: null
   }) {
     this.item = new DBResponse(props);
@@ -24,8 +24,8 @@ class DBResponseBuilder {
     this.item.Description = Description;
     return this;
   }
-  setPrice(Price) {
-    this.item.Price = Price;
+  setUnitPrice(UnitPrice) {
+    this.item.UnitPrice = UnitPrice;
     return this;
   }
   setAmInStock(AmInStock) {
