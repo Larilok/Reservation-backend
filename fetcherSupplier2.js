@@ -49,6 +49,4 @@ let search = (column, value, callback) => {
   });
 }
 
-search("AmInStock", 10, (res) => console.table(res));
-
 module.exports = {fetchPriceList, fetchDetails, search};

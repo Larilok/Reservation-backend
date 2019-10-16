@@ -12,26 +12,22 @@ const serverPool = {
   password: 'password'
 };
 
+let base = new db(serverPool);
+
 let route = (uri, callback) => {
-      if(req.method === 'GET') {
       if(uri === '/getInventory'){
         base.getTable('inventory', (result) => {
-          // res.write(JSON.stringify('Inventory contents:\n'));
-          res.write(JSON.stringify(result));
-          res.end();
+          callback(result);
         });
       };
       if(uri.match(/\/getPriceById:\d+/)){
         const id = +uri.match(/\d+/)[0];
         if (PriceListIdCheck.isSatisfiedBy(id)) {
           base.getTableByValue('inventory', 'Id', id, (result) => {
-          // res.write(JSON.stringify(`Price for id ${id}:\n`));
-          res.write(JSON.stringify(result));
-          res.end();
+          callback(result);
           });
         } else {
-          res.write(JSON.stringify("Wrong id provided"));
-          res.end();
+          callback("Wrong Id provided");
         }
       };
       if(uri === '/unretItems'){
@@ -39,25 +35,21 @@ let route = (uri, callback) => {
         let now = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
         base.getTableByValue('accounting', 'EndTime', ">" + now, (result) => {
           // res.write(JSON.stringify('Unreturned Items:\n'));
-          res.write(JSON.stringify(result));
-          res.end();
+          callback(result);
         });
       };
       if(uri === '/price-list'){
         fs2.fetchPriceList((result) => {
           // res.write(JSON.stringify('Unreturned Items:\n'));
-          res.write(JSON.stringify(result));
-          res.end();
+          callback(result);
         }); 
       };
       if(uri.match(/\/details\/\d+/)){
         const id = +uri.match(/\d+/)[0];
         fs2.getTableByValue('details', 'PriceListId', id, (result) => {
-          // res.write(JSON.stringify('Unreturned Items:\n'));
-          res.write(JSON.stringify(result));
-          res.end();
+          callback(result);
         });
       };      
-      return;
-    };
 }
+
+module.exports = {route};

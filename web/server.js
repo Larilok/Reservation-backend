@@ -4,24 +4,20 @@ const http = require("http");
 const url = require("url");
 
 
-let router = require('router.js');
+let router = require('./router.js');
 
 const port = process.argv[2] || 4242;
 
 
-let base = new db(serverPool);
-
 http.createServer((req, res) => {
     const uri = url.parse(req.url).pathname;
-    // console.log(uri);
-    // console.log("uri", uri);
-    // console.log(req,res);
-    //pass uri to routes.js, which calls required fetcher
-    router.route(uri, (result) => {
-      res.write(JSON.stringify(result));
-      res.end();
-    });
-
+    if(req.method === 'GET') {
+      router.route(uri, (result) => {
+        res.write(JSON.stringify(result));
+        res.end();
+      });
+      return;
+    };
 }).listen(parseInt(port, 10));
 
 console.log(__dirname);
