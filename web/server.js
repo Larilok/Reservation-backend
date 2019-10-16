@@ -14,7 +14,7 @@ const serverPool = {
   port: '5432',
   database: 'architecture',
   user: 'postgres',
-  password: '6545352'
+  password: 'password'
 };
 
 
@@ -37,7 +37,7 @@ http.createServer((req, res) => {
       if(uri.match(/\/getPriceById:\d+/)){
         const id = +uri.match(/\d+/)[0];
         if (PriceListIdCheck.isSatisfiedBy(id)) {
-          base.getTableByValue('price_list', 'InventoryID', id, (result) => {
+          base.getTableByValue('inventory', 'Id', id, (result) => {
           // res.write(JSON.stringify(`Price for id ${id}:\n`));
           res.write(JSON.stringify(result));
           res.end();

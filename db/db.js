@@ -7,7 +7,7 @@ class dbAccess {
     this.connections = {}
   }
   getInstance(details) {
-    console.log(details, this.connections);
+    // console.log(details, this.connections);
     if(! this.connections[details.database]) {
       this.connections[details.database] = new Pool(details);
     }
@@ -22,19 +22,24 @@ class db {
   }
   query(text, callback) {
     console.log(text);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    console.log(typeof text);
+    console.log(typeof callback);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     return this.pool.query(text, (err, res) => {
       if (err) {
         throw err;
       }
-      // console.table(res.rows);
-      return callback(res.rows);
+      console.table(res.rows);
+      if (callback) return callback(res.rows);
+      else return res.rows;
     });
   }
   close() {
     return this.pool.end();
   }
   getTable(table, callback) {
-    console.log(this.pool);
+    // console.log(this.pool);
     return this.query(`SELECT * from ${table}`, callback);
   }
   getTableByValue(table, field, value, callback) {
