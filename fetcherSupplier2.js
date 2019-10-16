@@ -10,7 +10,7 @@ const supplier2Pool = {
   password: 'password'
 };
 
-// let base = new db(supplier2Pool);
+let base = new db(supplier2Pool);
 
 let fetchPriceList = (callback) => {
   let raw = base.getTable('price_list', callback);
