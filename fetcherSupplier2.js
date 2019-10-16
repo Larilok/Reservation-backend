@@ -1,6 +1,6 @@
 'use strict';
 
-let db = require('/db.js');
+let db = require('./db/db.js');
 
 const supplier2Pool = {
   host: '127.0.0.1',

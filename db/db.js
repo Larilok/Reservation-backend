@@ -3,18 +3,22 @@
 const {Pool} = require('pg');
 
 class dbAccess {
-  constructor() {}
+  constructor() {
+    this.connections = {}
+  }
   getInstance(details) {
-    if(! dbAccess.instance) {
-      dbAccess.instance = new Pool(details);
+    console.log(details, this.connections);
+    if(! this.connections[details.database]) {
+      this.connections[details.database] = new Pool(details);
     }
-    return dbAccess.instance;
+    return this.connections[details.database];
   }
 };
+const connectionsPool = new dbAccess();
 
 class db {
   constructor(pool) {
-    this.pool = new dbAccess().getInstance(pool);
+    this.pool = connectionsPool.getInstance(pool);
   }
   query(text, callback) {
     console.log(text);
@@ -30,6 +34,7 @@ class db {
     return this.pool.end();
   }
   getTable(table, callback) {
+    console.log(this.pool);
     return this.query(`SELECT * from ${table}`, callback);
   }
   getTableByValue(table, field, value, callback) {
