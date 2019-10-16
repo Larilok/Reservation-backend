@@ -14,7 +14,7 @@ const serverPool = {
   port: '5432',
   database: 'architecture',
   user: 'postgres',
-  password: 'password'
+  password: '6545352'
 };
 
 

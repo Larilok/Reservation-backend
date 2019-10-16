@@ -1,33 +1,38 @@
-
-
--- drop table inventory cascade    ;
--- drop table stock cascade        ;
--- drop table accounting cascade   ;
-
-
+create table if not exists categories (
+    "Id"              serial primary key          ,
+    "Name"            varchar(256)
+);
 
 create table if not exists inventory (
-    "InventoryID"     serial primary key          ,
-    "Name"            varchar(200)                ,
-    "Description"     varchar(200)
+    "Id"              serial primary key                               ,
+    "CategoryId"      int references categories("Id") on delete cascade,
+    "Name"            varchar(256)                                     ,
+    "Description"     varchar(256)                                     ,
+    "UnitPrice"       real
+);
+
+create table if not exists features (
+    "Id"              serial primary key                                    ,
+    "Name"            varchar(256)
+);
+
+create table if not exists inventory_features (
+    "InventoryId"     int references inventory("Id") on delete cascade,
+    "FeatureId"       int references features("Id") on delete cascade ,
+    "Description"     varchar(255)                                    ,
+    primary key("InventoryId", "FeatureId")
 );
 
 create table if not exists stock (
-    "StockID"             serial primary key                                          ,
-    "InventoryID"         int references inventory("InventoryID") on delete cascade  ,
-    "TotalAm"             smallint                                                    ,
-    "AmInStock"           smallint
-);
-
-create table if not exists price_list (
-    "PListID"             serial primary key                                          ,
-    "InventoryID"         int references inventory("InventoryID") on delete cascade  ,
-    "UnitPrice"           smallint
+    "Id"                  serial primary key                                ,
+    "InventoryId"         int references inventory("Id") on delete cascade  ,
+    "TotalAm"             int                                         ,
+    "AmInStock"           int
 );
 
 create table if not exists accounting (
-    "AccID"               serial primary key                                           ,
-    "InventoryID"        int references inventory("InventoryID") on delete cascade    ,
+    "AccId"              serial primary key                                            ,
+    "InventoryId"        int references inventory("Id") on delete cascade     ,
     "AmRented"           smallint                                                      ,
     "RentTime"           smallint                                                      ,
     "StartTime"          timestamp                                                     ,
@@ -39,26 +44,27 @@ create table if not exists accounting (
     "RenterCardDet"      varchar(200)
 );
 
-insert into  inventory("Name", "Description")
- values ('Mountain Bike', 'Badass bike'),
-        ('Chair', 'Lovely chair'),
-        ('Table', 'Your best buddy'),
-        ('Tent', 'Zzzzzzzzzz');
+insert into categories ("Name")
+values ('Bike'),
+       ('Chair'),
+       ('Table'),
+       ('Tent');
 
 
-insert into stock("InventoryID", "TotalAm", "AmInStock")
-values ((select s."InventoryID" from inventory s where s."Name" = 'Mountain Bike'), 5, 4),
-       ((select s."InventoryID" from inventory s where s."Name" = 'Chair'), 15, 13),
-       ((select s."InventoryID" from inventory s where s."Name" = 'Table'), 10, 8),
-       ((select s."InventoryID" from inventory s where s."Name" = 'Tent'), 5, 3);
 
-insert into price_list("InventoryID", "UnitPrice")
-values ((select s."InventoryID" from inventory s where s."Name" = 'Mountain Bike'), 100),
-       ((select s."InventoryID" from inventory s where s."Name" = 'Chair'), 10),
-       ((select s."InventoryID" from inventory s where s."Name" = 'Table'), 10),
-       ((select s."InventoryID" from inventory s where s."Name" = 'Tent'), 200);
+insert into  inventory("CategoryId", "Name", "Description", "UnitPrice")
+ values ((select "Id" from categories  where "Name" = 'Bike'), 'Mountain Bike', 'Badass bike', 1500),
+       ((select "Id" from categories  where "Name" = 'Chair'), 'Chair', 'Lovely chair', 752),
+       ((select "Id" from categories  where "Name" = 'Table'), 'Table', 'Your best buddy', 363),
+       ((select "Id" from categories  where "Name" = 'Tent'), 'Tent', 'Zzzzzzzzzz', 942);
 
-insert into accounting("InventoryID", "AmRented", "RentTime", "StartTime", "EndTime",
+insert into stock("InventoryId", "TotalAm", "AmInStock")
+values ((select s."Id" from inventory s where s."Name" = 'Mountain Bike'), 5, 4),
+       ((select s."Id" from inventory s where s."Name" = 'Chair'), 15, 13),
+       ((select s."Id" from inventory s where s."Name" = 'Table'), 10, 8),
+       ((select s."Id" from inventory s where s."Name" = 'Tent'), 5, 3);
+
+insert into accounting("InventoryId", "AmRented", "RentTime", "StartTime", "EndTime",
                        "Price", "RenterName", "RenterSurname", "RenterPhone", "RenterCardDet")
-values ((select s."InventoryID" from inventory s where s."Name" = 'Mountain Bike'), 1, 24, current_date, 'infinity', 100,
+values ((select s."Id" from inventory s where s."Name" = 'Mountain Bike'), 1, 24, current_date, 'infinity', 100,
         'Alex', 'Alex', '+380985678765', '5168 1241 5353 1516');

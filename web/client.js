@@ -2,8 +2,6 @@
 
 let http = require('http');
 
-
-
 const options = {
     // headers: req.headers,
     host: '127.0.0.1',
@@ -14,7 +12,7 @@ const options = {
 };
 
 let options2 = Object.assign({}, options);
-options2.path = '/getPriceById:1';
+// options2.path = '/getPriceById:1';
 
 let options3 = Object.assign({}, options);
 options3.path = '/unretItems';
