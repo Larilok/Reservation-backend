@@ -30,15 +30,6 @@ class db {
       if (err) {
         throw err;
       }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-      //console.table(res.rows);
-=======
-      // console.table(res.rows);
->>>>>>> Stashed changes
-=======
-      // console.table(res.rows);
->>>>>>> Stashed changes
       if (callback) return callback(res.rows);
       else return res.rows;
     });
