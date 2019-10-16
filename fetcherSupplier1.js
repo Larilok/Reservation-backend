@@ -53,8 +53,16 @@ const fetchQueryByCategory = (value, callback) => {
   });
 }
 
+let fetchInventory = (callback) => {
+    return base.query(`select i."Id", "Name", "UnitPrice", "Description", "AmInStock" from inventory i left join stock s on i."Id" = s."InventoryId" order by i."Id"`, (res) => {
+    let response = res.map(obj => {
+    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.UnitPrice).setAmInStock(obj.AmInStock).build();
+    });
+    return callback(response);
+  });
+}
 
-fetchQueryByFeatureValue('White', (result) => console.table(result));
+// fetchQueryByFeatureValue('White', (result) => console.table(result));
 // fetchQueryByCategory('Tent', (result) => console.table(result));
 
-module.exports = {fetchQueryByCategory, fetchQueryByFeatureValue};
+module.exports = {fetchQueryByCategory, fetchQueryByFeatureValue, fetchInventory};

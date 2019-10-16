@@ -2,6 +2,7 @@
 
 let db = require('../db/db.js');
 let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
+let fs1 = require('../fetcherSupplier1.js');
 let fs2 = require('../fetcherSupplier2.js');
 
 const serverPool = {
@@ -16,8 +17,23 @@ let base = new db(serverPool);
 
 let route = (uri, callback) => {
       if(uri === '/getInventory'){
-        base.getTable('inventory', (result) => {
-          callback(result);
+        let baseDB = new Promise((resolve, reject) => {
+          base.getTable('inventory', (result) => {
+            resolve(result);
+          });
+        });
+        let supplier1 = new Promise((resolve, reject) => {
+          fs1.fetchInventory((result) => {
+            resolve(result);
+          });
+        });
+        let supplier2 = new Promise((resolve, reject) => {
+          fs2.fetchInventory((result) => {
+            resolve(result);
+          });
+        });
+        Promise.all([baseDB, supplier1, supplier2]).then((values) => {
+          callback(values[0].concat(values[1]).concat(values[2]));
         });
       };
       if(uri.match(/\/getPriceById:\d+/)){
@@ -46,7 +62,7 @@ let route = (uri, callback) => {
       };
       if(uri.match(/\/details\/\d+/)){
         const id = +uri.match(/\d+/)[0];
-        fs2.getTableByValue('details', 'PriceListId', id, (result) => {
+        fs2.fetchDetails(id, (result) => {
           callback(result);
         });
       };      
