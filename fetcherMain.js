@@ -6,8 +6,8 @@ let DBResponseBuilder = require('./Builders/DBResponseBuilder.js');
 const supplier1Pool = {
   host: '127.0.0.1',
   port: '5432',
-  database: 'supply',
-  user: 'supplier',
+  database: 'architecture',
+  user: 'postgres',
   password: 'password'
 };
 
