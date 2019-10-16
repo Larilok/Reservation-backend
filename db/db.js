@@ -30,7 +30,7 @@ class db {
       if (err) {
         throw err;
       }
-      console.table(res.rows);
+      //console.table(res.rows);
       if (callback) return callback(res.rows);
       else return res.rows;
     });
