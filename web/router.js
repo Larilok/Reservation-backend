@@ -2,10 +2,10 @@
 
 let db = require('../db/db.js');
 let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
-let fs1 = require('../fetcherSupplier1.js');
-let fs2 = require('../fetcherSupplier2.js');
+let fs1 = require('../fetchers/fetcherSupplier1.js');
+let fs2 = require('../fetchers/fetcherSupplier2.js');
 // let fs1 = require('../fetcherSupplier1');
-let fsM = require('../fetcherMain.js');
+let fsM = require('../fetchers/fetcherMain.js');
 
 
 const serverPool = {
