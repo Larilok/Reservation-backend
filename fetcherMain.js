@@ -8,14 +8,14 @@ const supplier1Pool = {
   port: '5432',
   database: 'architecture',
   user: 'postgres',
-  password: 'password'
+  password: '6545352'
 };
 
 let base = new db(supplier1Pool);
 
 const fetchQueryByFeatureValue = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
-    s."AmInStock" from inventory i join inventory_features if on i."Id" = if."InventoryId"\
+    s."AmInStock" from inventory i left join inventory_features if on i."Id" = if."InventoryId"\
     join stock s on i."Id" = s."InventoryId"\
     where if."Description" = '${value}'`,
   (res) => {
@@ -54,7 +54,7 @@ const fetchQueryByCategory = (value, callback) => {
 }
 
 
-fetchQueryByFeatureValue('White', (result) => console.table(result));
+fetchQueryByFeatureValue('Brown', (result) => console.table(result));
 // fetchQueryByCategory('Tent', (result) => console.table(result));
 
 module.exports = {fetchQueryByCategory, fetchQueryByFeatureValue};

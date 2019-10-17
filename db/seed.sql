@@ -56,13 +56,37 @@ values ('Bike'),
        ('Table'),
        ('Tent');
 
-
+insert into features ("Name")
+values ('Color'),
+       ('Size'),
+       ('Shape');
 
 insert into inventory("CategoryId", "Name", "Description", "UnitPrice")
 values ((select "Id" from categories where "Name" = 'Bike'), 'Mountain Bike', 'Badass bike', 1500),
        ((select "Id" from categories where "Name" = 'Chair'), 'Chair', 'Lovely chair', 752),
        ((select "Id" from categories where "Name" = 'Table'), 'Table', 'Your best buddy', 363),
        ((select "Id" from categories where "Name" = 'Tent'), 'Tent', 'Zzzzzzzzzz', 942);
+
+insert into inventory_features ("InventoryId", "FeatureId", "Description")
+values ((select "Id" from inventory where "Name" = 'Mountain Bike'),
+        (select "Id" from features where "Name" = 'Color'), 'Brown'),
+       ((select "Id" from inventory where "Name" = 'Mountain Bike'),
+        (select "Id" from features where "Name" = 'Size'), '22"'),
+       ((select "Id" from inventory where "Name" = 'Chair'),
+        (select "Id" from features where "Name" = 'Color'), 'Blue'),
+       ((select "Id" from inventory where "Name" = 'Chair'),
+        (select "Id" from features where "Name" = 'Size'), 'Small'),
+       ((select "Id" from inventory where "Name" = 'Table'),
+        (select "Id" from features where "Name" = 'Color'), 'Black'),
+       ((select "Id" from inventory where "Name" = 'Table'),
+        (select "Id" from features where "Name" = 'Size'), 'Big'),
+       ((select "Id" from inventory where "Name" = 'Tent'),
+        (select "Id" from features where "Name" = 'Color'), 'Green'),
+       ((select "Id" from inventory where "Name" = 'Tent'),
+        (select "Id" from features where "Name" = 'Size'), 'Magnificent'),
+       ((select "Id" from inventory where "Name" = 'Tent'),
+        (select "Id" from features where "Name" = 'Shape'), 'Round');
+
 
 insert into stock("InventoryId", "TotalAm", "AmInStock")
 values ((select s."Id" from inventory s where s."Name" = 'Mountain Bike'), 5, 4),
@@ -74,3 +98,7 @@ insert into accounting("InventoryId", "AmRented", "RentTime", "StartTime", "EndT
                        "Price", "RenterName", "RenterSurname", "RenterPhone", "RenterCardDet")
 values ((select s."Id" from inventory s where s."Name" = 'Mountain Bike'), 1, 24, current_date, 'infinity', 100,
         'Alex', 'Alex', '+380985678765', '5168 1241 5353 1516');
+
+select distinct i."Id", i."Name", i."Description", i."UnitPrice",
+    s."AmInStock" from inventory i left join inventory_features if on i."Id" = if."InventoryId"
+    join stock s on i."Id" = s."InventoryId";
