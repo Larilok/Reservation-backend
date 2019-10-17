@@ -79,4 +79,5 @@ let fetchInventory = (callback) => {
   });
 }
 
+// fetchPriceList((res) => console.table(res));
 module.exports = {fetchPriceList, fetchDetails, search, fetchInventory};

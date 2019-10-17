@@ -22,7 +22,7 @@ options4.path = '/price-list';
 
 let data = ['', '', '', ''];
 let request = http.request(options, (response) => {
-  console.log(options);
+  // console.log(options);
   response.setEncoding('utf8');
   response.on('data', (chunk) => {
       data[0] += chunk;

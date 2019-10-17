@@ -4,8 +4,8 @@ let db = require('../db/db.js');
 let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
 let fs1 = require('../fetcherSupplier1.js');
 let fs2 = require('../fetcherSupplier2.js');
-let fs1 = require('../fetcherSupplier1');
-let fsM = require('../fetcherMain');
+// let fs1 = require('../fetcherSupplier1');
+let fsM = require('../fetcherMain.js');
 
 
 const serverPool = {
@@ -21,7 +21,7 @@ let base = new db(serverPool);
 let route = (uri, callback) => {
       if(uri === '/getInventory'){
         let baseDB = new Promise((resolve, reject) => {
-          base.getTable('inventory', (result) => {
+          fsM.fetchInventory((result) => {
             resolve(result);
           });
         });
@@ -44,7 +44,8 @@ let route = (uri, callback) => {
         const id = +uri.match(/\d+/)[0];
         if (PriceListIdCheck.isSatisfiedBy(id)) {
           let baseDB = new Promise((resolve, reject) => {
-            base.getTableByValue('inventory', 'Id', id, (result) => {
+            fsM.fetchQueryById(id, (result) => {
+            // base.getTableByValue('inventory', 'Id', id, (result) => {
               resolve(result);
             });
           });
@@ -77,8 +78,9 @@ let route = (uri, callback) => {
         });
       };
 
-      if(uri === '/price-list/'){
+      if(uri === '/price-list'){
         fs2.fetchPriceList((result) => {
+          // console.log('Done');
           // res.write(JSON.stringify('Unreturned Items:\n'));
           callback(result);
         }); 
