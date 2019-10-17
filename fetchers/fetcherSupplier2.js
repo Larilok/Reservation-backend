@@ -1,7 +1,7 @@
 'use strict';
 
-let db = require('./db/db.js');
-let DBResponseBuilder = require('./Builders/DBResponseBuilder.js');
+let db = require('../db/db.js');
+let DBResponseBuilder = require('../Builders/DBResponseBuilder.js');
 
 const supplier2Pool = {
   host: '127.0.0.1',
@@ -79,4 +79,5 @@ let fetchInventory = (callback) => {
   });
 }
 
+// fetchPriceList((res) => console.table(res));
 module.exports = {fetchPriceList, fetchDetails, search, fetchInventory};
