@@ -2,16 +2,10 @@
 
 let db = require('../db/db.js');
 let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
-<<<<<<< HEAD
-let fs1 = require('../fetcherSupplier1.js');
-let fs2 = require('../fetcherSupplier2.js');
-let fsM = require('../fetcherMain.js');
-=======
 let fs1 = require('../fetchers/fetcherSupplier1.js');
 let fs2 = require('../fetchers/fetcherSupplier2.js');
 // let fs1 = require('../fetcherSupplier1');
 let fsM = require('../fetchers/fetcherMain.js');
->>>>>>> 94a3c084a6cb78841b17a95544f19d95cd81d0c2
 
 
 const serverPool = {
@@ -110,7 +104,7 @@ let route = (uri, callback) => {
         }
         if(search[0] === 'feature'){
           const featureName = search[1];
-          fs1.fetchQueryByCategory(featureName, (result) => {
+          fs1.fetchQueryByFeatureValue(featureName, (result) => {
             callback(result);
           });
         }
