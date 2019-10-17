@@ -104,7 +104,7 @@ let route = (uri, callback) => {
         }
         if(search[0] === 'feature'){
           const featureName = search[1];
-          fs1.fetchQueryByCategory(featureName, (result) => {
+          fs1.fetchQueryByFeatureValue(featureName, (result) => {
             callback(result);
           });
         }
