@@ -70,4 +70,13 @@ let search = (column, value, callback) => {
   });
 }
 
-module.exports = {fetchPriceList, fetchDetails, search};
+let fetchInventory = (callback) => {
+    return base.query(`select "Id", "Name", "Price", "Description", "AmountInStock" from price_list join stock s on price_list."Id" = s."PriceListId" join details d on price_list."Id" = d."PriceListId"`, (res) => {
+    let response = res.map(obj => {
+    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
+    });
+    return callback(response);
+  });
+}
+
+module.exports = {fetchPriceList, fetchDetails, search, fetchInventory};

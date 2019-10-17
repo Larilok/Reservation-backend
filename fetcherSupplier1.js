@@ -34,7 +34,7 @@ const fetchQueryByFeatureValue = (value, callback) => {
 }
 
 const fetchQueryByCategory = (value, callback) => {
-  return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice", \
+  return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
     s."AmInStock" from inventory i join categories c on i."CategoryId" = c."Id"\
     join stock s on i."Id" = s."InventoryId"\
     where c."Name" = '${value}'`,
@@ -53,8 +53,36 @@ const fetchQueryByCategory = (value, callback) => {
   });
 }
 
+const fetchQueryById = (value, callback) => {
+  return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
+    s."AmInStock" from inventory i join categories c on i."CategoryId" = c."Id"\
+    left join stock s on i."Id" = s."InventoryId"\
+    where i."Id" = ${value}`,
+  (res) => {
+    const response = res.map(obj => {
+      return obj = new
+       DBResponseBuilder()
+        .setId(obj.Id)
+        .setName(obj.Name)
+        .setDescription(obj.Description)
+        .setUnitPrice(obj.UnitPrice)
+        .setAmInStock(obj.AmInStock)
+        .build();
+    })
+    return callback(response);
+  });
+}
+
+let fetchInventory = (callback) => {
+    return base.query(`select i."Id", "Name", "UnitPrice", "Description", "AmInStock" from inventory i left join stock s on i."Id" = s."InventoryId" order by i."Id"`, (res) => {
+    let response = res.map(obj => {
+    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.UnitPrice).setAmInStock(obj.AmInStock).build();
+    });
+    return callback(response);
+  });
+}
 
 // fetchQueryByFeatureValue('White', (result) => console.table(result));
 // fetchQueryByCategory('Tent', (result) => console.table(result));
 
-module.exports = {fetchQueryByCategory, fetchQueryByFeatureValue};
+module.exports = {fetchQueryByCategory, fetchQueryByFeatureValue, fetchQueryById, fetchInventory};
