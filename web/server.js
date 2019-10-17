@@ -10,7 +10,8 @@ const port = process.argv[2] || 4242;
 
 
 http.createServer((req, res) => {
-    const uri = url.parse(req.url).pathname;
+  const uri = url.parse(req.url).path;
+  console.log(uri);
     if(req.method === 'GET') {
       router.route(uri, (result) => {
         res.write(JSON.stringify(result));

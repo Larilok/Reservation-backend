@@ -34,7 +34,7 @@ const fetchQueryByFeatureValue = (value, callback) => {
 }
 
 const fetchQueryByCategory = (value, callback) => {
-  return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice"\
+  return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice", \
     s."AmInStock" from inventory i join categories c on i."CategoryId" = c."Id"\
     join stock s on i."Id" = s."InventoryId"\
     where c."Name" = '${value}'`,
@@ -54,7 +54,7 @@ const fetchQueryByCategory = (value, callback) => {
 }
 
 
-fetchQueryByFeatureValue('White', (result) => console.table(result));
+// fetchQueryByFeatureValue('White', (result) => console.table(result));
 // fetchQueryByCategory('Tent', (result) => console.table(result));
 
 module.exports = {fetchQueryByCategory, fetchQueryByFeatureValue};

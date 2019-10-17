@@ -3,6 +3,9 @@
 let db = require('../db/db.js');
 let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
 let fs2 = require('../fetcherSupplier2.js');
+let fs1 = require('../fetcherSupplier1');
+let fsM = require('../fetcherMain');
+
 
 const serverPool = {
   host: '127.0.0.1',
@@ -20,6 +23,7 @@ let route = (uri, callback) => {
           callback(result);
         });
       };
+
       if(uri.match(/\/getPriceById:\d+/)){
         const id = +uri.match(/\d+/)[0];
         if (PriceListIdCheck.isSatisfiedBy(id)) {
@@ -30,6 +34,7 @@ let route = (uri, callback) => {
           callback("Wrong Id provided");
         }
       };
+
       if(uri === '/unretItems'){
         let date = new Date();
         let now = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
@@ -38,17 +43,36 @@ let route = (uri, callback) => {
           callback(result);
         });
       };
-      if(uri === '/price-list'){
+
+      if(uri === '/price-list/'){
         fs2.fetchPriceList((result) => {
           // res.write(JSON.stringify('Unreturned Items:\n'));
           callback(result);
         }); 
       };
+
       if(uri.match(/\/details\/\d+/)){
         const id = +uri.match(/\d+/)[0];
-        fs2.getTableByValue('details', 'PriceListId', id, (result) => {
+        fs2.fetchDetails(id, (result) => {
           callback(result);
         });
+      };  
+
+      if(uri.match(/\/search\?query='.+'/)){
+        let query = uri.match(/\'.+\'/)[0];
+        const search = query.slice(1, -1).split('=');
+        if(search[0] === 'category'){
+          const categoryName = search[1];
+          fs1.fetchQueryByCategory(categoryName, (result) => {
+            callback(result);
+          });
+        }
+        if(search[0] === 'feature'){
+          const featureName = search[1];
+          fs1.fetchQueryByCategory(featureName, (result) => {
+            callback(result);
+          });
+        }
       };      
 }
 

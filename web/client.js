@@ -2,14 +2,12 @@
 
 let http = require('http');
 
-
-
 const options = {
     // headers: req.headers,
     host: '127.0.0.1',
     port: 4242,
     method: 'GET',
-    path: '/getInventory',
+    path: '/search?query=\'category=Tent\'',
     timeout: 4000
 };
 
@@ -24,6 +22,7 @@ options4.path = '/price-list';
 
 let data = ['', '', '', ''];
 let request = http.request(options, (response) => {
+  console.log(options);
   response.setEncoding('utf8');
   response.on('data', (chunk) => {
       data[0] += chunk;

@@ -53,11 +53,18 @@ let search = (column, value, callback) => {
       } else if (column === "Id") {
         return obj.Id === value;
       } else if (column === "AmInStock") {
-        return obj.AmountInStock === value
+        return obj.AmountInStock === valueq
       };
     });
     response = response.map(obj => {
-      return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
+      return obj = new 
+        DBResponseBuilder()
+          .setId(obj.Id)
+          .setName(obj.Name)
+          .setDescription(obj.Description)
+          .setUnitPrice(obj.Price)
+          .setAmInStock(obj.AmountInStock)
+          .build();
     });
     return callback(response);
   });
