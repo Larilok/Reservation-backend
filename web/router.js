@@ -4,8 +4,7 @@ let db = require('../db/db.js');
 let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
 let fs1 = require('../fetcherSupplier1.js');
 let fs2 = require('../fetcherSupplier2.js');
-let fs1 = require('../fetcherSupplier1');
-let fsM = require('../fetcherMain');
+let fsM = require('../fetcherMain.js');
 
 
 const serverPool = {
@@ -77,7 +76,7 @@ let route = (uri, callback) => {
         });
       };
 
-      if(uri === '/price-list/'){
+      if(uri === '/price-list'){
         fs2.fetchPriceList((result) => {
           // res.write(JSON.stringify('Unreturned Items:\n'));
           callback(result);

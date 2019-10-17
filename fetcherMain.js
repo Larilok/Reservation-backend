@@ -54,7 +54,7 @@ const fetchQueryByCategory = (value, callback) => {
 }
 
 
-fetchQueryByFeatureValue('Brown', (result) => console.table(result));
+// fetchQueryByFeatureValue('Brown', (result) => console.table(result));
 // fetchQueryByCategory('Tent', (result) => console.table(result));
 
 module.exports = {fetchQueryByCategory, fetchQueryByFeatureValue};
