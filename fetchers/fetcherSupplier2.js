@@ -1,23 +1,17 @@
 'use strict';
 
-let db = require('../db/db.js');
-let DBResponseBuilder = require('../Builders/DBResponseBuilder.js');
+const http = require('http');
 
-const supplier2Pool = {
-  host: '127.0.0.1',
-  port: '5432',
-  database: 'supply2',
-  user: 'supplier2',
-  password: 'password'
-};
+const DBResponseBuilder = require('../Builders/DBResponseBuilder.js');
+// const s2 = require('../Supplier2/supplier2API.js');
+const req = require('../requestMaker.js');
 
-let base = new db(supplier2Pool);
 
-let fetchPriceList = (callback) => {;
-  return base.query(`select "Id", "Name", "Price" from "price_list"`, (res) => {
+let fetchPriceList = (callback) => {
+  return req.makeRequest(4244, '/price-list', (res) => {
     let response = res.map(obj => {
-    return obj = new 
-      DBResponseBuilder()
+      return obj = new 
+        DBResponseBuilder()
         .setId(obj.Id)
         .setName(obj.Name)
         .setDescription(null)
@@ -26,11 +20,11 @@ let fetchPriceList = (callback) => {;
         .build();
     });
     return callback(response);
-  });
+  })
 }
 
 let fetchDetails = (id, callback) => {
-  return base.query(`select "Id", "Name", "Description" from "details" join "price_list" on details."PriceListId" = price_list."Id" where "Id" = ${id}`, (res) => {
+  return req.makeRequest(4244, '/details/' + id, (res) => {
     let response = res.map(obj => {
     return obj = new 
       DBResponseBuilder()
@@ -42,42 +36,41 @@ let fetchDetails = (id, callback) => {
         .build();
     });
     return callback(response);
-  });
+  })
 }
 
-let search = (column, value, callback) => {
-  return base.query(`select * from "details" join "price_list" on details."PriceListId" = price_list."Id" join stock on price_list."Id" = stock."PriceListId"`, (res) => {
-    let response = res.filter(obj => {
-      if(column === "UnitPrice") {
-        return obj.Price === value;
-      } else if (column === "Id") {
-        return obj.Id === value;
-      } else if (column === "AmInStock") {
-        return obj.AmountInStock === valueq
-      };
-    });
+let fetchFiltered = (column, value, callback) => {
+  return req.makeRequest(4244, '/full', (res) => {
+    let response;
+    if(column === "UnitPrice") {
+      response = res.filter(obj => {return obj.Price === value});
+    } else if (column === "Id") {
+      response = res.filter(obj => {return obj.Id === value});
+    } else if (column === "AmInStock") {
+      response = res.filter(obj => {return obj.AmountInStock === value});
+    };
     response = response.map(obj => {
       return obj = new 
         DBResponseBuilder()
-          .setId(obj.Id)
-          .setName(obj.Name)
-          .setDescription(obj.Description)
-          .setUnitPrice(obj.Price)
-          .setAmInStock(obj.AmountInStock)
-          .build();
+        .setId(obj.Id)
+        .setName(obj.Name)
+        .setDescription(obj.Description)
+        .setUnitPrice(obj.Price)
+        .setAmInStock(obj.AmountInStock)
+        .build();
     });
     return callback(response);
-  });
+  })
 }
 
 let fetchInventory = (callback) => {
-    return base.query(`select "Id", "Name", "Price", "Description", "AmountInStock" from price_list join stock s on price_list."Id" = s."PriceListId" join details d on price_list."Id" = d."PriceListId"`, (res) => {
+  return req.makeRequest(4244, '/full', (res) => {
     let response = res.map(obj => {
     return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
     });
     return callback(response);
-  });
+  })
 }
 
 // fetchPriceList((res) => console.table(res));
-module.exports = {fetchPriceList, fetchDetails, search, fetchInventory};
+module.exports = {fetchPriceList, fetchDetails, fetchFiltered, fetchInventory};

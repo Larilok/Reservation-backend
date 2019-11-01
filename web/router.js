@@ -54,7 +54,7 @@ let route = (uri, callback) => {
         });
       });
       let supplier2 = new Promise((resolve, reject) => {
-        fs2.search("Id", id, (result) => {
+        fs2.fetchFiltered("Id", id, (result) => {
           resolve(result);
         });
       });
@@ -77,20 +77,20 @@ let route = (uri, callback) => {
     });
   };
 
-  // if(uri === '/price-list'){
-  //   fs2.fetchPriceList((result) => {
-  //     // console.log('Done');
-  //     // res.write(JSON.stringify('Unreturned Items:\n'));
-  //     callback(result);
-  //   }); 
-  // };
+  if(uri === '/price-list'){
+    fs2.fetchPriceList((result) => {
+      // console.log('Done');
+      // res.write(JSON.stringify('Unreturned Items:\n'));
+      callback(result);
+    }); 
+  };
 
-  // if(uri.match(/\/details\/\d+/)){
-  //   const id = +uri.match(/\d+/)[0];
-  //   fs2.fetchDetails(id, (result) => {
-  //     callback(result);
-  //   });
-  // };  
+  if(uri.match(/\/details\/\d+/)){
+    const id = +uri.match(/\d+/)[0];
+    fs2.fetchDetails(id, (result) => {
+      callback(result);
+    });
+  };  
 
   if(uri.match(/\/search\?query='.+'/)){
     let query = uri.match(/\'.+\'/)[0];
