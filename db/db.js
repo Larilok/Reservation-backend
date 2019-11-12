@@ -68,7 +68,12 @@ class db {
     for (let prop in values) {
       myProps += '"' + prop + '"';
       myProps += ', ';
-      myStr += "'" + values[prop] + "'";
+      
+      if((`${values[prop]}`.slice(0,7)).toLowerCase() === '(select') {
+        myStr += values[prop];
+      }
+      else myStr += "'" + values[prop] + "'";
+      
       myStr += ', ';
     }
     myStr = myStr.slice(0, -2);
