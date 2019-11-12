@@ -5,6 +5,7 @@ let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
 let fs1 = require('../fetchers/fetcherSupplier1.js');
 let fs2 = require('../fetchers/fetcherSupplier2.js');
 let fsM = require('../fetchers/fetcherMain.js');
+// const cahce = require('../caching/getCache.js');
 
 
 const serverPool = {
@@ -25,6 +26,13 @@ let route = (uri, callback) => {
       });
     });
     let supplier1 = new Promise((resolve, reject) => {
+      // if(cache.s1) {
+      //   Promise.resolve(cache.s1);
+      // } else {
+      //   fs1.fetchInventory((result) => {
+      //     resolve(result);
+      //   });
+      // }
       fs1.fetchInventory((result) => {
         resolve(result);
       });
