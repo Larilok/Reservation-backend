@@ -3,6 +3,7 @@
 class DBResponse {
   constructor(props = {
     Id: null,
+    Category: null,
     Name: null,
     Description: null,
     UnitPrice: null,

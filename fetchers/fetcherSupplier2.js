@@ -13,6 +13,7 @@ let fetchPriceList = (callback) => {
       return obj = new 
         DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(null)
         .setName(obj.Name)
         .setDescription(null)
         .setUnitPrice(obj.Price)
@@ -29,6 +30,7 @@ let fetchDetails = (id, callback) => {
     return obj = new 
       DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(null)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(null)
@@ -53,6 +55,7 @@ let fetchFiltered = (column, value, callback) => {
       return obj = new 
         DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(null)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.Price)
@@ -66,11 +69,21 @@ let fetchFiltered = (column, value, callback) => {
 let fetchInventory = (callback) => {
   return req.makeRequest(4244, '/full', (res) => {
     let response = res.map(obj => {
-    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
+    return obj = new DBResponseBuilder().setId(obj.Id).setCategory(null).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
     });
     return callback(response);
   })
 }
 
+let fetchInventoryPage = (page, callback) => {
+  return req.makeRequest(4244, '/full:'+page, (res) => {
+    let response = res.map(obj => {
+    return obj = new DBResponseBuilder().setId(obj.Id).setCategory(null).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
+    });
+    // console.table(response);
+    return callback(response);
+  })
+}
+
 // fetchPriceList((res) => console.table(res));
-module.exports = {fetchPriceList, fetchDetails, fetchFiltered, fetchInventory};
+module.exports = {fetchPriceList, fetchDetails, fetchFiltered, fetchInventory, fetchInventoryPage};

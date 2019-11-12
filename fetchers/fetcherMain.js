@@ -22,6 +22,7 @@ const fetchInventory = (callback) => {
       return obj = new
        DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(null)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.UnitPrice)
@@ -42,6 +43,7 @@ const fetchQueryByFeatureValue = (value, callback) => {
       return obj = new
        DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(null)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.UnitPrice)
@@ -54,7 +56,7 @@ const fetchQueryByFeatureValue = (value, callback) => {
 
 const fetchQueryByCategory = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice"\
-    s."AmInStock" from inventory i join categories c on i."CategoryId" = c."Id"\
+    s."AmInStock", c."Name" as "Category" from inventory i join categories c on i."CategoryId" = c."Id"\
     join stock s on i."Id" = s."InventoryId"\
     where c."Name" = '${value}'`,
   (res) => {
@@ -62,6 +64,7 @@ const fetchQueryByCategory = (value, callback) => {
       return obj = new
        DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(obj.Category)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.UnitPrice)
@@ -74,7 +77,7 @@ const fetchQueryByCategory = (value, callback) => {
 
 const fetchQueryById = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
-    s."AmInStock" from inventory i join categories c on i."CategoryId" = c."Id"\
+    s."AmInStock", c."Name" as "Category" from inventory i join categories c on i."CategoryId" = c."Id"\
     left join stock s on i."Id" = s."InventoryId"\
     where i."Id" = ${value}`,
   (res) => {
@@ -82,6 +85,7 @@ const fetchQueryById = (value, callback) => {
       return obj = new
        DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(obj.Category)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.UnitPrice)

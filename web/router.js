@@ -115,7 +115,7 @@ let route = (uri, callback) => {
         callback(result);
       });
     }
-  };      
+  };
 }
 
 module.exports = {route};

@@ -5,6 +5,7 @@ const DBResponse = require('./DBResponse.js');
 class DBResponseBuilder {
   constructor(props = {
     Id: null,
+    Category: null,
     Name: null,
     Description: null,
     UnitPrice: null,
@@ -14,6 +15,10 @@ class DBResponseBuilder {
   }
   setId(Id) {
     this.item.Id = Id;
+    return this;
+  }
+  setCategory(Category) {
+    this.item.Category = Category;
     return this;
   }
   setName(Name) {

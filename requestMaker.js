@@ -8,7 +8,7 @@ let options = {
     port: null,
     method: 'GET',
     path: null,
-    timeout: 4000
+    timeout: 4000,
 };
 
 let makeRequest = (port, path, callback) => {
