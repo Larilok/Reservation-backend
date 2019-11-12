@@ -62,7 +62,7 @@ class db {
     }
       return this.query(`SELECT * from ${table} WHERE "${field}" ${sign} '${value}'`, callback);
   }
-  insertIntoTable(table, values, callback) {
+  insertIntoTable(table, values, callback) {//expect values as {colName: Value, ...}
     let myStr = '';
     let myProps = '';
     for (let prop in values) {

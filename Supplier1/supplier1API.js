@@ -14,7 +14,7 @@ let base = new db(supplier1Pool);
 
 const getQueryByCategory = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
-    s."AmInStock" from inventory i join categories c on i."CategoryId" = c."Id"\
+    s."AmInStock", c."Name" as "Category" from inventory i join categories c on i."CategoryId" = c."Id"\
     join stock s on i."Id" = s."InventoryId"\
     where c."Name" = '${value}'`, (res) => {
       return callback(res);
@@ -32,7 +32,7 @@ const getQueryByFeatureValue = (value, callback) => {
 
 const getQueryById = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
-    s."AmInStock" from inventory i join categories c on i."CategoryId" = c."Id"\
+    s."AmInStock", c."Name" as "Category" from inventory i join categories c on i."CategoryId" = c."Id"\
     left join stock s on i."Id" = s."InventoryId"\
     where i."Id" = ${value}`,
   (res) => {
@@ -41,7 +41,7 @@ const getQueryById = (value, callback) => {
 }
 
 const getInventory = (callback) => {
-    return base.query(`select i."Id", "Name", "UnitPrice", "Description", "AmInStock" from inventory i left join stock s on i."Id" = s."InventoryId" order by i."Id"`, (res) => {
+    return base.query(`select i."Id", i."Name", "UnitPrice", "Description", "AmInStock", c."Name" as "Category" from inventory i join categories c on i."CategoryId" = c."Id" left join stock s on i."Id" = s."InventoryId" order by i."Id"`, (res) => {
       return callback(res);
     });
 }

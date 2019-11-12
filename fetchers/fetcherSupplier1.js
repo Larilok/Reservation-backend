@@ -12,6 +12,7 @@ const fetchQueryByFeatureValue = (value, callback) => {
       return obj = new
        DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(obj.Category)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.UnitPrice)
@@ -28,6 +29,7 @@ const fetchQueryByCategory = (value, callback) => {
       return obj = new
        DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(obj.Category)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.UnitPrice)
@@ -44,6 +46,7 @@ const fetchQueryById = (value, callback) => {
       return obj = new
        DBResponseBuilder()
         .setId(obj.Id)
+        .setCategory(obj.Category)
         .setName(obj.Name)
         .setDescription(obj.Description)
         .setUnitPrice(obj.UnitPrice)
@@ -57,7 +60,7 @@ const fetchQueryById = (value, callback) => {
 const fetchInventory = (callback) => {
     return req.makeRequest(4243, "/getInventory", (res) => {
     let response = res.map(obj => {
-    return obj = new DBResponseBuilder().setId(obj.Id).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.UnitPrice).setAmInStock(obj.AmInStock).build();
+    return obj = new DBResponseBuilder().setId(obj.Id).setCategory(obj.Category).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.UnitPrice).setAmInStock(obj.AmInStock).build();
     });
     return callback(response);
   });

@@ -19,7 +19,15 @@ let route = (uri, callback) => {
   };
 
   if(uri === '/full'){
-    s2API.getPriceList((result) => {
+    s2API.getFull((result) => {
+      callback(result);
+    }); 
+  };
+
+  if(uri.match(/\/full:\d+/)){
+    const page = +uri.match(/\d+/)[0];
+    console.log(page);
+    s2API.getFullPage(page, (result) => {
       callback(result);
     }); 
   };

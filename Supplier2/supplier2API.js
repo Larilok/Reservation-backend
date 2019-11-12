@@ -24,15 +24,22 @@ let getDetails = (id, callback) => {
   });
 }
 
-let getFull = (column, value, callback) => {
+let getFull = (callback) => {
   return base.query(`select * from "details" join "price_list" on details."PriceListId" = price_list."Id" join stock on price_list."Id" = stock."PriceListId"`, (res) => {
   return callback(res);
   });
 }
 
+let getFullPage = (page, callback) => {
+  return base.query(`select * from "details" join "price_list" on details."PriceListId" = price_list."Id" join stock on price_list."Id" = stock."PriceListId"
+    limit 5001 offset ${5000*(page-1)}`, (res) => {
+  return callback(res);
+  });
+}
 
 module.exports = {
   getPriceList,
   getDetails,
-  getFull
+  getFull,
+  getFullPage
 }
