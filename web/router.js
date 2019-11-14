@@ -20,12 +20,10 @@ let base = new db(serverPool);
 
 let route = (remoteAddress, uri, callback) => {
   if(uri === '/cache' && remoteAddress === '::ffff:127.0.0.1') {
-    cache.cache();
-    callback("Successful caching");
+    cache.cache(() => callback("Successful caching"));
   }
   if(uri === '/dropCache' && remoteAddress === '::ffff:127.0.0.1') {
-    cache.dropCache();
-    callback("Successful cache cleaning");
+    cache.dropCache(() => callback("Successful cache cleaning"));
   }
   if(uri === '/getInventory'){
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
