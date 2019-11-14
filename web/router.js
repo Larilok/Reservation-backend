@@ -21,7 +21,7 @@ let base = new db(serverPool);
 let route = (remoteAddress, uri, callback) => {
   if(uri === '/cache' && remoteAddress === '::ffff:127.0.0.1') {
     cache.makeCache(() => {
-      console.log(cache.cache.s1Inv);
+      // console.log(cache.cache.s1Inv);
       callback("Successful caching");
   });
   }
@@ -29,9 +29,9 @@ let route = (remoteAddress, uri, callback) => {
     cache.dropCache(() => callback("Successful cache cleaning"));
   }
   if(uri === '/getInventory'){
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log(cache.cache.s1Inv);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log(cache.cache.s1Inv);
+    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     let baseDB = new Promise((resolve, reject) => {
       fsM.fetchInventory((result) => {
         resolve(result);

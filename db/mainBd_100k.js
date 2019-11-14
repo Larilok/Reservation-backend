@@ -11,7 +11,7 @@ const basePool = {
   port: '5432',
   database: 'architecture',
   user: 'postgres',
-  password: '6545352'
+  password: 'password'
 };
 
 let base = new db(basePool);

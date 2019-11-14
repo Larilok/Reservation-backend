@@ -1,5 +1,6 @@
 'use strict';
 
+const main = require('../fetchers/fetcherMain.js');
 const f1 = require('../fetchers/fetcherSupplier1.js');
 const f2 = require('../fetchers/fetcherSupplier2.js');
 
@@ -7,25 +8,37 @@ const f2 = require('../fetchers/fetcherSupplier2.js');
 // let s2Inv = [];
 
 let cache = {
+  mainInv: [],
   s1Inv: [],
   s2Inv: []
 }
 
 const makeCache = (callback) => {
+  let mainP = new Promise((res, rej) => {
+    getMainCache((status) => res(status));
+  });
   let s1P = new Promise((res, rej) => {
     getSupplier1Cache((status) => res(status));
   });
   let s2P = new Promise((res, rej) => {
     getSupplier2Cache((status) => res(status));
   });
-  Promise.all([s1P, s2P]).then(() => {callback()});
+  Promise.all([mainP, s1P, s2P]).then(() => {callback()});
   // Promise.all([s1P, s2P]).then(() => {callback(s1Inv); callback(s2Inv)});
 }
 
 const dropCache = (callback) => {
+  cache.mainInv = [];
   cache.s1Inv = [];
   cache.s2Inv = [];
   callback();
+}
+
+const getMainCache = (callback) => {
+  main.fetchInventory((res) => {
+    cache.mainInv = res;
+    callback(1);
+  })
 }
 
 const getSupplier1Cache = (callback) => {
