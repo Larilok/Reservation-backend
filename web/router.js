@@ -5,7 +5,7 @@ let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
 let fs1 = require('../fetchers/fetcherSupplier1.js');
 let fs2 = require('../fetchers/fetcherSupplier2.js');
 let fsM = require('../fetchers/fetcherMain.js');
-const cache = require('../caching/cache.js');
+const cache = require('../caching/cacheO.js');
 
 
 const serverPool = {
@@ -20,14 +20,17 @@ let base = new db(serverPool);
 
 let route = (remoteAddress, uri, callback) => {
   if(uri === '/cache' && remoteAddress === '::ffff:127.0.0.1') {
-    cache.cache(() => callback("Successful caching"));
+    cache.makeCache(() => {
+      console.log(cache.cache.s1Inv);
+      callback("Successful caching");
+  });
   }
   if(uri === '/dropCache' && remoteAddress === '::ffff:127.0.0.1') {
     cache.dropCache(() => callback("Successful cache cleaning"));
   }
   if(uri === '/getInventory'){
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log(cache.s1Inv);
+    console.log(cache.cache.s1Inv);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     let baseDB = new Promise((resolve, reject) => {
       fsM.fetchInventory((result) => {
@@ -35,9 +38,9 @@ let route = (remoteAddress, uri, callback) => {
       });
     });
     let supplier1 = new Promise((resolve, reject) => {
-      if(cache.s1Inv.length > 0) {
+      if(cache.cache.s1Inv.length > 0) {
         console.log('Using cache for S1');
-        resolve(cache.s1Inv);
+        resolve(cache.cache.s1Inv);
       } else {
         console.log('Fetching S1 - NO cache');
         fs1.fetchInventory((result) => {
@@ -49,9 +52,9 @@ let route = (remoteAddress, uri, callback) => {
       // });
     });
     let supplier2 = new Promise((resolve, reject) => {
-      if(cache.s2Inv.length > 0) {
+      if(cache.cache.s2Inv.length > 0) {
         console.log('Using cache for S2');
-        resolve(cache.s2Inv);
+        resolve(cache.cache.s2Inv);
       } else {
         console.log('Fetching S2 - NO cache');
         fs2.fetchInventory((result) => {
