@@ -5,7 +5,7 @@ let PriceListIdCheck = require('../Specification/PriceListIdCheck.js');
 let fs1 = require('../fetchers/fetcherSupplier1.js');
 let fs2 = require('../fetchers/fetcherSupplier2.js');
 let fsM = require('../fetchers/fetcherMain.js');
-// const cahce = require('../caching/getCache.js');
+const cache = require('../caching/cache.js');
 
 
 const serverPool = {
@@ -18,29 +18,51 @@ const serverPool = {
 
 let base = new db(serverPool);
 
-let route = (uri, callback) => {
+let route = (remoteAddress, uri, callback) => {
+  if(uri === '/cache' && remoteAddress === '::ffff:127.0.0.1') {
+    cache.cache();
+    callback("Successful caching");
+  }
+  if(uri === '/dropCache' && remoteAddress === '::ffff:127.0.0.1') {
+    cache.dropCache();
+    callback("Successful cache cleaning");
+  }
   if(uri === '/getInventory'){
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    console.log(cache.s1Inv);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     let baseDB = new Promise((resolve, reject) => {
       fsM.fetchInventory((result) => {
         resolve(result);
       });
     });
     let supplier1 = new Promise((resolve, reject) => {
-      // if(cache.s1) {
-      //   Promise.resolve(cache.s1);
-      // } else {
-      //   fs1.fetchInventory((result) => {
-      //     resolve(result);
-      //   });
-      // }
-      fs1.fetchInventory((result) => {
-        resolve(result);
-      });
+      if(cache.s1Inv.length > 0) {
+        console.log('Using cache for S1');
+        resolve(cache.s1Inv);
+      } else {
+        console.log('Fetching S1 - NO cache');
+        fs1.fetchInventory((result) => {
+          resolve(result);
+        });
+      }
+      // fs1.fetchInventory((result) => {
+      //   resolve(result);
+      // });
     });
     let supplier2 = new Promise((resolve, reject) => {
-      fs2.fetchInventory((result) => {
-        resolve(result);
-      });
+      if(cache.s2Inv.length > 0) {
+        console.log('Using cache for S2');
+        resolve(cache.s2Inv);
+      } else {
+        console.log('Fetching S2 - NO cache');
+        fs2.fetchInventory((result) => {
+          resolve(result);
+        });
+      }
+      // fs2.fetchInventory((result) => {
+      //   resolve(result);
+      // });
     });
     Promise.all([baseDB, supplier1, supplier2]).then((values) => {
       callback(values[0].concat(values[1]).concat(values[2]));

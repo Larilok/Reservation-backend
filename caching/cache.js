@@ -13,7 +13,14 @@ const cache = (callback) => {
   let s2P = new Promise((res, rej) => {
     getSupplier2Cache((status) => res(status));
   });
-  Promise.all([s1P, s2P]).then(() => {callback(s1Inv); callback(s2Inv)});
+  Promise.all([s1P, s2P]).then(() => {callback()});
+  // Promise.all([s1P, s2P]).then(() => {callback(s1Inv); callback(s2Inv)});
+}
+
+const dropCache = (callback) => {
+  s1Inv = [];
+  s2Inv = [];
+  callback();
 }
 
 const getSupplier1Cache = (callback) => {
@@ -29,7 +36,10 @@ const getSupplier2Cache = (callback) => {
   for (let i = 1;i !== 100; i++) {
     promises.push(new Promise((res, rej) => {
       f2.fetchInventoryPage(i, (result) => {
-        if(result.length === 0) res(2);
+        if(result.length === 0) {
+          res(2);
+          // stop = 1;
+        }
         else {
           s2Inv = s2Inv.concat(result);
           res(1);
@@ -43,7 +53,7 @@ const getSupplier2Cache = (callback) => {
 
 // console.table(s1);
 
-cache(console.table);
+// cache(console.table);
 
 
-module.exports = {cache, s1Inv, s2Inv};
+module.exports = {cache, dropCache, s1Inv, s2Inv};

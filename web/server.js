@@ -2,7 +2,7 @@
 
 const http = require("http");
 const url = require("url");
-const cache = require("../caching/cache.js");
+// const cache = require("../caching/cache.js");
 
 
 let router = require('./router.js');
@@ -18,16 +18,22 @@ http.createServer((req, res) => {
   // console.log(res);
   const uri = url.parse(req.url).path;
   console.log(uri);
-  if(uri === '/cache' && req.socket.remoteAddress === '::ffff:127.0.0.1') {
-    cache.cache(() => {
-      res.write("Successful caching");
-      res.end();
-    });
-    console.log('Here');
-    return;
-  }
+  // if(uri === '/cache' && req.socket.remoteAddress === '::ffff:127.0.0.1') {
+  //   /* cache.cache*/router.route(uri, (result) => {
+  //     res.write("Successful caching");
+  //     res.end();
+  //   });
+  //   return;
+  // }
+  // if(uri === '/dropCache' && req.socket.remoteAddress === '::ffff:127.0.0.1') {
+  //   /*cache.dropCache*/router.route(uri, (result) => {
+  //     res.write("Successful cache cleaning");
+  //     res.end();
+  //   });
+  //   return;
+  // }
   if(req.method === 'GET') {
-    router.route(uri, (result) => {
+    router.route(req.socket.remoteAddress, uri, (result) => {
       res.write(JSON.stringify(result));
       res.end();
     });
