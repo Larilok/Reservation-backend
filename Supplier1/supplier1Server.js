@@ -12,6 +12,7 @@ const port = process.argv[2] || 4243;
 http.createServer((req, res) => {
   const uri = url.parse(req.url).path;
   console.log(uri);
+  setTimeout(() => {
     if(req.method === 'GET') {
       router.route(uri, (result) => {
         res.write(JSON.stringify(result));
@@ -19,6 +20,8 @@ http.createServer((req, res) => {
       });
       return;
     };
+  }, 5000);
+    
 }).listen(parseInt(port, 10));
 
 console.log(__dirname);
