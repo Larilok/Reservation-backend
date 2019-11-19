@@ -20,22 +20,26 @@ let base = new db(serverPool);
 
 let route = (remoteAddress, uri, callback) => {
   if(uri === '/cache' && remoteAddress === '::ffff:127.0.0.1') {
-    cache.makeCache(() => {
-      // console.log(cache.cache.s1Inv);
-      callback("Successful caching");
-  });
+    cache.makeCache(() => callback("Successful caching"));
   }
   if(uri === '/dropCache' && remoteAddress === '::ffff:127.0.0.1') {
     cache.dropCache(() => callback("Successful cache cleaning"));
   }
+  if(uri === '/expireCacheEntries' && remoteAddress === '::ffff:127.0.0.1') {
+    cache.expireCacheEntries(() => callback("Successfully expired cache entries"));
+  }
+
   if(uri === '/getInventory'){
-    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    // console.log(cache.cache.s1Inv);
-    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     let baseDB = new Promise((resolve, reject) => {
-      fsM.fetchInventory((result) => {
-        resolve(result);
-      });
+      if(cache.cache.mainInv.length > 0) {
+        console.log('Using cache for Main');
+        resolve(cache.cache.mainInv);
+      } else {
+        console.log('Fetching Main - NO cache');
+        fsM.fetchInventory((result) => {
+          resolve(result);
+        });
+      }
     });
     let supplier1 = new Promise((resolve, reject) => {
       if(cache.cache.s1Inv.length > 0) {
@@ -47,9 +51,6 @@ let route = (remoteAddress, uri, callback) => {
           resolve(result);
         });
       }
-      // fs1.fetchInventory((result) => {
-      //   resolve(result);
-      // });
     });
     let supplier2 = new Promise((resolve, reject) => {
       if(cache.cache.s2Inv.length > 0) {
@@ -61,9 +62,6 @@ let route = (remoteAddress, uri, callback) => {
           resolve(result);
         });
       }
-      // fs2.fetchInventory((result) => {
-      //   resolve(result);
-      // });
     });
     Promise.all([baseDB, supplier1, supplier2]).then((values) => {
       callback(values[0].concat(values[1]).concat(values[2]));
@@ -73,22 +71,45 @@ let route = (remoteAddress, uri, callback) => {
   if(uri.match(/\/getPriceById:\d+/)){
     const id = +uri.match(/\d+/)[0];
     if (PriceListIdCheck.isSatisfiedBy(id)) {
-      let baseDB = new Promise((resolve, reject) => {
-        fsM.fetchQueryById(id, (result) => {
-        // base.getTableByValue('inventory', 'Id', id, (result) => {
-          resolve(result);
-        });
-      });
+      let baseDB = new Promise((resolve, reject) => {///////////////////////////////////////
+        if(cache.cache.mainInv.length > 0) {
+          console.log('Using cache for Main');
+          cache.getQueryById(0, id, (result) => {
+            resolve(result);
+          });
+        } else {
+          console.log('Fetching Main - NO cache');
+          fsM.fetchQueryById(id, (result) => {
+            resolve(result);
+          });
+        }
+      });//end of baseDB Promise
       let supplier1 = new Promise((resolve, reject) => {
-        fs1.fetchQueryById(id, (result) => {
-          resolve(result);
-        });
-      });
+        if(cache.cache.s1Inv.length > 0) {
+          console.log('Using cache for S1');
+          cache.getQueryById(1, id, (result) => {
+            resolve(result);
+          });
+        } else {
+          console.log('Fetching S1 - NO cache');
+          fsM.fetchQueryById(id, (result) => {
+            resolve(result);
+          });
+        }
+      });//end of supplier1 Promise
       let supplier2 = new Promise((resolve, reject) => {
-        fs2.fetchFiltered("Id", id, (result) => {
-          resolve(result);
-        });
-      });
+        if(cache.cache.s2Inv.length > 0) {
+          console.log('Using cache for S2');
+          cache.getQueryById(2, id, (result) => {
+            resolve(result);
+          });
+        } else {
+          console.log('Fetching S2 - NO cache');
+          fs2.fetchFiltered("Id", id, (result) => {
+            resolve(result);
+          });
+        }
+      });//end of supplier2 Promise
       Promise.all([baseDB, supplier1, supplier2]).then((values) => {
         callback(values[0].concat(values[1]).concat(values[2]));
       });
@@ -109,11 +130,19 @@ let route = (remoteAddress, uri, callback) => {
   };
 
   if(uri === '/price-list'){
-    fs2.fetchPriceList((result) => {
-      // console.log('Done');
-      // res.write(JSON.stringify('Unreturned Items:\n'));
-      callback(result);
-    }); 
+    if(cache.cache.s2Inv.length > 0) {
+      console.log('Using cache for Price List');
+      cache.getPriceList((result) => {
+        callback(result);
+      });
+    } else {
+      console.log('Fetching PriceList - NO cache');
+      fs2.fetchPriceList((result) => {
+        // console.log('Done');
+        // res.write(JSON.stringify('Unreturned Items:\n'));
+        callback(result);
+      }); 
+    }
   };
 
   if(uri.match(/\/details\/\d+/)){

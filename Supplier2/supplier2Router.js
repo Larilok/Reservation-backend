@@ -26,10 +26,17 @@ let route = (uri, callback) => {
 
   if(uri.match(/\/full:\d+/)){
     const page = +uri.match(/\d+/)[0];
-    console.log(page);
+    // console.log(page);
     s2API.getFullPage(page, (result) => {
       callback(result);
     }); 
+  };
+
+  if(uri === '/length'){
+    console.log('Getting len');
+    s2API.getTableLength((result) => {
+      callback(result);
+    })
   };
 }
 

@@ -10,20 +10,20 @@ const f2 = require('../fetchers/fetcherSupplier2.js');
 let cache = {
   mainInv: [],
   s1Inv: [],
-  s2Inv: []
+  s2Inv: [],
 }
 
 const makeCache = (callback) => {
-  let mainP = new Promise((res, rej) => {
+  let mainInvP = new Promise((res, rej) => {
     getMainCache((status) => res(status));
   });
-  let s1P = new Promise((res, rej) => {
+  let s1InvP = new Promise((res, rej) => {
     getSupplier1Cache((status) => res(status));
   });
-  let s2P = new Promise((res, rej) => {
+  let s2InvP = new Promise((res, rej) => {
     getSupplier2Cache((status) => res(status));
   });
-  Promise.all([mainP, s1P, s2P]).then(() => {callback()});
+  Promise.all([mainInvP, s1InvP, s2InvP]).then(() => {callback()});
   // Promise.all([s1P, s2P]).then(() => {callback(s1Inv); callback(s2Inv)});
 }
 
@@ -32,6 +32,9 @@ const dropCache = (callback) => {
   cache.s1Inv = [];
   cache.s2Inv = [];
   callback();
+}
+
+const expireCacheEntries = (callback) => {
 }
 
 const getMainCache = (callback) => {
@@ -49,29 +52,55 @@ const getSupplier1Cache = (callback) => {
 }
 
 const getSupplier2Cache = (callback) => {
-  let stop = 0;
-  let promises = [];//[new Promise((res, rej) => setTimeout(() => res(1), 1000))];
-  for (let i = 1;i !== 100; i++) {
-    promises.push(new Promise((res, rej) => {
-      f2.fetchInventoryPage(i, (result) => {
-        if(result.length === 0) {
-          res(2);
-          // stop = 1;
-        }
-        else {
-          cache.s2Inv = cache.s2Inv.concat(result);
-          res(1);
-        }
-      });
-    }));
+  // let stop = 0;
+  let pagesP = new Promise((res, rej) => {
+    f2.fetchTableLength((length) => {
+      const pages = Math.ceil(length/5000);
+      res(pages);
+    });
+  }).then((pages) => {
+    let promises = [];//[new Promise((res, rej) => setTimeout(() => res(1), 1000))];
+    for (let i = 1;i < pages; i++) {
+      promises.push(new Promise((res, rej) => {
+        f2.fetchInventoryPage(i, (result) => {
+            cache.s2Inv = cache.s2Inv.concat(result);
+            res(1);
+        });
+      }));
 
-  }
-  Promise.all(promises).then(() => callback(1));
+    }
+    Promise.all(promises).then(() => callback(1));
+  });
 }
 
-// console.table(s1);
+const getQueryById = (cacheId, id, callback) => {//cacheId - 0 for main, >0 === suplier Number
+  if(cacheId === 0) {
+    const result = cache.mainInv.filter((obj) => obj.Id === id);
+    return callback(result);
+  } else if(cacheId === 1) {
+    const result = cache.s1Inv.filter((obj) => obj.Id === id);
+    return callback(result);
+  } else if(cacheId === 2) {
+    const result = cache.s2Inv.filter((obj) => obj.Id === id);
+    return callback(result);
+  }
+}
 
-// cache(console.table);
+const getPriceList = (callback) => {
+  let newObj = {
+    Id: '',
+    Name: '',
+    UnitPrice: ''
+  }
+  let res = cache.s2Inv.map(obj => {
+    newObj.Id = obj.Id;
+    newObj.Name = obj.Name;
+    newObj.UnitPrice = obj.UnitPrice;
+    // console.log(newObj);
+    return newObj;
+  });
+  console.log(res);
+  return callback(res);
+}
 
-
-module.exports = {cache, dropCache, makeCache};
+module.exports = {cache, dropCache, makeCache, getQueryById, getPriceList};

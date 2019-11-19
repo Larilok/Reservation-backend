@@ -7,7 +7,7 @@ const DBResponseBuilder = require('../Builders/DBResponseBuilder.js');
 const req = require('../requestMaker.js');
 
 
-let fetchPriceList = (callback) => {
+const fetchPriceList = (callback) => {
   return req.makeRequest(4244, '/price-list', (res) => {
     let response = res.map(obj => {
       return obj = new 
@@ -24,7 +24,7 @@ let fetchPriceList = (callback) => {
   })
 }
 
-let fetchDetails = (id, callback) => {
+const fetchDetails = (id, callback) => {
   return req.makeRequest(4244, '/details/' + id, (res) => {
     let response = res.map(obj => {
     return obj = new 
@@ -41,7 +41,7 @@ let fetchDetails = (id, callback) => {
   })
 }
 
-let fetchFiltered = (column, value, callback) => {
+const fetchFiltered = (column, value, callback) => {
   return req.makeRequest(4244, '/full', (res) => {
     let response;
     if(column === "UnitPrice") {
@@ -66,7 +66,7 @@ let fetchFiltered = (column, value, callback) => {
   })
 }
 
-let fetchInventory = (callback) => {
+const fetchInventory = (callback) => {
   return req.makeRequest(4244, '/full', (res) => {
     let response = res.map(obj => {
     return obj = new DBResponseBuilder().setId(obj.Id).setCategory(null).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
@@ -75,7 +75,7 @@ let fetchInventory = (callback) => {
   })
 }
 
-let fetchInventoryPage = (page, callback) => {
+const fetchInventoryPage = (page, callback) => {
   return req.makeRequest(4244, '/full:'+page, (res) => {
     let response = res.map(obj => {
     return obj = new DBResponseBuilder().setId(obj.Id).setCategory(null).setName(obj.Name).setDescription(obj.Description).setUnitPrice(obj.Price).setAmInStock(obj.AmountInStock).build();
@@ -85,5 +85,11 @@ let fetchInventoryPage = (page, callback) => {
   })
 }
 
+const fetchTableLength = (callback) => {
+  return req.makeRequest(4244, '/length', (res) => {
+    return callback(res);
+  });
+}
+
 // fetchPriceList((res) => console.table(res));
-module.exports = {fetchPriceList, fetchDetails, fetchFiltered, fetchInventory, fetchInventoryPage};
+module.exports = {fetchPriceList, fetchDetails, fetchFiltered, fetchInventory, fetchInventoryPage, fetchTableLength};
