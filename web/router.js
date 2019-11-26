@@ -138,8 +138,6 @@ let route = (remoteAddress, uri, callback) => {
     } else {
       console.log('Fetching PriceList - NO cache');
       fs2.fetchPriceList((result) => {
-        // console.log('Done');
-        // res.write(JSON.stringify('Unreturned Items:\n'));
         callback(result);
       }); 
     }
@@ -147,19 +145,36 @@ let route = (remoteAddress, uri, callback) => {
 
   if(uri.match(/\/details\/\d+/)){
     const id = +uri.match(/\d+/)[0];
-    fs2.fetchDetails(id, (result) => {
-      callback(result);
-    });
+    if(cache.cache.s2Inv.length > 0) {
+      console.log('Using cache for Details');
+      cache.getDetails(id, (result) => {
+        callback(result);
+      });
+    } else {
+      console.log('Fetching Details - NO cache');
+      fs2.fetchDetails(id, (result) => {
+        callback(result);
+      });
+    }
   };  
 
   if(uri.match(/\/search\?query='.+'/)){
     let query = uri.match(/\'.+\'/)[0];
     const search = query.slice(1, -1).split('=');
+    
     if(search[0] === 'category'){
       const categoryName = search[1];
-      fs1.fetchQueryByCategory(categoryName, (result) => {
-        callback(result);
-      });
+      if(cache.cache.s1Inv.length > 0) {
+        console.log('Using cache for Category Search');
+        cache.getQueryByCategory(categoryName, (result) => {
+          callback(result);
+        });
+      } else {
+        console.log('Fetching Category Search - NO cache');
+        fs1.fetchQueryByCategory(categoryName, (result) => {
+          callback(result);
+        });
+      }
     }
     if(search[0] === 'feature'){
       const featureName = search[1];

@@ -31,14 +31,12 @@ const getSupplier1Cache = (callback) => {
 }
 
 const getSupplier2Cache = (callback) => {
-  let stop = 0;
   let promises = [];//[new Promise((res, rej) => setTimeout(() => res(1), 1000))];
   for (let i = 1;i !== 100; i++) {
     promises.push(new Promise((res, rej) => {
       f2.fetchInventoryPage(i, (result) => {
         if(result.length === 0) {
           res(2);
-          // stop = 1;
         }
         else {
           s2Inv = s2Inv.concat(result);

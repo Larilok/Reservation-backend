@@ -3,6 +3,7 @@
 const main = require('../fetchers/fetcherMain.js');
 const f1 = require('../fetchers/fetcherSupplier1.js');
 const f2 = require('../fetchers/fetcherSupplier2.js');
+let DBResponseBuilder = require('../Builders/DBResponseBuilder.js');
 
 // let s1Inv = [];
 // let s2Inv = [];
@@ -87,20 +88,44 @@ const getQueryById = (cacheId, id, callback) => {//cacheId - 0 for main, >0 === 
 }
 
 const getPriceList = (callback) => {
-  let newObj = {
-    Id: '',
-    Name: '',
-    UnitPrice: ''
-  }
   let res = cache.s2Inv.map(obj => {
-    newObj.Id = obj.Id;
-    newObj.Name = obj.Name;
-    newObj.UnitPrice = obj.UnitPrice;
-    // console.log(newObj);
-    return newObj;
+    return obj = new 
+        DBResponseBuilder()
+        .setId(obj.Id)
+        .setCategory(null)
+        .setName(obj.Name)
+        .setDescription(null)
+        .setUnitPrice(obj.UnitPrice)
+        .setAmInStock(null)
+        .build();
+  });
+  // console.log(res);
+  return callback(res);
+}
+
+const getDetails = (id, callback) => {
+  let res = cache.s2Inv.filter(el => el.Id === id).map(obj => {
+      return obj = new 
+      DBResponseBuilder()
+        .setId(obj.Id)
+        .setCategory(null)
+        .setName(obj.Name)
+        .setDescription(obj.Description)
+        .setUnitPrice(null)
+        .setAmInStock(null)
+        .build();
   });
   console.log(res);
   return callback(res);
 }
 
-module.exports = {cache, dropCache, makeCache, getQueryById, getPriceList};
+const getQueryByCategory = (categoryName, callback) => {
+  let res = cache.s1Inv.filter(el => {
+    console.log(el.Category, categoryName);
+    return el.Category === categoryName
+  });
+  console.log(res);
+  return callback(res);
+}
+
+module.exports = {cache, dropCache, makeCache, getQueryById, getPriceList, getDetails, getQueryByCategory};
