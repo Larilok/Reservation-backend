@@ -13,6 +13,36 @@ const basePool = {
 
 let base = new db(basePool);
 
+const fetchUserByLogin = (login, password, callback) => {
+  return base.query(`select *
+    from users
+    where "Login" = '${login}'`,
+  (res) => {
+    let response = res.filter(obj => {
+      console.log(obj.Password);
+      console.log(password);
+      return obj.Password === password;
+      console.log(obj.Password === password);
+    });
+      // console.log(response);
+      return callback(response);
+  });
+}
+
+const addUser = (login, password, privileges, callback) => {
+  console.log('IN ADDUSER');
+  console.log(login);
+  console.log(password);
+  console.log(privileges);
+
+  return base.query(`insert into users
+    ("Login", "Password", "Privileges") VALUES 
+    ('${login}', '${password}', '${privileges}');`,
+  (res) => {
+    return callback('Successfully  added  a User');
+  });
+}
+
 const fetchInventory = (callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
     s."AmInStock" from inventory i left join inventory_features if on i."Id" = if."InventoryId"\
@@ -100,4 +130,4 @@ const fetchQueryById = (value, callback) => {
 // fetchQueryByFeatureValue('Brown', (result) => console.table(result));
 // fetchQueryByCategory('Tent', (result) => console.table(result));
 
-module.exports = {fetchInventory, fetchQueryByCategory, fetchQueryByFeatureValue, fetchQueryById};
+module.exports = {fetchUserByLogin, addUser, fetchInventory, fetchQueryByCategory, fetchQueryByFeatureValue, fetchQueryById};

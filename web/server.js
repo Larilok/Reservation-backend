@@ -15,29 +15,52 @@ http.createServer((req, res) => {
   console.log(req.socket.remotePort);
   console.log(req.socket.remoteFamily);
   console.log('``````````````````````````````````````````````````````````````````````````````````````````````````````````````');
-  // console.log(res);
+  // console.log(req);
   const uri = url.parse(req.url).path;
   console.log(uri);
-  // if(uri === '/cache' && req.socket.remoteAddress === '::ffff:127.0.0.1') {
-  //   /* cache.cache*/router.route(uri, (result) => {
-  //     res.write("Successful caching");
-  //     res.end();
-  //   });
-  //   return;
-  // }
-  // if(uri === '/dropCache' && req.socket.remoteAddress === '::ffff:127.0.0.1') {
-  //   /*cache.dropCache*/router.route(uri, (result) => {
-  //     res.write("Successful cache cleaning");
-  //     res.end();
-  //   });
-  //   return;
-  // }
+
+  console.log(req.headers);
+
   if(req.method === 'GET') {
-    router.route(req.socket.remoteAddress, uri, (result) => {
-      res.write(JSON.stringify(result));
-      res.end();
+    if(req.headers.cookie.authorised) {
+      router.route(req.socket.remoteAddress, uri, (result) => {
+        // if(result === JSON.stringify('User successfully logged in')) {
+        //   console.log('Adding cookie');
+        //   res.writeHead(200, {'Set-Cookie': 'MYCOOKIe', 'Content-Type': 'text/plain'})
+        // }
+        res.write(result);//removed JSON.stringify
+        res.end();
+      });
+      return;
+    } else {
+      router.route(req.socket.remoteAddress, '/login.html', (result) => {
+        res.write(result);//removed JSON.stringify
+        res.end();
+      });
+    }
+  };
+  if(req.method === 'POST') {
+    let data = '';
+    req.on('data', (chunk) => {
+      data += chunk;
+    }).on('end', () => {
+      console.log(data);
+      router.route(data, uri, (result) => {
+        if(result === JSON.stringify('User successfully logged in')) {
+          console.log('Adding cookie');
+          const date = new Date();
+          const cookie = {
+            authorised: true,
+            expire: new Date(date.setMinutes(date.getMinutes()+20))
+          };
+          res.writeHead(200, {'Set-Cookie': cookie, 'Content-Type': 'text/plain'})
+        }
+        res.write(result);//removed JSON.stringify
+        res.end();
+      });
+      return;
     });
-    return;
+
   };
 }).listen(parseInt(port, 10));
 

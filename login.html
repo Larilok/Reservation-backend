@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Login</title>
+</head>
+<body>
+<div id="login">
+    <h1>Please enter your details:</h1>
+    <form action="http://127.0.0.1:4242/login" method="post">
+        <!-- <fieldset> -->
+            <label for="login">Name:</label>
+            <br>
+            <input type="text" id="login" name="login" placeholder="Please enter your username" />
+            <br>
+            <label for="password">Password:</label>
+            <br>
+            <input type="text" id="password" name="password" placeholder="Please enter your password"/>
+            <br>
+            <input type="submit" value="Login" />
+
+        <!-- </fieldset> -->
+    </form>
+    <br>
+    <h1>Alternatively, sign up:</h1>
+    <br>
+    <button type="button" method='post' onclick="window.location.href = 'http://127.0.0.1:4242/signup.html';">Sign Up</button>
+</div>
+</body>
+</html>
