@@ -22,7 +22,7 @@ http.createServer((req, res) => {
   console.log(req.headers);
 
   if(req.method === 'GET') {
-    if(req.headers.cookie.authorised) {
+    if(req.headers.cookie && JSON.parse(req.headers.cookie).authorised && (new Date(JSON.parse(req.headers.cookie).expire) > new Date())) {
       router.route(req.socket.remoteAddress, uri, (result) => {
         // if(result === JSON.stringify('User successfully logged in')) {
         //   console.log('Adding cookie');
@@ -33,35 +33,35 @@ http.createServer((req, res) => {
       });
       return;
     } else {
-      router.route(req.socket.remoteAddress, '/login.html', (result) => {
-        res.write(result);//removed JSON.stringify
-        res.end();
+      res.writeHead(302, {
+        'Location': 'http://127.0.0.1:4240/login.html'
       });
+      res.end();
     }
   };
-  if(req.method === 'POST') {
-    let data = '';
-    req.on('data', (chunk) => {
-      data += chunk;
-    }).on('end', () => {
-      console.log(data);
-      router.route(data, uri, (result) => {
-        if(result === JSON.stringify('User successfully logged in')) {
-          console.log('Adding cookie');
-          const date = new Date();
-          const cookie = {
-            authorised: true,
-            expire: new Date(date.setMinutes(date.getMinutes()+20))
-          };
-          res.writeHead(200, {'Set-Cookie': cookie, 'Content-Type': 'text/plain'})
-        }
-        res.write(result);//removed JSON.stringify
-        res.end();
-      });
-      return;
-    });
+  // if(req.method === 'POST') {
+  //   let data = '';
+  //   req.on('data', (chunk) => {
+  //     data += chunk;
+  //   }).on('end', () => {
+  //     console.log(data);
+  //     router.route(data, uri, (result) => {
+  //       if(result === JSON.stringify('User successfully logged in')) {
+  //         console.log('Adding cookie');
+  //         const date = new Date();
+  //         const cookie = {
+  //           authorised: true,
+  //           expire: new Date(date.setMinutes(date.getMinutes()+20))
+  //         };
+  //         res.writeHead(200, {'Set-Cookie': cookie, 'Content-Type': 'text/plain'})
+  //       }
+  //       res.write(result);//removed JSON.stringify
+  //       res.end();
+  //     });
+  //     return;
+  //   });
 
-  };
+  // };
 }).listen(parseInt(port, 10));
 
 console.log(__dirname);
