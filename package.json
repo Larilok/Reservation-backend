@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
-    "grpc": "latest"
+    "grpc": "latest",
+    "pg": "^7.14.0"
   }
 }

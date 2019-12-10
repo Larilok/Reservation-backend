@@ -28,6 +28,7 @@ http.createServer((req, res) => {
 
     if(req.headers.cookie && JSON.parse(req.headers.cookie).authorised && (new Date(JSON.parse(req.headers.cookie).expire) > new Date())) {
       console.log('Cookie');
+
       router.route(req.socket.remoteAddress, uri, (result) => {
         res.write(result);//removed JSON.stringify
         res.end();
@@ -38,22 +39,28 @@ http.createServer((req, res) => {
       res.writeHead(302, {'Location': 'http://127.0.0.1:4240/login.html'});
       res.end();
     }
-  };
+  }
   if(req.method === 'POST') {
     let data = '';
     req.on('data', (chunk) => {
       data += chunk;
     }).on('end', () => {
       console.log(data);
+      // if(uri === '/book') {
+      //   cli.book(data, (result) => {
+      //       res.write(result);
+      //       res.end();
+      //   });
+      // }
       router.route(data, uri, (result) => {
         //TODO////////////////////////////////WRITE REDIRECT TO HOMEPAGE HERE
         res.write(result);//removed JSON.stringify
         res.end();
       });
-      return;
+      // return;
     });
 
-  };
+  }
 }).listen(parseInt(port, 10));
 
 console.log(__dirname);
