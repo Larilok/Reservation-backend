@@ -17,8 +17,15 @@ const route = (data, uri, callback) => {
     console.log(details);
     //TODO ask DB to decrement and increment needed things in callback call callback
   }
+  if(uri === '/showbooking') {
+    //unretItems
+    //TODO ask DB to decrement and increment needed things in callback call callback
+  }
 
   if(uri === '/booking.html') {
+    fs.readFile('..'+uri, 'binary', (err, file) => callback(file));
+  }
+  if(uri === '/bookingselect.html') {
     fs.readFile('..'+uri, 'binary', (err, file) => callback(file));
   }
 }

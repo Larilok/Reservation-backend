@@ -123,12 +123,7 @@ let route = (data, uri, callback) => {
   };
 
   if(uri === '/unretItems'){
-    let date = new Date();
-    let now = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
-    base.getTableByValue('accounting', 'EndTime', ">" + now, (result) => {
-      // res.write(JSON.stringify('Unreturned Items:\n'));
-      callback(JSON.stringify(result));
-    });
+    fsM.fetchTableByValue((res) => callback(JSON.stringify(res)));
   };
 
   if(uri === '/price-list'){

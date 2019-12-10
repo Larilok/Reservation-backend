@@ -126,8 +126,17 @@ const fetchQueryById = (value, callback) => {
   });
 }
 
+const fetchTableByValue = (callback) => {
+  let date = new Date();
+  let now = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+  base.getTableByValue('accounting', 'EndTime', ">" + now, (result) => {
+    return callback(result);
+      // res.write(JSON.stringify('Unreturned Items:\n'));
+  });  
+}
+
 
 // fetchQueryByFeatureValue('Brown', (result) => console.table(result));
 // fetchQueryByCategory('Tent', (result) => console.table(result));
 
-module.exports = {fetchUserByLogin, addUser, fetchInventory, fetchQueryByCategory, fetchQueryByFeatureValue, fetchQueryById};
+module.exports = {fetchUserByLogin, addUser, fetchInventory, fetchQueryByCategory, fetchQueryByFeatureValue, fetchQueryById, fetchTableByValue};
