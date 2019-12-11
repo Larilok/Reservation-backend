@@ -2,10 +2,17 @@ syntax = "proto3";
 
 service RouteGuide {
     rpc book(Message) returns (Message) {}
-//    rpc showbooking(Message) returns (Message) {}
+    rpc showbooking(Empty) returns (Message) {}
 }
 
 message Message { //Information that will be passed between client and service
                   string data = 1;
-//                  string text = 2;
+}
+
+//message MList {
+//    repeated Message list = 1;
+//}
+
+message Empty {
+
 }

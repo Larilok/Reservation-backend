@@ -57,6 +57,6 @@ const route = (data, uri, callback) => {
     fs.readFile('..'+uri, 'binary', (err, file) => callback(file));
   }
 
-}
+};
 
 module.exports = {route};

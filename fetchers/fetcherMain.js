@@ -27,7 +27,7 @@ const fetchUserByLogin = (login, password, callback) => {
       // console.log(response);
       return callback(response);
   });
-}
+};
 
 const addUser = (login, password, privileges, callback) => {
   console.log('IN ADDUSER');
@@ -41,7 +41,7 @@ const addUser = (login, password, privileges, callback) => {
   (res) => {
     return callback('Successfully  added  a User');
   });
-}
+};
 
 const fetchInventory = (callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
@@ -58,10 +58,10 @@ const fetchInventory = (callback) => {
         .setUnitPrice(obj.UnitPrice)
         .setAmInStock(obj.AmInStock)
         .build();
-    })
+    });
     return callback(response);
   });
-}
+};
 
 const fetchQueryByFeatureValue = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
@@ -79,10 +79,10 @@ const fetchQueryByFeatureValue = (value, callback) => {
         .setUnitPrice(obj.UnitPrice)
         .setAmInStock(obj.AmInStock)
         .build();
-    })
+    });
     return callback(response);
   });
-}
+};
 
 const fetchQueryByCategory = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice"\
@@ -100,10 +100,10 @@ const fetchQueryByCategory = (value, callback) => {
         .setUnitPrice(obj.UnitPrice)
         .setAmInStock(obj.AmInStock)
         .build();
-    })
+    });
     return callback(response);
   });
-}
+};
 
 const fetchQueryById = (value, callback) => {
   return base.query(`select distinct i."Id", i."Name", i."Description", i."UnitPrice",\
@@ -121,10 +121,10 @@ const fetchQueryById = (value, callback) => {
         .setUnitPrice(obj.UnitPrice)
         .setAmInStock(obj.AmInStock)
         .build();
-    })
+    });
     return callback(response);
   });
-}
+};
 
 const fetchTableByValue = (callback) => {
   let date = new Date();
@@ -133,7 +133,7 @@ const fetchTableByValue = (callback) => {
     return callback(result);
       // res.write(JSON.stringify('Unreturned Items:\n'));
   });  
-}
+};
 
 
 // fetchQueryByFeatureValue('Brown', (result) => console.table(result));

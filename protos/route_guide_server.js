@@ -7,6 +7,7 @@ const PROTO_PATH = './route_guide.proto';
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const pg = require('pg');
+const fsM = require('../fetchers/fetcherMain.js');
 
 const serverAddress = '127.0.0.1:4250';
 
@@ -46,7 +47,20 @@ const book = (call, callback) => {
     console.log(details);
     base.query(`select * from inventory where "Id" = ${details.id}`, (resErr, res) => {
         console.log(res);
-        const price = res.rows[0].UnitPrice;
+        let price = 0;
+        if(res.rows.length === 0) {
+            // {
+            //     Id: 1,
+            //         CategoryId: 1,
+            //     Name: 'BikeW8',
+            //     Description: 'Great deal',
+            //     UnitPrice: 2600
+            // }
+            // price = 1000;
+            callback('', {data: "Item does not exist"});
+            return;
+        } else price = res.rows[0].UnitPrice;
+        const now = new Date().toDateString();
         base.query(`insert into accounting
 ("InventoryId", "AmRented", "RentTime", "StartTime", "EndTime", "Price", "RenterName", "RenterSurname", "RenterPhone", "RenterCardDet")
 values ('${details.id}', '${details.amount}', '${details.rentTime}', '${now}', '${now}', '${price}',
@@ -56,24 +70,30 @@ values ('${details.id}', '${details.amount}', '${details.rentTime}', '${now}', '
             console.log('ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR::');
             console.log(insAnsErr);
             console.log(callback.toString());
-            callback('', JSON.stringify("Inserted successfully"));
+            callback('', {data: "Inserted successfully"});
         });
     });
-    const now = new Date().toDateString();
     // console.log(price);
 
     // return call;
 };
 
-// const showbooking = () => {
-//
-// };
+const showbooking = (call, callback) => {
+    fsM.fetchTableByValue(res => {
+        console.log('IMPORTANT BIT');
+        console.log(callback.toString());
+        console.log(JSON.stringify(res));
+        console.log(typeof JSON.stringify(res));
+        callback('', {data: JSON.stringify(res)});
+    });
+    // callback('', {list: toRet});
+};
 
 const getServer = () => {
     const server = new grpc.Server();
     server.addService(routeguide.service , {
         book: book,
-        // showbooking: showbooking
+        showbooking: showbooking
     });
     server.bind(serverAddress, grpc.ServerCredentials.createInsecure());
     return server;

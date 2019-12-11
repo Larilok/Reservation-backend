@@ -25,8 +25,9 @@ const route = (data, uri, callback) => {
   //   //TODO ask DB to decrement and increment needed things in callback call callback
   }
   if(uri === '/showbooking') {
-    //unretItems
-    //TODO ask DB to decrement and increment needed things in callback call callback
+    console.log('URI == SHOWBOOKING');
+    cli.showbooking(callback);
+
   }
 
   if(uri === '/booking.html') {

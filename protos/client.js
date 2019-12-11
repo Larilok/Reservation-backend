@@ -37,11 +37,24 @@ const client = new proto.RouteGuide(
 const book = (call,  callback) => {
         console.log("In t function");
         console.log(callback.toString());
-        client.book(call, callback);//.then(callback("Booked successfully"));
+        client.book(call, (err, resp) => {
+                console.log("Inside");
+                callback(resp.data);
+        });
+        // callback(JSON.stringify("Booked   successfully"));
+};
+
+const showbooking = (callback) => {
+        console.log('In Client showbooking');
+        client.showbooking({}, (err, resp) => {
+                console.log('Inside 2X');
+                callback(resp.data);
+        });
 };
 
 module.exports = {
         book,
+        showbooking
         // client.book,
         // client
 };
