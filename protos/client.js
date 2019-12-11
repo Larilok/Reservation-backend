@@ -2,11 +2,11 @@
 
 'use strict';
 
-const fs = require('fs');
-console.log(__dirname);
-fs.readdirSync(__dirname).forEach(file => {
-        console.log(file);
-});
+// const fs = require('fs');
+// console.log(__dirname);
+// fs.readdirSync(__dirname).forEach(file => {
+//         console.log(file);
+// });
 
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
@@ -28,13 +28,20 @@ const client = new proto.RouteGuide(
     grpc.credentials.createInsecure()
 );
 
-const book = client.book;
+// const book = client.book;
 
 // client.book({data: '{a: "aaa", b: "bbb"}'}, (data) => {
 //         console.log(data);
 // });
 
+const book = (call,  callback) => {
+        console.log("In t function");
+        console.log(callback.toString());
+        client.book(call, callback);//.then(callback("Booked successfully"));
+};
 
 module.exports = {
-        book
+        book,
+        // client.book,
+        // client
 };

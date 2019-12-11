@@ -35,6 +35,7 @@ const protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 const routeguide = protoDescriptor.RouteGuide;
 
 const book = (call, callback) => {
+    console.log('HERE');
     console.log(call.request.data);
     const detailsArr = call.request.data.split('&');
     let details = {};
@@ -43,13 +44,24 @@ const book = (call, callback) => {
         details[data[0]] = data[1];
     });
     console.log(details);
-    const price = base.query(`select * from inventory where "Id" = ${details.id}`);
+    base.query(`select * from inventory where "Id" = ${details.id}`, (resErr, res) => {
+        console.log(res);
+        const price = res.rows[0].UnitPrice;
+        base.query(`insert into accounting
+("InventoryId", "AmRented", "RentTime", "StartTime", "EndTime", "Price", "RenterName", "RenterSurname", "RenterPhone", "RenterCardDet")
+values ('${details.id}', '${details.amount}', '${details.rentTime}', '${now}', '${now}', '${price}',
+'${details.name}', '${details.surname}', '${details.phone}', '${details.card}')`, (insAnsErr, insAns) => {
+            console.log('INSANS::');
+            console.log(insAns);
+            console.log('ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR::');
+            console.log(insAnsErr);
+            console.log(callback.toString());
+            callback('', JSON.stringify("Inserted successfully"));
+        });
+    });
     const now = new Date().toDateString();
-    console.log(price);
-//     base.query(`insert into accounting
-// ("Id", "InventoryId", "AmRented", "RentTime", "StartTime", "EndTime", "Price", "RenterName", "RenterSurname", "RenterPhone", "RenterCardDet")
-// values ('${details.id}', '${details.id}', '${details.ammount}', '${details.rentTime}', '${now}', '${now}', '${price}, '${details.name}', '${details.surname}', '${details.phone}', '${details.card}'')`);
-    callback("Inserted successfully");
+    // console.log(price);
+
     // return call;
 };
 

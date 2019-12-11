@@ -8,7 +8,7 @@ const url = require("url");
 let router = require('./authRouter.js');
 
 const port = process.argv[2] || 4240;
-const authLength = 1;//minutes
+const authLength = 10;//minutes
 
 
 http.createServer((req, res) => {
@@ -76,4 +76,4 @@ http.createServer((req, res) => {
 }).listen(parseInt(port, 10));
 
 console.log(__dirname);
-console.log("Server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+console.log("Server running at\n  => http://127.0.0.1:" + port + "/\nCTRL + C to shutdown");

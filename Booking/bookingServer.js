@@ -30,6 +30,8 @@ http.createServer((req, res) => {
       console.log('Cookie');
 
       router.route(req.socket.remoteAddress, uri, (result) => {
+        console.log("IN BOOKING SERVER GETTING RES");
+        console.log(result);
         res.write(result);//removed JSON.stringify
         res.end();
       });
@@ -54,6 +56,8 @@ http.createServer((req, res) => {
       // }
       router.route(data, uri, (result) => {
         //TODO////////////////////////////////WRITE REDIRECT TO HOMEPAGE HERE
+        console.log("IN BOOKING SERVER GETTING RES POOOOOST");
+        console.log(result);
         res.write(result);//removed JSON.stringify
         res.end();
       });
