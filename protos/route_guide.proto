@@ -2,6 +2,8 @@ syntax = "proto3";
 
 service RouteGuide {
     rpc book(Message) returns (Message) {}
+    rpc login(Message) returns (Message) {}
+    rpc signup(Message) returns (Message) {}
     rpc showbooking(Empty) returns (Message) {}
 }
 
