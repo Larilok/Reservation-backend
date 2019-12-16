@@ -3,7 +3,8 @@
 'use strict';
 console.log(__dirname);
 // const services = require('./route_guide_grpc_pb');
-const PROTO_PATH = __dirname + '/route_guide.proto';
+const PROTO_PATH = __dirname + '\\route_guide.proto';
+console.log('PROTO PATH: ', PROTO_PATH);
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const pg = require('pg');
@@ -17,7 +18,7 @@ const basePool = {
     port: '5432',
     database: 'architecture',
     user: 'postgres',
-    password: '6545352'
+    password: 'password'
 };
 
 const base = new pg.Pool(basePool);

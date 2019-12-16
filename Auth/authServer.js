@@ -24,6 +24,7 @@ http.createServer((req, res) => {
   if(req.headers.cookie) console.log(JSON.parse(req.headers.cookie));
 
   if(req.method === 'GET') {
+    // console.log()
     if(req.headers.cookie && JSON.parse(req.headers.cookie).authorised && (new Date(JSON.parse(req.headers.cookie).expire) > new Date())) {
       router.route(req.socket.remoteAddress, uri, (result) => {
         // if(result === JSON.stringify('User successfully logged in')) {
