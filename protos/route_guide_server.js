@@ -1,12 +1,13 @@
 //this is booking Server
 
 'use strict';
-
+console.log(__dirname);
 // const services = require('./route_guide_grpc_pb');
-const PROTO_PATH = './route_guide.proto';
+const PROTO_PATH = __dirname + '/route_guide.proto';
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const pg = require('pg');
+const crypto = require('crypto');
 const fsM = require('../fetchers/fetcherMain.js');
 
 const serverAddress = '127.0.0.1:4250';
@@ -16,7 +17,7 @@ const basePool = {
     port: '5432',
     database: 'architecture',
     user: 'postgres',
-    password: 'password'
+    password: '6545352'
 };
 
 const base = new pg.Pool(basePool);
@@ -46,7 +47,7 @@ const book = (call, callback) => {
     });
     console.log(details);
     base.query(`select * from inventory where "Id" = ${details.id}`, (resErr, res) => {
-        console.log(res);
+        // console.log(res);
         let price = 0;
         if(res.rows.length === 0) {
             // {
@@ -78,6 +79,46 @@ values ('${details.id}', '${details.amount}', '${details.rentTime}', '${now}', '
     // return call;
 };
 
+const login = (call, callback) => {
+    const detailsArr = call.request.data.split('&');
+    let details = {};
+    detailsArr.forEach(det => {
+        let data = det.split('=');
+        details[data[0]] = data[1];
+    });
+    const hash = crypto.createHash('sha256');
+    hash.write(details.password + 'SecretSalt');
+    hash.end();
+    const password = hash.read().toString().replace(/'/g, "_");
+    fsM.fetchUserByLogin(details.login, password, res => {
+      // console.log('Found');
+      console.log(res);
+      if(res.length > 0) {
+        //////////////////////////////////////////////GENERATE TOKEN
+        callback('', {data: "User successfully logged in"});
+      }
+    })
+};
+
+const signup = (call, callback) => {
+    const detailsArr = call.request.data.split('&');
+    let details = {};
+    detailsArr.forEach(det => {
+        let data = det.split('=');
+        details[data[0]] = data[1];
+    });
+    const hash = crypto.createHash('sha256');
+    hash.write(details.password + 'SecretSalt');
+    hash.end();
+    const password = hash.read().toString().replace(/'/g, "_");
+    fsM.addUser(details.login, password, 1, res => {
+      if(res.length > 0) {
+        //////////////////////////////////////////////GENERATE TOKEN
+        callback('', {data: res});
+      }
+    });
+};
+
 const showbooking = (call, callback) => {
     fsM.fetchTableByValue(res => {
         console.log('IMPORTANT BIT');
@@ -93,7 +134,9 @@ const getServer = () => {
     const server = new grpc.Server();
     server.addService(routeguide.service , {
         book: book,
-        showbooking: showbooking
+        showbooking: showbooking,
+        login: login,
+        signup: signup
     });
     server.bind(serverAddress, grpc.ServerCredentials.createInsecure());
     return server;

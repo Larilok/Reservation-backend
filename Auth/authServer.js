@@ -50,7 +50,8 @@ http.createServer((req, res) => {
     }).on('end', () => {
       console.log(data);
       router.route(data, uri, (result) => {
-        if(result === JSON.stringify('User successfully logged in')) {
+        console.log(result);
+        if(result === 'User successfully logged in') {
           console.log('Adding cookie');
           const date = new Date();
           const cookie = {
@@ -63,11 +64,6 @@ http.createServer((req, res) => {
           res.writeHead(302, {'Location': 'http://127.0.0.1:4241/bookingselect.html'});
           res.end();
         }
-        // res.writeHead(302, {'Location': 'http://127.0.0.1:4241/booking.html'});
-        // res.end();
-        //TODO////////////////////////////////WRITE REDIRECT TO HOMEPAGE HERE
-        // res.write(result);//removed JSON.stringify
-        // res.end();
       });
       return;
     });
