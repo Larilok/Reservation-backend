@@ -8,7 +8,7 @@ console.log('PROTO PATH: ', PROTO_PATH);
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const crypto = require('crypto');
-const fsM = require('../fetchers/fetcherMain.js');
+const fsM = require('./shared/fetcherMain.js');
 
 const serverAddress = '127.0.0.1:4250';
 
