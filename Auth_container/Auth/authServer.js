@@ -63,6 +63,7 @@ http.createServer((req, res) => {
           res.setHeader('Content-Type', 'text/plain');
           res.setHeader('Set-Cookie', JSON.stringify(cookie));
           res.writeHead(302, {'Location': 'http://127.0.0.1:4241/bookingselect.html'});
+          // res.writeHead(302, {'Location': 'http://booking:4241/bookingselect.html'});
           res.end();
         }
       });

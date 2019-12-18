@@ -35,6 +35,7 @@ http.createServer((req, res) => {
     } else {
       res.writeHead(302, {
         'Location': 'http://127.0.0.1:4240/login.html'
+        // 'Location': 'http://auth:4240/login.html'
       });
       res.end();
     }

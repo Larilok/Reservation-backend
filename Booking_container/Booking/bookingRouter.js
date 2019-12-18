@@ -23,10 +23,10 @@ const route = (data, uri, callback) => {
   }
 
   else if(uri === '/booking.html') {
-    fs.readFile('..'+uri, 'binary', (err, file) => callback(file));
+    fs.readFile('.'+uri, 'binary', (err, file) => callback(file));
   }
   else if(uri === '/bookingselect.html') {
-    fs.readFile('..'+uri, 'binary', (err, file) => callback(file));
+    fs.readFile('.'+uri, 'binary', (err, file) => callback(file));
   }
 
   else callback('Error 404, page not found');

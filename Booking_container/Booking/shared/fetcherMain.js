@@ -4,8 +4,9 @@ let db = require('./db.js');
 let DBResponseBuilder = require('./DBResponseBuilder.js');
 
 const basePool = {
-    host: '127.0.0.1',
-    port: '5555',
+    // host: '127.0.0.1',
+    host: 'db',
+    port: '5432',
     database: 'architecture',
     user: 'postgres',
     password: ''

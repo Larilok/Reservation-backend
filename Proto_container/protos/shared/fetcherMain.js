@@ -4,8 +4,9 @@ let db = require('./db.js');
 let DBResponseBuilder = require('./DBResponseBuilder.js');
 
 const basePool = {
-    host: '127.0.0.1',
-    port: '5555',
+    // host: '127.0.0.1',
+    host: 'db',
+    port: '5432',
     database: 'architecture',
     user: 'postgres',
     password: ''
@@ -14,7 +15,7 @@ const basePool = {
 let base = new db(basePool);
 
 const addBooking = (details, callback) => {//callback(err, res)
-    base.query(`insert into accounting
+    base.pool.query(`insert into accounting
     ("InventoryId", "AmRented", "RentTime", "StartTime", "EndTime", "Price", "RenterName", "RenterSurname", "RenterPhone", "RenterCardDet")
     values ('${details.id}', '${details.amount}', '${details.rentTime}', '${details.now}', '${details.now}', '${details.price}',
     '${details.name}', '${details.surname}', '${details.phone}', '${details.card}')`, (err, res) => {
@@ -32,8 +33,9 @@ const addBooking = (details, callback) => {//callback(err, res)
 };
 
 const fetchPriceById = (id, callback) => {//callback(err, res)
-    base.query(`select * from inventory where "Id" = ${id}`, (resErr, res) => {
-        // console.log(res);
+    base.pool.query(`select * from inventory where "Id" = ${id}`, (resErr, res) => {
+        console.log(resErr);
+        console.log(res);
         // let price =  0;
         // {
         //     Id: 1,

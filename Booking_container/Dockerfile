@@ -1,12 +1,13 @@
 FROM node
 WORKDIR /booking
-COPY . .
+COPY package*.json ./
 #RUN npm install pg
 #RUN npm install grpc
 #RUN npm install @grpc/proto-loader
 RUN npm install
+COPY . .
 WORKDIR Booking
-#EXPOSE 4241
+EXPOSE 4241
 CMD ["node","bookingServer.js"]
 #expose port 4241 for bookingServer
 #expose port 4240 to redirect to authServer

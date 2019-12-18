@@ -54,10 +54,10 @@ const route = (data, uri, callback) => {
     //privileges: 1 - User, 2- Admin
   }
   if(uri === '/signup.html') {
-    fs.readFile('..'+uri, 'binary', (err, file) => callback(file));
+    fs.readFile('.'+uri, 'binary', (err, file) => callback(file));
   }
   if(uri === '/login.html') {
-    fs.readFile('..'+uri, 'binary', (err, file) => callback(file));
+    fs.readFile('.'+uri, 'binary', (err, file) => callback(file));
   }
 
 };
