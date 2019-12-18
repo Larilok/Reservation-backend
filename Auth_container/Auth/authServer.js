@@ -62,7 +62,7 @@ http.createServer((req, res) => {
           // res.writeHead(200, {'Set-Cookie': cookie, 'Content-Type': 'text/plain'});
           res.setHeader('Content-Type', 'text/plain');
           res.setHeader('Set-Cookie', JSON.stringify(cookie));
-          res.writeHead(302, {'Location': 'http://127.0.0.1:4241/bookingselect.html'});
+          res.writeHead(302, {'Location': 'http://localhost:4241/bookingselect.html'});
           res.end();
         }
       });
@@ -73,4 +73,4 @@ http.createServer((req, res) => {
 }).listen(parseInt(port, 10));
 
 console.log(__dirname);
-console.log("Server running at\n  => http://127.0.0.1:" + port + "/\nCTRL + C to shutdown");
+console.log("Server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");

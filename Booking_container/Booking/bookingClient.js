@@ -8,7 +8,7 @@ const protoLoader = require("@grpc/proto-loader");
 const serverAddress = '127.0.0.1:4250';
 
 const proto = grpc.loadPackageDefinition(
-    protoLoader.loadSync( __dirname + '\\route_guide.proto', {
+    protoLoader.loadSync( __dirname + '/route_guide.proto', {
         keepCase: true,
         longs: String,
         enums: String,

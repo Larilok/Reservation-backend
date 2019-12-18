@@ -3,14 +3,14 @@
 'use strict';
 console.log(__dirname);
 // const services = require('./route_guide_grpc_pb');
-const PROTO_PATH = __dirname + '\\route_guide.proto';
+const PROTO_PATH = __dirname + '/route_guide.proto';
 console.log('PROTO PATH: ', PROTO_PATH);
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const crypto = require('crypto');
 const fsM = require('./shared/fetcherMain.js');
 
-const serverAddress = '127.0.0.1:4250';
+const serverAddress = '0.0.0.0:4250';
 
 // Suggested options for similarity to existing grpc.load behavior
 const packageDefinition = protoLoader.loadSync(

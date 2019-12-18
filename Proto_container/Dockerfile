@@ -1,10 +1,8 @@
 FROM node
 WORKDIR /proto
-COPY . .
-#RUN npm install pg
-#RUN npm install grpc
-#RUN npm install @grpc/proto-loader
+COPY package*.json ./ 
 RUN npm install
+COPY . .
 WORKDIR protos
 #EXPOSE 4250
 CMD ["node","route_guide_server.js"]

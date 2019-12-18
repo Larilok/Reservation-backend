@@ -34,7 +34,7 @@ http.createServer((req, res) => {
       return;
     } else {
       res.writeHead(302, {
-        'Location': 'http://127.0.0.1:4240/login.html'
+        'Location': 'http://localhost:4240/login.html'
       });
       res.end();
     }
