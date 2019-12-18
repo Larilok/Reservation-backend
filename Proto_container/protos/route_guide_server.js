@@ -10,7 +10,8 @@ const protoLoader = require('@grpc/proto-loader');
 const crypto = require('crypto');
 const fsM = require('./shared/fetcherMain.js');
 
-const serverAddress = '0.0.0.0:4250';
+// const serverAddress = '127.0.0.1:4250';
+const serverAddress = 'proto:4250';
 
 // Suggested options for similarity to existing grpc.load behavior
 const packageDefinition = protoLoader.loadSync(
@@ -61,6 +62,7 @@ const book = (call, callback) => {
 };
 
 const login = (call, callback) => {
+    console.log('Login func on server');
     const detailsArr = call.request.data.split('&');
     let details = {};
     detailsArr.forEach(det => {

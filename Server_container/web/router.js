@@ -8,7 +8,7 @@ let fsM = require('../shared/fetcherMain.js');
 const cache = require('../caching/cacheO.js');
 
 let route = (data, uri, callback) => {
-
+  console.log("IN route, data = ", data);
   if(uri === '/cache' && data === '::ffff:127.0.0.1') {
     cache.makeCache(() => callback(JSON.stringify("Successful caching")));
   }
