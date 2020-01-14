@@ -15,6 +15,7 @@ spec:
       containers:
       - name: db-server
         image: larilok/cms:db-latest
+        imagePullPolicy: IfNotPresent
         command: ["/bin/sh"]
         args: ["-c", "psql -U postgres postgres < postgres_localhost-2019_12_17_01_03_20-dump.sql"]
         ports:

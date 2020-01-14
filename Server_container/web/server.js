@@ -30,7 +30,7 @@ http.createServer((req, res) => {
       return;
     } else {
       res.writeHead(302, {
-        'Location': 'http://localhost:4240/login.html'
+        'Location': 'http://127.0.0.1:4240/login.html'
         // 'Location': 'http://auth:4240/login.html'
       });
       res.end();
@@ -39,4 +39,4 @@ http.createServer((req, res) => {
 }).listen(parseInt(port, 10));
 
 console.log(__dirname);
-console.log("Server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+console.log("Server running at\n  => http://127.0.0.1:" + port + "/\nCTRL + C to shutdown");

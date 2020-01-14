@@ -5,7 +5,7 @@ let DBResponseBuilder = require('./DBResponseBuilder.js');
 
 const basePool = {
     // host: '127.0.0.1',
-    host: 'db',
+    host: 'db-app',
     port: '5432',
     database: 'architecture',
     user: 'postgres',

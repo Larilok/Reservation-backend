@@ -15,6 +15,7 @@ spec:
       containers:
       - name: book-server
         image: larilok/cms:book-latest
+        imagePullPolicy: IfNotPresent
         ports:
         - name: book
           containerPort: 4241

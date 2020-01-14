@@ -15,6 +15,7 @@ spec:
       containers:
       - name: proto-server
         image: larilok/cms:proto-latest
+        imagePullPolicy: IfNotPresent
         ports:
         - name: proto
           containerPort: 4250

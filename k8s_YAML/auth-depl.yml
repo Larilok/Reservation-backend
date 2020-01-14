@@ -15,6 +15,7 @@ spec:
       containers:
       - name: auth-server
         image: larilok/cms:auth-latest
+        imagePullPolicy: IfNotPresent
         ports:
         - name: auth
           containerPort: 4240

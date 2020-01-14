@@ -2,6 +2,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: auth-service
+  labels:
+    app: auth-pod
 spec:
   type: NodePort
   selector:
