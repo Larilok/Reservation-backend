@@ -1,0 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: proto-app
+spec:
+  selector:
+    app: proto-app
+  ports:
+  - protocol: TCP
+    port: 4250
+    targetPort: proto
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proto-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: proto-app
+  template:
+    metadata:
+      labels:
+        app: proto-app
+    spec:
+      containers:
+      - name: proto-server
+        image: larilok/cms:proto-latest
+        imagePullPolicy: IfNotPresent
+        resources: 
+          requests:
+            ephemeral-storage: "100Mi"
+          limits:  
+            ephemeral-storage: "200Mi"
+        ports:
+        - name: proto
+          containerPort: 4250

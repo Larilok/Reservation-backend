@@ -1,4 +1,4 @@
-FROM node
+FROM node:alpine
 WORKDIR /proto
 COPY package*.json ./ 
 RUN npm install
