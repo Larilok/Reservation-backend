@@ -7,7 +7,6 @@ exports.up = async function (knex) {
     table.string('email').notNullable()
     table.string('phone')
     table.string('password').notNullable()
-    table.boolean('salt').notNullable()
     table.timestamps(false, true)
   })
 }

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+service AuthService {
+  rpc Login(Credentials) returns (Result) {}
+  rpc Signup(Credentials) returns (Result) {}
+}
+
+service PostsService {
+  rpc GetPost(PostId) returns (Post) {}
+  rpc AddPost(NewPost) returns (Result) {}
+  rpc UpdatePost(PostId) returns (Result) {}
+  rpc DeletePost(PostId) returns (Result) {}
+  rpc ListPosts(Empty) returns (PostList) {}
+}
+
+service UsersService {
+  rpc AddUser(UserInfo) returns (Result) {}
+  rpc RemoveUser(UserId) returns (Result) {}
+  rpc ModifyUser(UserInfo) returns (Result) {}
+}
+
+message Credentials {
+  string email = 1;
+  string password = 2;
+}
+
+message PostList {
+  repeated Post posts = 1;
+}
+
+// TODO
+message UserInfo {
+  
+}
+
+// TODO add nes fields to post
+message Post {
+  int32 id = 1;
+  string name = 2;
+  string price = 3;
+}
+
+message NewPost {
+  string name = 2;
+  string price = 3;
+}
+
+message PostId {
+  int32 id = 1;
+}
+
+message UserId {
+  int32 id = 1;
+}
+
+message Result { 
+ string data = 1;
+}
+
+message Empty {
+}

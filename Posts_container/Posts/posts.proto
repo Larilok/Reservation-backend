@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+service PostsService {
+  rpc GetPost(PostOperation) returns (Post) {}
+  rpc GetUserPosts(UserId) returns (PostList) {}
+  rpc AddPost(NewPost) returns (Result) {}
+  rpc UpdatePost(UpdatePostOperation) returns (Result) {}
+  rpc DeletePost(PostOperation) returns (Result) {}
+  rpc ListPosts(PostTypeMessage) returns (PostList) {}
+}
+
+message PostList {
+  repeated Post posts = 1;
+}
+
+message Post {
+  int32 id = 1;
+  int32 category_id = 2;
+  int32 user_id = 3;
+  string title = 4;
+  string description = 5;
+  uint32 price = 6;
+  string picture_url = 7;
+  bool is_active = 8;
+  string created_at = 9 ;
+  string updated_at = 10; 
+}
+
+message NewPost {
+  int32 category_id = 1;
+  int32 user_id = 2;
+  string title = 3;
+  string description = 4;
+  uint32 price = 5;
+  string picture_url = 6;
+  bool is_active = 7;
+  PostType type = 8;
+}
+
+enum PostType {
+  REQ = 0;
+  OFFER = 1;
+}
+
+message UpdatePostOperation {
+  int32 id = 1;
+  PostType type = 2;
+  string fieldname = 3;
+  string value = 4;
+}
+
+message PostOperation {
+  int32 id = 1;
+  PostType type = 2;
+}
+
+message UserId {
+  int32 id = 1;
+  PostType type = 2;
+}
+
+message PostTypeMessage {
+  PostType type = 1;
+}
+
+message Result { 
+ string data = 1;
+}

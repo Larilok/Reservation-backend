@@ -1,8 +1,8 @@
 FROM node:alpine
-WORKDIR /server
+WORKDIR /Frontend
 COPY package*.json ./ 
 RUN npm install
 COPY . .
-WORKDIR web
-EXPOSE 4242
+WORKDIR Frontend
+EXPOSE 4241
 CMD ["node","server.js"]

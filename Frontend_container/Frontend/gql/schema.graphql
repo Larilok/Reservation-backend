@@ -1,0 +1,89 @@
+enum PostType {
+  REQ
+  OFFER
+}
+
+input Credentials {
+  email: String!
+  password: String!
+} 
+
+
+input PostOperation {
+  id: ID!
+  type: PostType!
+}
+
+input UpdatePostOperation {
+  id: ID!
+  type: PostType!
+  fieldname: String!
+  value: String!
+}
+
+input NewPost {
+  category_id: Int
+  user_id: Int
+  title: String
+  description: String
+  price: Int
+  picture_url: String
+  is_active: Boolean
+  type: PostType
+}
+
+input NewUser {
+  name: String!
+  surname: String!
+  email: String!
+  phone: String!
+  password: String!
+}
+
+input ModifyUserInfo {
+  fieldName: String
+  value: String 
+  id: ID
+}
+
+type Query {
+  login(cred: Credentials!): String
+  getPost(data: PostOperation!): Post  
+  getUserPosts(userId: ID!): [Post]
+  listPosts(type: PostType!): [Post]
+  getUser(id: ID!): User
+}
+  
+type Mutation {
+  signup(cred: Credentials!): String
+  addPost(post: NewPost): String
+  updatePost(post: UpdatePostOperation): String
+  deletePost(post: PostOperation): String
+  createUser(info: NewUser): String
+  removeUser(id: ID!): String
+  modifyUserField(data: ModifyUserInfo): String
+}
+
+type User {
+  id: ID!
+  name: String!
+  surname: String!
+  email: String!
+  phone: String!
+  password: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type Post {
+  id: ID!
+  category_id: Int
+  user_id: Int
+  title: String
+  description: String
+  price: Int
+  picture_url: String
+  is_active: Boolean
+  created_at: String!
+  updated_at: String!
+}

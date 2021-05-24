@@ -1,0 +1,32 @@
+
+syntax = "proto3";
+
+service UsersService {
+  rpc CreateUser(UserInfo) returns (Result) {}
+  rpc RemoveUser(UserId) returns (Result) {}
+  rpc ModifyField(ModifyUserInfo) returns (Result) {}
+}
+
+message UserId {
+  int32 id = 1;
+}
+
+message Result { 
+ string data = 1;
+}
+
+message UserInfo {
+  string name = 1;
+  string surname = 2;
+  string email = 3;
+  string phone = 4;
+  string password = 5;
+  string salt = 6;
+}
+
+message ModifyUserInfo {
+  string fieldname = 1;
+  string value = 2;
+  int32 id = 3;
+}
+
