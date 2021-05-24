@@ -16,7 +16,7 @@ const createUserRPC = (call, callback) => {
 const getUserRPC = (call, callback) => {
   console.log(call.request)
   getUser(call.request).then((data) => {
-    callback(null, {data});
+    callback(null, data);
   })
 }
 

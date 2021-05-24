@@ -23,21 +23,27 @@ const generateToken = () => {
 };
 
 const login = async (call, callback) => {
+  console.log(call.request)
   const { email, password } = call.request
-  const userPassword = (await getPassword({ email }))[0]
+  const userPassword = (await getPassword({ email }))
 
-  if (!userPassword) {
-    console.log('Wrong login')
-    //timebase attacks protection
-    await argon2.verify(FAKE_ARGON2, stringToArray(password))
+  console.log('User password', userPassword)
+  try {
+    if (!userPassword) {
+      console.log('Wrong login')
+      //timebase attacks protection
+      await argon2.verify(FAKE_ARGON2, stringToArray(password))
 
-    callback('Login or password is incorrect')
-  }
+      callback('Login or password is incorrect')
+    }
 
-  if (!await argon2.verify(userPassword, stringToArray(password))) {
-    console.log('Wrong password')
-    callback('Login or password is incorrect')
-    return
+    if (!await argon2.verify(userPassword, stringToArray(password))) {
+      console.log('Wrong password')
+      callback('Login or password is incorrect')
+      return
+    }
+  } catch (err) {
+    console.log(err)
   }
 
   callback(null, { token: generateToken() })
@@ -46,8 +52,8 @@ const login = async (call, callback) => {
 const signup = async (call, callback) => {
   try {
     const { email, password } = call.request
-    const isExists = await getPassword({ email })
-    if (isExists.length) {
+    const userPassword = await getPassword({ email })
+    if (userPassword) {
       callback('User already exists')
       return
     }

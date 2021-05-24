@@ -2,7 +2,7 @@ exports.up = async function (knex) {
   if (await knex.schema.hasTable('posts_request')) return;
   await knex.schema.createTable('posts_request', (table) => {
     table.increments('id')
-    table.integer('categoty_id')
+    table.integer('category_id')
       .notNullable()
       .references('id')
       .inTable('categories')

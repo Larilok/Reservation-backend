@@ -11,8 +11,7 @@ const {
 } = require('./rpc/handlers')
 
 const PROTO_PATH = __dirname + '/posts.proto'
-// TODO port
-const serverAddress = '0.0.0.0:4250'
+const serverAddress = '0.0.0.0:4242'
 
 const packageDefinition = protoLoader.loadSync(
     PROTO_PATH,

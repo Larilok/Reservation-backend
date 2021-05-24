@@ -29,8 +29,9 @@ const getUserPostsRPC = (call, callback) => {
 }
 
 const addPostRPC = (call, callback) => {
+  console.log(call.request)
   addPost(call.request).then((data) => {
-    callback(null, data);
+    callback(null, { data: data });
   })
 }
 
@@ -48,7 +49,7 @@ const updatePostRPC = (call, callback) => {
 
 const listPostsRPC = (call, callback) => {
   listPosts(call.request).then((data) => {
-    callback(null, data);
+    callback(null, { posts: data });
   })
 }
 

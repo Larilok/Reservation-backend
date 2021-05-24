@@ -1,9 +1,11 @@
 'use strict'
 
-const knex = require('./knex')
+const config = require('../knexfile')
+
+const knex = require('knex')(config)
 
 const selectTable = (type) => {
-  type === 0 ? knex.table('posts_request') : knex.table('posts_offer')
+  return type === 'REQ' ? knex('posts_request') : knex('posts_offer')
 }
 
 const getPost = async ({ id, type }) => {
@@ -14,16 +16,24 @@ const getUserPosts = async ({ id, type }) => {
   return await selectTable(type).where('user_id',)
 }
 
+
 const addPost = async (newPost) => {
-  return await selectTable(newPost.type).insert({
-    category_id: newPost.category_id,
-    user_id: newPost.user_id,
-    title: newPost.title,
-    description: newPost.description,
-    price: newPost.price,
-    picture_url: newPost.picture_url,
-    is_active: newPost.is_active
-  })
+  let result
+  try {
+    result = await selectTable(newPost.type).insert({
+      category_id: newPost.category_id,
+      user_id: newPost.user_id,
+      title: newPost.title,
+      description: newPost.description,
+      price: newPost.price,
+      picture_url: newPost.picture_url,
+      is_active: newPost.is_active
+    }, ['id'])
+    console.log(result)
+  } catch (err) {
+    console.log(err)
+  }
+  return result[0].id
 }
 
 const updatePost = async ({ id, type, fieldname, value }) => {
@@ -35,7 +45,14 @@ const deletePost = async ({ id, type }) => {
 }
 
 const listPosts = async ({ type }) => {
-  return await selectTable(type).select()
+  console.log(type)
+  let result
+  try {
+    result = await selectTable(type).select()
+  }catch(err) {
+    console.log(err)
+  }
+  return result
 }
 
 

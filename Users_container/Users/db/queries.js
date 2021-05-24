@@ -12,7 +12,8 @@ const createUser = async (userInfo) => {
   } catch (err) {
     console.log(err)
   }
-  return idOfInsertedUser
+  console.log(idOfInsertedUser)
+  return idOfInsertedUser.id
 }
 
 const getUser = async ({ id }) => {
@@ -22,6 +23,7 @@ const getUser = async ({ id }) => {
   } catch (err) {
     console.log(err)
   }
+  console.log(user)
   return user
 }
 

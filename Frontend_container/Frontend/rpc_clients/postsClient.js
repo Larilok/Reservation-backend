@@ -51,6 +51,7 @@ const getUserPosts = (id) => new Promise((res, rej) => {
 
 const addPost = (newPost) => new Promise((res, rej) => {
   console.log('addPost func Client')
+  console.log(newPost)
   postsClient.AddPost(newPost, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
@@ -88,9 +89,9 @@ const deletePost = (postOp) => new Promise((res, rej) => {
   })
 })
 
-const listPosts = () => new Promise((res, rej) => {
+const listPosts = (type) => new Promise((res, rej) => {
   console.log('listPosts func Client')
-  postsClient.ListPosts({}, (err, resp) => {
+  postsClient.ListPosts({type: type}, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
       rej(err)
