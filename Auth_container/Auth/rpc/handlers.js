@@ -1,6 +1,6 @@
 
 const argon2 = require('argon2')
-const { getPassword } = require('../db/queries')
+const { getUser } = require('../db/queries')
 
 const TOKEN_LENGTH = 80;
 const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -25,7 +25,7 @@ const generateToken = () => {
 const login = async (call, callback) => {
   console.log(call.request)
   const { email, password } = call.request
-  const userPassword = (await getPassword({ email }))
+  const { id: id, password: userPassword } = (await getUser({ email }))
 
   console.log('User password', userPassword)
   try {
@@ -46,13 +46,13 @@ const login = async (call, callback) => {
     console.log(err)
   }
 
-  callback(null, { token: generateToken() })
+  callback(null, { id: id })
 }
 
 const signup = async (call, callback) => {
   try {
     const { email, password } = call.request
-    const userPassword = await getPassword({ email })
+    const { password: userPassword } = await getUser({ email })
     if (userPassword) {
       callback('User already exists')
       return

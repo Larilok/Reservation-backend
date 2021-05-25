@@ -4,11 +4,11 @@ const config = require('../knexfile')
 
 const knex = require('knex')(config)
 
-const getPassword = async ({ email }) => {
-  console.log('getPassword')
+const getUser = async ({ email }) => {
+  console.log('getUser')
   let result  
   try {
-    result = (await knex('users').where('email', email).select('password'))[0]
+    result = (await knex('users').where('email', email).select())[0]
     if(!result) {
       return undefined
     }
@@ -17,9 +17,9 @@ const getPassword = async ({ email }) => {
     console.log(err)
     return undefined
   }
-  return result.password
+  return result
 }
 
 module.exports = {
-  getPassword
+  getUser
 }

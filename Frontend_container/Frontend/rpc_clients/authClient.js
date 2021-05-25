@@ -30,7 +30,7 @@ const login = (credentials) => new Promise((res, rej) => {
       return
     }
     console.log(resp)
-    res(resp.token)
+    res(resp.id)
   })
 })
 

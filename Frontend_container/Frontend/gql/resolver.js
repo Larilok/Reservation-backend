@@ -31,6 +31,9 @@ const createSchema = () => buildSchema(readFileSync(path.resolve(__dirname, './s
 
 const resolvers = async (req, res) => {
   const client = await Client.getInstance(req, res)
+  Session.start(client)
+  const { method, url, headers } = req;
+  console.log(`${method} ${url} ${headers.cookie}`)
   res.on('finish', () => {
     if (client.session) client.session.save();
   });
@@ -43,23 +46,26 @@ const resolvers = async (req, res) => {
       } catch (err) {
         console.log(err)
       }
+      client.sendCookie()
       return { password }
     },
     addPost: async ({ post }) => {
-      
-      if(!req.headers.cookie) return
+      if (!client.cookie.logged_in) return
       const result = await addPost(post)
       console.log('result in addPost: ', result.data)
+      client.sendCookie()
       return result.data
     },
     updatePost: async (post) => {
-      if(!req.headers.cookie) return
+      if (!client.cookie.logged_in) return
       const result = await updatePost(post)
+      client.sendCookie()
       return result
     },
     deletePost: async (post) => {
-      if(!req.headers.cookie) return
+      if (!client.cookie.logged_in) return
       const result = await deletePost(post)
+      client.sendCookie()
       return result
     },
     createUser: async ({ info }) => {
@@ -69,45 +75,53 @@ const resolvers = async (req, res) => {
       })
       info.password = password
       const result = await createUser(info)
+      client.sendCookie()
       return result.data
     },
     getUser: async ({ id }) => {
-      if(!req.headers.cookie) return
+      if (!client.cookie.logged_in) return
       const result = await getUser(id)
+      client.sendCookie()
       return result
     },
     removeUser: async ({ id }) => {
-      if(!req.headers.cookie) return
+      if (!client.cookie.logged_in) return
       const result = await removeUser(id)
+      client.sendCookie()
       return result
     },
     modifyUserField: async (data) => {
-      if(!req.headers.cookie) return
+      if (!client.cookie.logged_in) return
       const result = await modifyField(data)
+      client.sendCookie()
       return result
     },
     login: async ({ cred }) => {
-      Session.start(client);
-      const token = await login(cred)
-      res.setHeader('Set-Cookie',
-        `session_id=${token}; expires=Fri, 01 Jan 2100 00:00:00 GMT; Path=/;`
-      )
+      const userId = await login(cred)
+      if (userId) {
+        client.setCookie('user_id', userId)
+        client.setCookie('logged_in', 1)
+      }
+      client.sendCookie()
       return 'OK'
     },
     getPost: async (data) => {
       const result = await getPost(data)
+      client.sendCookie()
       return result
     },
     getUserPosts: async ({ userPostsReq }) => {
-      if(!req.headers.cookie) return
+      if (!client.cookie.logged_in) return
       const result = await getUserPosts(userPostsReq)
       console.log(result.posts)
+      client.sendCookie()
       return result.posts
     },
     listPosts: async ({ type }) => {
       console.log(type)
       const result = await listPosts(type)
       console.log(result.posts)
+      client.sendCookie()
       return result.posts
     }
   }
