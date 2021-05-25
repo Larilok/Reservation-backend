@@ -46,10 +46,15 @@ input ModifyUserInfo {
   id: ID
 }
 
+input UserPostsReq {
+  user_id: ID
+  type: PostType
+}
+
 type Query {
   login(cred: Credentials!): String
   getPost(data: PostOperation!): Post  
-  getUserPosts(userId: ID!): [Post]
+  getUserPosts(userPostsReq: UserPostsReq!): [Post]
   listPosts(type: PostType!): [Post]
   getUser(id: ID!): User
 }

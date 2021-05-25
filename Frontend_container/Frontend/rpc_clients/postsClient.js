@@ -27,7 +27,7 @@ const getPost = (postOp) => new Promise((res, rej) => {
   postsClient.GetPost(postOp, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
-      rej(err)
+      rej(err.message)
       return
     }
     console.log(resp)
@@ -36,12 +36,12 @@ const getPost = (postOp) => new Promise((res, rej) => {
 })
 
 
-const getUserPosts = (id) => new Promise((res, rej) => {
+const getUserPosts = ({ user_id, type }) => new Promise((res, rej) => {
   console.log('getUserPosts func Client')
-  postsClient.getUserPosts({id}, (err, resp) => {
+  postsClient.getUserPosts({ id: user_id, type: type }, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
-      rej(err)
+      rej(err.message)
       return
     }
     console.log(resp)
@@ -55,7 +55,7 @@ const addPost = (newPost) => new Promise((res, rej) => {
   postsClient.AddPost(newPost, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
-      rej(err)
+      rej(err.message)
       return
     }
     console.log(resp)
@@ -68,7 +68,7 @@ const updatePost = (postOp) => new Promise((res, rej) => {
   postsClient.UpdatePost(postOp, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
-      rej(err)
+      rej(err.message)
       return
     }
     console.log(resp)
@@ -81,7 +81,7 @@ const deletePost = (postOp) => new Promise((res, rej) => {
   postsClient.DeletePost(postOp, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
-      rej(err)
+      rej(err.message)
       return
     }
     console.log(resp)
@@ -91,10 +91,10 @@ const deletePost = (postOp) => new Promise((res, rej) => {
 
 const listPosts = (type) => new Promise((res, rej) => {
   console.log('listPosts func Client')
-  postsClient.ListPosts({type: type}, (err, resp) => {
+  postsClient.ListPosts({ type: type }, (err, resp) => {
     if (err) {
       console.log("Error: ", err)
-      rej(err)
+      rej(err.message)
       return
     }
     console.log(resp)

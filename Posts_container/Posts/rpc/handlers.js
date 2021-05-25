@@ -1,3 +1,5 @@
+const grpc = require('@grpc/grpc-js')
+
 const {
   getPost,
   getUserPosts,
@@ -19,13 +21,24 @@ const getPostRPC = (call, callback) => {
 }
 
 const getUserPostsRPC = (call, callback) => {
-  getUserPosts(call.request).then((data) => {
-    if (data.length) {
-      callback(null, data);
-    } else {
-      callback('That user does not have posts');
-    }
-  })
+  try {
+    getUserPosts(call.request).then((data) => {
+      console.log(data)
+      console.log(data.length)
+      if (data.length) {
+        callback(null, { posts: data });
+        return
+      }
+      console.log('sending error')
+      return callback({
+        code: grpc.status.INVALID_ARGUMENT,
+        message: 'That user does not have posts'
+      });
+    })
+  } catch (err) {
+    console.log(err)
+    callback('ERR')
+  }
 }
 
 const addPostRPC = (call, callback) => {

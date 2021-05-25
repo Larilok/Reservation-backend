@@ -69,7 +69,6 @@ const resolvers = async (req, res) => {
       })
       info.password = password
       const result = await createUser(info)
-      console.log('result in CreateUser: ', result.data)
       return result.data
     },
     getUser: async ({ id }) => {
@@ -99,10 +98,11 @@ const resolvers = async (req, res) => {
       const result = await getPost(data)
       return result
     },
-    getUserPosts: async ({ id }) => {
+    getUserPosts: async ({ userPostsReq }) => {
       if(!req.headers.cookie) return
-      const result = await getUserPosts(id)
-      return result
+      const result = await getUserPosts(userPostsReq)
+      console.log(result.posts)
+      return result.posts
     },
     listPosts: async ({ type }) => {
       console.log(type)

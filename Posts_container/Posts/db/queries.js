@@ -13,7 +13,16 @@ const getPost = async ({ id, type }) => {
 }
 
 const getUserPosts = async ({ id, type }) => {
-  return await selectTable(type).where('user_id',)
+  console.log(type, id)
+  let result
+  try {
+    result = await selectTable(type).where('user_id', id).select()
+  } catch (err) {
+    console.log(err)
+    return undefined
+  }
+  console.log(result)
+  return result
 }
 
 
@@ -49,9 +58,10 @@ const listPosts = async ({ type }) => {
   let result
   try {
     result = await selectTable(type).select()
-  }catch(err) {
+  } catch (err) {
     console.log(err)
   }
+  console.log(result)
   return result
 }
 

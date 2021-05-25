@@ -2,7 +2,7 @@ syntax = "proto3";
 
 service PostsService {
   rpc GetPost(PostOperation) returns (Post) {}
-  rpc GetUserPosts(UserId) returns (PostList) {}
+  rpc GetUserPosts(UserPostsRequest) returns (PostList) {}
   rpc AddPost(NewPost) returns (Result) {}
   rpc UpdatePost(UpdatePostOperation) returns (Result) {}
   rpc DeletePost(PostOperation) returns (Result) {}
@@ -54,7 +54,7 @@ message PostOperation {
   PostType type = 2;
 }
 
-message UserId {
+message UserPostsRequest {
   int32 id = 1;
   PostType type = 2;
 }
