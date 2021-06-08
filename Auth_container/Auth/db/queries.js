@@ -10,12 +10,12 @@ const getUser = async ({ email }) => {
   try {
     result = (await knex('users').where('email', email).select())[0]
     if(!result) {
-      return undefined
+      return {}
     }
     console.log('Result:', result)
   } catch (err) {
     console.log(err)
-    return undefined
+    return {}
   }
   return result
 }

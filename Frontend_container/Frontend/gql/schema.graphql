@@ -6,8 +6,7 @@ enum PostType {
 input Credentials {
   email: String!
   password: String!
-} 
-
+}
 
 input PostOperation {
   id: ID!
@@ -42,23 +41,63 @@ input NewUser {
 
 input ModifyUserInfo {
   fieldName: String
-  value: String 
+  value: String
   id: ID
 }
 
-input UserPostsReq {
+input Pagination {
+  page_num: Int!
+  limit: Int!
+  type: PostType!
+}
+
+input PaginationByUser {
   user_id: ID
   type: PostType
+  page_num: Int!
+  limit: Int!
+}
+
+input PaginationByCategoryId {
+  page_num: Int!
+  limit: Int!
+  type: PostType!
+  category_id: ID!
+}
+
+input PaginationByKeyword {
+  page_num: Int!
+  limit: Int!
+  type: PostType!
+  keyword: String!
+}
+
+input PaginationByKeywordAndCategoryId {
+  page_num: Int!
+  limit: Int!
+  type: PostType!
+  keyword: String!
+  category_id: Int
 }
 
 type Query {
   login(cred: Credentials!): String
-  getPost(data: PostOperation!): Post  
-  getUserPosts(userPostsReq: UserPostsReq!): [Post]
-  listPosts(type: PostType!): [Post]
+  getPost(data: PostOperation!): Post
+  listPosts(pagination: Pagination!): PaginationResult
+  listPostsByUser(paginationByUser: PaginationByUser!): PaginationResult
+  listPostsByCategoryId(
+    paginationByCategoryId: PaginationByCategoryId!
+  ): PaginationResult
+  listPostsByKeyword(
+    paginationByKeyword: PaginationByKeyword!
+  ): PaginationResult
+  listPostsByKeywordAndCategoryId(
+    paginationByKeywordAndCategoryId: PaginationByKeywordAndCategoryId!
+  ): PaginationResult
   getUser(id: ID!): User
+  getCategories: Category
 }
-  
+
 type Mutation {
   signup(cred: Credentials!): String
   addPost(post: NewPost): String
@@ -67,6 +106,13 @@ type Mutation {
   createUser(info: NewUser): String
   removeUser(id: ID!): String
   modifyUserField(data: ModifyUserInfo): String
+}
+
+type Category {
+  id: ID!
+  name: String!
+  created_at: String!
+  updated_at: String!
 }
 
 type User {
@@ -91,4 +137,9 @@ type Post {
   is_active: Boolean
   created_at: String!
   updated_at: String!
+}
+
+type PaginationResult {
+  posts: [Post!]!
+  total: Int!
 }

@@ -2,15 +2,19 @@ syntax = "proto3";
 
 service PostsService {
   rpc GetPost(PostOperation) returns (Post) {}
-  rpc GetUserPosts(UserPostsRequest) returns (PostList) {}
   rpc AddPost(NewPost) returns (Result) {}
   rpc UpdatePost(UpdatePostOperation) returns (Result) {}
   rpc DeletePost(PostOperation) returns (Result) {}
-  rpc ListPosts(PostTypeMessage) returns (PostList) {}
+  rpc ListPosts(Pagination) returns (PagiantionResult) {}
+  rpc ListPostsByUser(PaginationByUser) returns (PagiantionResult) {}
+  rpc ListPostsByCategoryId(PaginationByCategoryId) returns (PagiantionResult) {}
+  rpc ListPostsByKeyword(PaginationByKeyword) returns (PagiantionResult) {}
+  rpc ListPostsByKeywordAndCategoryId(PaginationByKeywordAndCategoryId) returns (PagiantionResult) {}
 }
 
-message PostList {
+message PagiantionResult {
   repeated Post posts = 1;
+  int32 total = 2;
 }
 
 message Post {
@@ -54,13 +58,39 @@ message PostOperation {
   PostType type = 2;
 }
 
-message UserPostsRequest {
+message PaginationByUser {
   int32 id = 1;
   PostType type = 2;
+  int32 page_num = 3;
+  int32 limit = 4;
 }
 
-message PostTypeMessage {
-  PostType type = 1;
+message Pagination {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+}
+
+message PaginationByCategoryId {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  int32 category_id = 4;
+}
+
+message PaginationByKeyword {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  string keyword = 4;
+}
+
+message PaginationByKeywordAndCategoryId {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  string keyword = 4;
+  int32 category_id = 5;
 }
 
 message Result { 

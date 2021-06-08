@@ -1,72 +1,79 @@
-
 const argon2 = require('argon2')
 const { getUser } = require('../db/queries')
+const grpc = require('@grpc/grpc-js')
 
-const TOKEN_LENGTH = 80;
-const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz';
-const ALPHA = ALPHA_UPPER + ALPHA_LOWER;
-const DIGIT = '0123456789';
-const ALPHA_DIGIT = ALPHA + DIGIT;
+const TOKEN_LENGTH = 80
+const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz'
+const ALPHA = ALPHA_UPPER + ALPHA_LOWER
+const DIGIT = '0123456789'
+const ALPHA_DIGIT = ALPHA + DIGIT
 
-const FAKE_ARGON2 = '$argon2i$v=19$m=4096,t=3,p=1$P7WDeMgGqZikuTLIh2p9vA$6w9CAQpiMCx7CLLhrftHjkP66OVZjuYuVprbm2znUeo'
+const FAKE_ARGON2 =
+  '$argon2i$v=19$m=4096,t=3,p=1$P7WDeMgGqZikuTLIh2p9vA$6w9CAQpiMCx7CLLhrftHjkP66OVZjuYuVprbm2znUeo'
 const VERSION = 1
-
-const generateToken = () => {
-  const base = ALPHA_DIGIT.length;
-  let key = '';
-  for (let i = 0; i < TOKEN_LENGTH; i++) {
-    const index = Math.floor(Math.random() * base);
-    key += ALPHA_DIGIT[index];
-  }
-  return key;
-};
 
 const login = async (call, callback) => {
   console.log(call.request)
   const { email, password } = call.request
-  const { id: id, password: userPassword } = (await getUser({ email }))
-
-  console.log('User password', userPassword)
   try {
+    const { id: id, password: userPassword } = await getUser({ email })
+
+    console.log('User password', userPassword)
+
     if (!userPassword) {
       console.log('Wrong login')
       //timebase attacks protection
       await argon2.verify(FAKE_ARGON2, stringToArray(password))
 
-      callback('Login or password is incorrect')
+      callback({
+        code: grpc.status.INVALID_ARGUMENT,
+        message: 'Login or password is incorrect'
+      })
     }
 
-    if (!await argon2.verify(userPassword, stringToArray(password))) {
+    const isPasswordValid = await argon2.verify(userPassword, password)
+    if (!isPasswordValid) {
       console.log('Wrong password')
-      callback('Login or password is incorrect')
+      callback({
+        code: grpc.status.INVALID_ARGUMENT,
+        message: 'Login or password is incorrect'
+      })
       return
     }
+
+    callback(null, { id: id })
   } catch (err) {
     console.log(err)
-  }
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'Login or password is incorrect'
+    })
 
-  callback(null, { id: id })
+  }
 }
 
 const signup = async (call, callback) => {
   try {
     const { email, password } = call.request
     const { password: userPassword } = await getUser({ email })
+
     if (userPassword) {
-      callback('User already exists')
+      callback({
+        code: grpc.status.INVALID_ARGUMENT,
+        message: 'User already exists'
+      })
       return
     }
-    const hashedPassword = await argon2.hash(stringToArray(password))
+    const hashedPassword = await argon2.hash(password)
 
     callback(null, { password: hashedPassword })
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
   }
 }
 
-const stringToArray = (str) => {
+const stringToArray = str => {
   const array = str.split(',').map(v => Number(v))
   return Buffer.from(array)
 }

@@ -12,33 +12,33 @@ services:
                 image: frontend:dev
                 build: ./Frontend_container
                 ports:
-                      - "4241:4241"
+                        - "4241:4241"
                 deploy:
-                       mode: replicated
-                       replicas: 1
+                        mode: replicated
+                        replicas: 1
         posts:
                 image: posts:dev
                 build: ./Posts_container
                 ports:
-                      - "4242:4242" 
+                        - "4242:4242" 
                 deploy:
-                       mode: replicated
-                       replicas: 1
+                        mode: replicated
+                        replicas: 1
         users:
-               image: users:dev
-               build: ./Users_container
-               ports:
-                     - "4243:4243"
-               deploy:
-                      mode: replicated
-                      replicas: 1
+                image: users:dev
+                build: ./Users_container
+                ports:
+                        - "4243:4243"
+                deploy:
+                        mode: replicated
+                        replicas: 1
         db:
                 image: db:dev
                 build: ./DB_container
                 environment: 
-                        POSTGRES_HOST_AUTH_METHOD: trust 
+                        POSTGRES_PASSWORD: 6545352 
                 ports:
-                      - "4444:5432" 
+                        - "4444:5432" 
                 deploy:
-                       mode: replicated
-                       replicas: 1
+                        mode: replicated
+                        replicas: 1

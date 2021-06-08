@@ -4,10 +4,7 @@ const { readFileSync } = require('fs')
 const { buildSchema } = require('graphql')
 const path = require('path')
 
-const {
-  login,
-  signup
-} = require('../rpc_clients/authClient')
+const { login, signup } = require('../rpc_clients/authClient')
 
 const {
   getPost,
@@ -18,7 +15,8 @@ const {
   getUserPosts
 } = require('../rpc_clients/postsClient')
 
-const { removeUser,
+const {
+  removeUser,
   createUser,
   getUser,
   modifyField
@@ -27,18 +25,22 @@ const { removeUser,
 const Client = require('../session/client')
 const Session = require('../session/session')
 
-const createSchema = () => buildSchema(readFileSync(path.resolve(__dirname, './schema.graphql')).toString())
+const createSchema = () =>
+  buildSchema(
+    readFileSync(path.resolve(__dirname, './schema.graphql')).toString()
+  )
 
 const resolvers = async (req, res) => {
   const client = await Client.getInstance(req, res)
   Session.start(client)
-  const { method, url, headers } = req;
+  const { method, url, headers } = req
   console.log(`${method} ${url} ${headers.cookie}`)
   res.on('finish', () => {
-    if (client.session) client.session.save();
-  });
+    console.log('FINISH')
+    if (client.session) client.session.save()
+  })
   return {
-    singup: async (cred) => {
+    singup: async ({ cred }) => {
       let password
       try {
         password = await signup(cred)
@@ -47,7 +49,7 @@ const resolvers = async (req, res) => {
         console.log(err)
       }
       client.sendCookie()
-      return { password }
+      return 'OK'
     },
     addPost: async ({ post }) => {
       if (!client.cookie.logged_in) return
@@ -56,13 +58,13 @@ const resolvers = async (req, res) => {
       client.sendCookie()
       return result.data
     },
-    updatePost: async (post) => {
+    updatePost: async ({ post }) => {
       if (!client.cookie.logged_in) return
       const result = await updatePost(post)
       client.sendCookie()
       return result
     },
-    deletePost: async (post) => {
+    deletePost: async ({ post }) => {
       if (!client.cookie.logged_in) return
       const result = await deletePost(post)
       client.sendCookie()
@@ -90,7 +92,7 @@ const resolvers = async (req, res) => {
       client.sendCookie()
       return result
     },
-    modifyUserField: async (data) => {
+    modifyUserField: async ({ data }) => {
       if (!client.cookie.logged_in) return
       const result = await modifyField(data)
       client.sendCookie()
@@ -105,24 +107,54 @@ const resolvers = async (req, res) => {
       client.sendCookie()
       return 'OK'
     },
-    getPost: async (data) => {
+    getPost: async ({ data }) => {
       const result = await getPost(data)
       client.sendCookie()
       return result
     },
-    getUserPosts: async ({ userPostsReq }) => {
-      if (!client.cookie.logged_in) return
-      const result = await getUserPosts(userPostsReq)
-      console.log(result.posts)
+    listPosts: async ({ pagination }) => {
+      console.log(pagination)
+      const result = await listPosts(pagination)
+      console.log(result)
       client.sendCookie()
-      return result.posts
+      return result
     },
-    listPosts: async ({ type }) => {
-      console.log(type)
-      const result = await listPosts(type)
-      console.log(result.posts)
+    listPostsByUser: async ({ paginationByUser }) => {
+      if (!client.cookie.logged_in) return
+      console.log(paginationByUser)
+      const result = await getUserPosts(paginationByUser)
+      console.log(result)
       client.sendCookie()
-      return result.posts
+      return result
+    },
+    listPostsByCategoryId: async ({ paginationByCategoryId }) => {
+      console.log(paginationByCategoryId)
+      const result = await listPosts(paginationByCategoryId)
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
+    listPostsByKeyword: async ({ pagination }) => {
+      console.log(pagination)
+      const result = await listPosts(pagination)
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
+    listPostsByKeywordAndCategoryId: async ({
+      paginationByKeywordAndCategoryId
+    }) => {
+      console.log(paginationByKeywordAndCategoryId)
+      const result = await listPosts(paginationByKeywordAndCategoryId)
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
+    getCategories: async () => {
+      const result = await getCategories()
+      console.log(result)
+      client.sendCookie()
+      return result
     }
   }
 }

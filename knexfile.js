@@ -5,7 +5,7 @@ module.exports = {
     port: '4444',
     database: 'posts',
     user: 'postgres',
-    password: 'postgres'
+    password: '6545352'
   },
   migrations: {
     directory: __dirname + '/DB_container/db/migrations',
@@ -16,6 +16,6 @@ module.exports = {
   },
   pool: {
     min: 1,
-    max: 2 
+    max: 2
   }
 }
