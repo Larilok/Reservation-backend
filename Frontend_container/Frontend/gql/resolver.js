@@ -44,7 +44,7 @@ const resolvers = async (req, res) => {
     if (client.session) client.session.save()
   })
   return {
-    singup: async ({ cred }) => {
+    signup: async ({ cred }) => {
       let password
       try {
         password = await signup(cred)

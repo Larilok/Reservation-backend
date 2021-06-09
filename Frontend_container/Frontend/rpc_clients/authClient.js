@@ -23,7 +23,7 @@ const authClient = new proto.AuthService(
 
 const login = credentials =>
   new Promise((res, rej) => {
-    console.log('Login func Client')
+    console.log('Login func Client', credentials)
     authClient.Login(credentials, (err, resp) => {
       if (err) {
         console.log('Error: ', err)
@@ -37,7 +37,7 @@ const login = credentials =>
 
 const signup = credentials =>
   new Promise((res, rej) => {
-    console.log(`SignUp func Client ${credentials}`)
+    console.log(`SignUp func Client `, credentials)
     authClient.Signup(credentials, (err, resp) => {
       if (err) {
         console.log('Error: ', err)
@@ -51,7 +51,7 @@ const signup = credentials =>
 
 const createSession = newSession =>
   new Promise((res, rej) => {
-    console.log(`CreateSession func Client ${newSession}`)
+    console.log(`CreateSession func Client `, newSession)
     authClient.CreateSession(newSession, (err, resp) => {
       if (err) {
         console.log('Error: ', err)
@@ -79,7 +79,7 @@ const getSession = sessionToken =>
 
 const updateSession = newSession =>
   new Promise((res, rej) => {
-    console.log(`updateSession func Client ${newSession}`)
+    console.log(`updateSession func Client }`, newSession)
     authClient.UpdateSession(newSession, (err, resp) => {
       if (err) {
         console.log('Error: ', err)

@@ -9,27 +9,25 @@ const getCredentials = async email => {
   console.log('getCredentials ', email)
   let result
   try {
-    result = (
-      await knex('users')
-        .where('email', email)
-        .select()
-    )[0]
+    result = await knex('auth')
+      .where('email', email)
+      .select()
+    console.log('Result:', result)
     if (!result) {
       return {}
     }
-    console.log('Result:', result)
   } catch (err) {
     console.log(err)
     throw new Error(err)
   }
-  return result
+  return result[0]
 }
 
 const createCredentials = async credentials => {
   console.log('createCredentials ', credentials)
   let result
   try {
-    result = await knex('users').insert(credentials, ['id'])
+    result = await knex('auth').insert(credentials, ['id'])
     console.log('Result:', result)
   } catch (err) {
     console.log(err)

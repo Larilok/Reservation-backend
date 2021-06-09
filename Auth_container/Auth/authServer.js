@@ -14,7 +14,7 @@ const {
 
 const PROTO_PATH = __dirname + '/auth.proto'
 
-const serverAddress = 'localhost:4240'
+const serverAddress = '0.0.0.0:4240'
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
