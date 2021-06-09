@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 service PostsService {
+  rpc GetCategories(Empty) returns (Categories) {}
   rpc GetPost(PostOperation) returns (Post) {}
   rpc AddPost(NewPost) returns (Result) {}
   rpc UpdatePost(UpdatePostOperation) returns (Result) {}
@@ -10,6 +11,20 @@ service PostsService {
   rpc ListPostsByCategoryId(PaginationByCategoryId) returns (PagiantionResult) {}
   rpc ListPostsByKeyword(PaginationByKeyword) returns (PagiantionResult) {}
   rpc ListPostsByKeywordAndCategoryId(PaginationByKeywordAndCategoryId) returns (PagiantionResult) {}
+}
+
+message Empty {}
+
+message Category {
+  int32 id = 1;
+  string name = 2;
+  string created_at = 3;
+  string updated_at = 4; 
+
+}
+
+message Categories {
+  repeated Category categories = 1;
 }
 
 message PagiantionResult {
@@ -58,17 +73,17 @@ message PostOperation {
   PostType type = 2;
 }
 
-message PaginationByUser {
-  int32 id = 1;
-  PostType type = 2;
-  int32 page_num = 3;
-  int32 limit = 4;
-}
-
 message Pagination {
   int32 page_num = 1;
   int32 limit = 2;
   PostType type = 3;
+}
+
+message PaginationByUser {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  int32 user_id = 4;
 }
 
 message PaginationByCategoryId {
@@ -94,5 +109,5 @@ message PaginationByKeywordAndCategoryId {
 }
 
 message Result { 
- string data = 1;
+  string data = 1;
 }

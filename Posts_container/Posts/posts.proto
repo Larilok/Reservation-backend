@@ -1,16 +1,38 @@
 syntax = "proto3";
 
 service PostsService {
+  rpc GetCategories(Empty) returns (Categories) {}
   rpc GetPost(PostOperation) returns (Post) {}
-  rpc GetUserPosts(UserPostsRequest) returns (PostList) {}
-  rpc AddPost(NewPost) returns (Result) {}
+  rpc AddPost(NewPost) returns (PostId) {}
   rpc UpdatePost(UpdatePostOperation) returns (Result) {}
   rpc DeletePost(PostOperation) returns (Result) {}
-  rpc ListPosts(PostTypeMessage) returns (PostList) {}
+  rpc ListPosts(Pagination) returns (PagiantionResult) {}
+  rpc ListPostsByUser(PaginationByUser) returns (PagiantionResult) {}
+  rpc ListPostsByCategoryId(PaginationByCategoryId) returns (PagiantionResult) {}
+  rpc ListPostsByKeyword(PaginationByKeyword) returns (PagiantionResult) {}
+  rpc ListPostsByKeywordAndCategoryId(PaginationByKeywordAndCategoryId) returns (PagiantionResult) {}
 }
 
-message PostList {
+message Empty {}
+
+message PostId {
+  int32 id = 1;
+}
+
+message Category {
+  int32 id = 1;
+  string name = 2;
+  string created_at = 3;
+  string updated_at = 4; 
+}
+
+message Categories {
+  repeated Category categories = 1;
+}
+
+message PagiantionResult {
   repeated Post posts = 1;
+  int32 total = 2;
 }
 
 message Post {
@@ -54,15 +76,41 @@ message PostOperation {
   PostType type = 2;
 }
 
-message UserPostsRequest {
-  int32 id = 1;
-  PostType type = 2;
+message Pagination {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
 }
 
-message PostTypeMessage {
-  PostType type = 1;
+message PaginationByUser {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  int32 user_id = 4;
+}
+
+message PaginationByCategoryId {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  int32 category_id = 4;
+}
+
+message PaginationByKeyword {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  string keyword = 4;
+}
+
+message PaginationByKeywordAndCategoryId {
+  int32 page_num = 1;
+  int32 limit = 2;
+  PostType type = 3;
+  string keyword = 4;
+  int32 category_id = 5;
 }
 
 message Result { 
- string data = 1;
+  string data = 1;
 }

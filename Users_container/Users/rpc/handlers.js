@@ -5,31 +5,68 @@ const {
   removeUser
 } = require('../db/queries')
 
+const createUserRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await createUser(call.request)
 
-const createUserRPC = (call, callback) => {
-  console.log(call.request)
-  createUser(call.request).then((data) => {
-    callback(null, {data: data});
-  })
+    console.log(result)
+    callback(null, { data: 'Created' })
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'create user error'
+    })
+  }
 }
 
-const getUserRPC = (call, callback) => {
-  console.log(call.request)
-  getUser(call.request).then((data) => {
-    callback(null, data);
-  })
+const getUserRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const user = await getUser(call.request)
+
+    console.log(user)
+    callback(null, user)
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'get user error'
+    })
+  }
 }
 
-const modifyFieldRPC = (call, callback) => {
-  modifyField(call.request).then((data) => {
-    callback(null, data);
-  })
+const modifyFieldRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await modifyField(call.request)
+
+    console.log(result)
+    callback(null, { data: 'Created' })
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'modify field error'
+    })
+  }
 }
 
-const removeUserRPC = (call, callback) => {
-  removeUser(call.request).then((data) => {
-    callback(null, data);
-  })
+const removeUserRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await removeUser(call.request)
+
+    console.log(result)
+    callback(null, { data: 'Removed User' })
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'remove user error'
+    })
+  }
 }
 
 module.exports = {
@@ -38,4 +75,3 @@ module.exports = {
   modifyFieldRPC,
   removeUserRPC
 }
-

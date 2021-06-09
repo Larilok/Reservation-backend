@@ -101,8 +101,8 @@ const resolvers = async (req, res) => {
     login: async ({ cred }) => {
       const userId = await login(cred)
       if (userId) {
-        client.setCookie('user_id', userId)
-        client.setCookie('logged_in', 1)
+        client.session.set('user_id', userId)
+        client.session.set('logged_in', 1)
       }
       client.sendCookie()
       return 'OK'

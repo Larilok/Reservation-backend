@@ -1,11 +1,10 @@
-
 syntax = "proto3";
 
 service UsersService {
   rpc CreateUser(NewUser) returns (Result) {}
-  rpc RemoveUser(UserId) returns (Result) {}
   rpc GetUser(UserId) returns (User) {}
-  rpc ModifyField(ModifyUserInfo) returns (Result) {}
+  rpc UpdateField(UpdateUserInfo) returns (Result) {}
+  rpc RemoveUser(UserId) returns (Result) {}
 }
 
 message UserId {
@@ -19,24 +18,19 @@ message Result {
 message NewUser {
   string name = 1;
   string surname = 2;
-  string email = 3;
-  string phone = 4;
-  string password = 5;
+  string phone = 3;
 }
 
 message User {
   string id = 1;
   string name = 2;
   string surname = 3;
-  string email = 4;
-  string phone = 5;
-  string password = 6;
-  string created_at = 7;
-  string updated_at = 8;
+  string phone = 4;
+  string created_at = 5;
+  string updated_at = 6;
 }
 
-
-message ModifyUserInfo {
+message UpdateUserInfo {
   string fieldname = 1;
   string value = 2;
   int32 id = 3;

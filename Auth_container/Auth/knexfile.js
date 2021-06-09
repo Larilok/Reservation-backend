@@ -3,7 +3,7 @@ module.exports = {
   connection: {
     host: 'reservation-web-application_db_1',
     port: '5432',
-    database: 'posts',
+    database: 'auth',
     user: 'postgres',
     password: '6545352'
   },

@@ -1,7 +1,7 @@
 'use strict'
 
-const grpc = require("@grpc/grpc-js")
-const protoLoader = require("@grpc/proto-loader")
+const grpc = require('@grpc/grpc-js')
+const protoLoader = require('@grpc/proto-loader')
 
 const path = require('path')
 
@@ -22,91 +22,160 @@ const postsClient = new proto.PostsService(
   grpc.credentials.createInsecure()
 )
 
-const getPost = (postOp) => new Promise((res, rej) => {
-  console.log('getPost func Client')
-  postsClient.GetPost(postOp, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err.message)
-      return
-    }
-    console.log(resp)
-    res(resp)
+const getCategories = () =>
+  new Promise((res, rej) => {
+    console.log('getCategories func Client: ')
+    postsClient.GetCategories({}, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.categories)
+    })
   })
-})
 
-
-const getUserPosts = ({ user_id, type }) => new Promise((res, rej) => {
-  console.log('getUserPosts func Client')
-  postsClient.getUserPosts({ id: user_id, type: type }, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err.message)
-      return
-    }
-    console.log(resp)
-    res(resp)
+const getPost = postOp =>
+  new Promise((res, rej) => {
+    console.log('getPost func Client: ', postOp)
+    postsClient.GetPost(postOp, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp)
+    })
   })
-})
 
-const addPost = (newPost) => new Promise((res, rej) => {
-  console.log('addPost func Client')
-  console.log(newPost)
-  postsClient.AddPost(newPost, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err.message)
-      return
-    }
-    console.log(resp)
-    res(resp)
+const addPost = newPost =>
+  new Promise((res, rej) => {
+    console.log('addPost func Client', newPost)
+    postsClient.AddPost(newPost, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.data)
+    })
   })
-})
 
-const updatePost = (postOp) => new Promise((res, rej) => {
-  console.log('addPost func Client')
-  postsClient.UpdatePost(postOp, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err.message)
-      return
-    }
-    console.log(resp)
-    res(resp)
+const updatePost = updatePostOp =>
+  new Promise((res, rej) => {
+    console.log('updatePost func Client: ', updatePostOp)
+    postsClient.UpdatePost(updatePostOp, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.data)
+    })
   })
-})
 
-const deletePost = (postOp) => new Promise((res, rej) => {
-  console.log('deletePost func Client')
-  postsClient.DeletePost(postOp, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err.message)
-      return
-    }
-    console.log(resp)
-    res(resp)
+const deletePost = postOp =>
+  new Promise((res, rej) => {
+    console.log('deletePost func Client: ', postOp)
+    postsClient.DeletePost(postOp, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.data)
+    })
   })
-})
 
-const listPosts = (type) => new Promise((res, rej) => {
-  console.log('listPosts func Client')
-  postsClient.ListPosts({ type: type }, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err.message)
-      return
-    }
-    console.log(resp)
-    res(resp)
+const listPosts = pagination =>
+  new Promise((res, rej) => {
+    console.log('listPosts func Client', pagination)
+    postsClient.ListPosts(pagination, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp)
+    })
   })
-})
 
+const listPostsByUser = paginationByUser =>
+  new Promise((res, rej) => {
+    console.log('ListPostsByUser func Client', paginationByUser)
+    postsClient.ListPostsByUser(paginationByUser, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp)
+    })
+  })
+
+const listPostsByCategoryId = paginationByCategoryId =>
+  new Promise((res, rej) => {
+    console.log('ListPostsByCategoryId func Client', paginationByCategoryId)
+    postsClient.ListPostsByCategoryId(paginationByCategoryId, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp)
+    })
+  })
+
+const listPostsByKeyword = paginationByKeyword =>
+  new Promise((res, rej) => {
+    console.log('ListPostsByKeyword func Client', paginationByKeyword)
+    postsClient.ListPostsByKeyword(paginationByKeyword, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp)
+    })
+  })
+
+const listPostsByKeywordAndCategoryId = paginationByKeywordAndCategoryId =>
+  new Promise((res, rej) => {
+    console.log(
+      'ListPostsByKeywordAndCategoryId func Client',
+      paginationByKeywordAndCategoryId
+    )
+    postsClient.ListPostsByKeywordAndCategoryId(
+      paginationByKeywordAndCategoryId,
+      (err, resp) => {
+        if (err) {
+          console.log('Error: ', err)
+          rej(err.message)
+          return
+        }
+        console.log(resp)
+        res(resp)
+      }
+    )
+  })
 module.exports = {
   getPost,
   addPost,
   deletePost,
-  listPosts,
   updatePost,
-  getUserPosts
+  getCategories,
+  listPosts,
+  listPostsByUser,
+  listPostsByCategoryId,
+  listPostsByKeyword,
+  listPostsByKeywordAndCategoryId
 }

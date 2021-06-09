@@ -1,7 +1,7 @@
 'use strict'
 
-const grpc = require("@grpc/grpc-js")
-const protoLoader = require("@grpc/proto-loader")
+const grpc = require('@grpc/grpc-js')
+const protoLoader = require('@grpc/proto-loader')
 const path = require('path')
 
 const authServerAddress = 'reservation-web-application_auth_1:4240'
@@ -21,32 +21,94 @@ const authClient = new proto.AuthService(
   grpc.credentials.createInsecure()
 )
 
-const login = (credentials) => new Promise((res, rej) => {
-  console.log('Login func Client')
-  authClient.login(credentials, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err)
-      return
-    }
-    console.log(resp)
-    res(resp.id)
+const login = credentials =>
+  new Promise((res, rej) => {
+    console.log('Login func Client')
+    authClient.Login(credentials, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.id)
+    })
   })
-})
 
-const signup = (signupInfo) => new Promise((res, rej) => {
-  console.log(`SignUp func Client ${signupInfo}`)
-  authClient.signup(signupInfo, (err, resp) => {
-    if (err) {
-      console.log("Error: ", err)
-      rej(err)
-      return
-    }
-    res(resp)
+const signup = credentials =>
+  new Promise((res, rej) => {
+    console.log(`SignUp func Client ${credentials}`)
+    authClient.Signup(credentials, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.id)
+    })
   })
-})
 
+const createSession = newSession =>
+  new Promise((res, rej) => {
+    console.log(`CreateSession func Client ${newSession}`)
+    authClient.CreateSession(newSession, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.result)
+    })
+  })
+
+const getSession = sessionToken =>
+  new Promise((res, rej) => {
+    console.log(`getSession func Client ${sessionToken}`)
+    authClient.GetSession(sessionToken, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp)
+    })
+  })
+
+const updateSession = newSession =>
+  new Promise((res, rej) => {
+    console.log(`updateSession func Client ${newSession}`)
+    authClient.UpdateSession(newSession, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.result)
+    })
+  })
+
+const deleteSession = sessionToken =>
+  new Promise((res, rej) => {
+    console.log(`deleteSession func Client ${sessionToken}`)
+    authClient.DeleteSession(sessionToken, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.result)
+    })
+  })
 module.exports = {
   login,
-  signup
+  signup,
+  createSession,
+  updateSession,
+  deleteSession,
+  getSession
 }

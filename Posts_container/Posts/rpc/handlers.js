@@ -1,77 +1,186 @@
 const grpc = require('@grpc/grpc-js')
 
 const {
+  getCategories,
   getPost,
-  getUserPosts,
   addPost,
+  updatePost,
   deletePost,
-  listPosts,
-  updatePost
+  getPosts,
+  getPostsByUser,
+  getPostsByCategoryId,
+  getPostsByKeyword,
+  getPostsByKeywordAndCategoryId
 } = require('../db/queries')
 
-
-const getPostRPC = (call, callback) => {
-  getPost(call.request).then((data) => {
-    if (data.length) {
-      callback(null, data[0]);
-    } else {
-      callback('That Post does not exist');
-    }
-  })
-}
-
-const getUserPostsRPC = (call, callback) => {
+const getCategoriesRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
   try {
-    getUserPosts(call.request).then((data) => {
-      console.log(data)
-      console.log(data.length)
-      if (data.length) {
-        callback(null, { posts: data });
-        return
-      }
-      console.log('sending error')
-      return callback({
-        code: grpc.status.INVALID_ARGUMENT,
-        message: 'That user does not have posts'
-      });
-    })
+    const categories = await getCategories()
+    callback(null, categories)
+    console.log(categories)
+    return
   } catch (err) {
     console.log(err)
-    callback('ERR')
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'Categories error'
+    })
   }
 }
 
-const addPostRPC = (call, callback) => {
-  console.log(call.request)
-  addPost(call.request).then((data) => {
-    callback(null, { data: data });
-  })
+const getPostRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const post = await getPost(call.request)
+    console.log(post)
+    callback(null, post)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'That Post does not exist'
+    })
+  }
 }
 
-const deletePostRPC = (call, callback) => {
-  deletePost(call.request).then((data) => {
-    callback(null, data);
-  })
+const addPostRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const id = await addPost(call.request)
+    console.log(id)
+    callback(null, id)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'Add post error'
+    })
+  }
 }
 
-const updatePostRPC = (call, callback) => {
-  updatePost(call.request).then((data) => {
-    callback(null, data);
-  })
+const updatePostRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await addPost(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'Update post error'
+    })
+  }
 }
 
-const listPostsRPC = (call, callback) => {
-  listPosts(call.request).then((data) => {
-    callback(null, { posts: data });
-  })
+const deletePostRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await deletePost(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'Delete post error'
+    })
+  }
 }
 
+const listPostsRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await getPosts(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'List posts error'
+    })
+  }
+}
+
+const listPostsByUserRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await getPostsByUser(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'getPostsByUser posts error'
+    })
+  }
+}
+
+const listPostsByCategoryIdRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await getPostsByCategoryId(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'getPostsByCategoryId posts error'
+    })
+  }
+}
+
+const listPostsByKeywordRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await getPostsByKeyword(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'getPostsByKeyword posts error'
+    })
+  }
+}
+
+const listPostsByKeywordAndCategoryIdRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await getPostsByKeywordAndCategoryId(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'getPostsByKeywordAndCategoryId posts error'
+    })
+  }
+}
 module.exports = {
   getPostRPC,
-  getUserPostsRPC,
+  getCategoriesRPC,
   addPostRPC,
   updatePostRPC,
   deletePostRPC,
-  listPostsRPC
+  listPostsRPC,
+  listPostsByUserRPC,
+  listPostsByCategoryIdRPC,
+  listPostsByKeywordRPC,
+  listPostsByKeywordAndCategoryIdRPC
 }
-

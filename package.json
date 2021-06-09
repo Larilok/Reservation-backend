@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "knex": "^0.95.6",
+    "knex-migrate": "^1.7.4",
     "pg": "^8.6.0"
   }
 }

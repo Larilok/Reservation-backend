@@ -4,22 +4,39 @@ const config = require('../knexfile')
 
 const knex = require('knex')(config)
 
-const createUser = async (userInfo) => {
-  console.log(userInfo)
-  let idOfInsertedUser
+const createUser = async userInfo => {
+  console.log('CreateUser ', userInfo)
+  let user_id
   try {
-    idOfInsertedUser = (await knex('users').insert(userInfo, ['id']))[0]
+    user_id = await knex('users').insert(userInfo, ['id'])
   } catch (err) {
     console.log(err)
   }
-  console.log(idOfInsertedUser)
-  return idOfInsertedUser.id
+  console.log(user_id)
+  return user_id[0].id
 }
 
 const getUser = async ({ id }) => {
+  console.log('GetUser ', id)
   let user
   try {
-    user = (await knex('users').where('id', id).select())[0]
+    user = await knex('users')
+      .where('id', id)
+      .select()
+  } catch (err) {
+    console.log(err)
+  }
+  console.log(user)
+  return user[0]
+}
+
+const removeUser = async ({ id }) => {
+  console.log('RemoveUser ', id)
+  let user
+  try {
+    user = await knex('users')
+      .where('id', id)
+      .del()
   } catch (err) {
     console.log(err)
   }
@@ -27,12 +44,18 @@ const getUser = async ({ id }) => {
   return user
 }
 
-const removeUser = async (id) => {
-  return await knex('users').where('id', id).del()
-}
-
 const modifyField = async ({ fieldname, value, id }) => {
-  return await knex('users').where('id', id).update(fieldname, value)
+  console.log('ModifyField', id, fieldname, value)
+  let user
+  try {
+    user = knex('users')
+      .where('id', id)
+      .update(fieldname, value)
+  } catch (err) {
+    console.log(err)
+  }
+  console.log(user)
+  return user
 }
 
 module.exports = {

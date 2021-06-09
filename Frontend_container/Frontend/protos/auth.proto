@@ -2,7 +2,11 @@ syntax = "proto3";
 
 service AuthService {
   rpc Login(Credentials) returns (UserId) {}
-  rpc Signup(Credentials) returns (SignupResult) {}
+  rpc Signup(Credentials) returns (UserId) {}
+  rpc CreateSession(NewSession) returns (Result) {}
+  rpc GetSession(SessionToken) returns (Session) {}
+  rpc UpdateSession(NewSession) returns (Result) {}
+  rpc DeleteSession(SessionToken) returns (Result) {}
 }
 
 message Credentials {
@@ -10,10 +14,25 @@ message Credentials {
   string password = 2;
 }
 
+message NewSession {
+  string token = 1;
+  bytes data = 2;
+}
+
+message Session {
+  string token = 1;
+  bytes data = 2;
+  string created_at = 3;
+  string updated_at = 4; 
+}
+
+message SessionToken {
+  string token = 1;
+}
+
 message UserId { 
   string id = 1;
 }
-
-message SignupResult {
-  string password = 1;
+message Result {
+  string result = 1;
 }

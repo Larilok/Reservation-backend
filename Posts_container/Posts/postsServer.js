@@ -2,12 +2,16 @@ const grpc = require('@grpc/grpc-js')
 const protoLoader = require('@grpc/proto-loader')
 
 const {
-  addPostRPC,
-  deletePostRPC,
   getPostRPC,
-  getUserPostsRPC,
+  getCategoriesRPC,
+  addPostRPC,
+  updatePostRPC,
+  deletePostRPC,
   listPostsRPC,
-  updatePostRPC
+  listPostsByUserRPC,
+  listPostsByCategoryIdRPC,
+  listPostsByKeywordRPC,
+  listPostsByKeywordAndCategoryIdRPC
 } = require('./rpc/handlers')
 
 const PROTO_PATH = __dirname + '/posts.proto'
@@ -28,12 +32,16 @@ const postsService = protoDescriptor.PostsService
 const getServer = () => {
   const server = new grpc.Server()
   server.addService(postsService.service, {
+    GetCategories: getCategoriesRPC,
     GetPost: getPostRPC,
-    GetUserPosts: getUserPostsRPC,
     AddPost: addPostRPC,
     UpdatePost: updatePostRPC,
     DeletePost: deletePostRPC,
-    ListPosts: listPostsRPC
+    ListPosts: listPostsRPC,
+    ListPostsByUser: listPostsByUserRPC,
+    ListPostsByCategoryId: listPostsByCategoryIdRPC,
+    ListPostsByKeyword: listPostsByKeywordRPC,
+    ListPostsByKeywordAndCategoryId: listPostsByKeywordAndCategoryIdRPC
   })
   return server
 }
