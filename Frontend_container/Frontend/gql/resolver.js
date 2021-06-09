@@ -10,16 +10,20 @@ const {
   getPost,
   addPost,
   deletePost,
-  listPosts,
   updatePost,
-  getUserPosts
+  getCategories,
+  listPosts,
+  listPostsByUser,
+  listPostsByCategoryId,
+  listPostsByKeyword,
+  listPostsByKeywordAndCategoryId
 } = require('../rpc_clients/postsClient')
 
 const {
-  removeUser,
   createUser,
   getUser,
-  modifyField
+  removeUser,
+  updateField
 } = require('../rpc_clients/usersClient')
 
 const Client = require('../session/client')
@@ -51,53 +55,6 @@ const resolvers = async (req, res) => {
       client.sendCookie()
       return 'OK'
     },
-    addPost: async ({ post }) => {
-      if (!client.cookie.logged_in) return
-      const result = await addPost(post)
-      console.log('result in addPost: ', result.data)
-      client.sendCookie()
-      return result.data
-    },
-    updatePost: async ({ post }) => {
-      if (!client.cookie.logged_in) return
-      const result = await updatePost(post)
-      client.sendCookie()
-      return result
-    },
-    deletePost: async ({ post }) => {
-      if (!client.cookie.logged_in) return
-      const result = await deletePost(post)
-      client.sendCookie()
-      return result
-    },
-    createUser: async ({ info }) => {
-      const { password } = await signup({
-        email: info.email,
-        password: info.password
-      })
-      info.password = password
-      const result = await createUser(info)
-      client.sendCookie()
-      return result.data
-    },
-    getUser: async ({ id }) => {
-      if (!client.cookie.logged_in) return
-      const result = await getUser(id)
-      client.sendCookie()
-      return result
-    },
-    removeUser: async ({ id }) => {
-      if (!client.cookie.logged_in) return
-      const result = await removeUser(id)
-      client.sendCookie()
-      return result
-    },
-    modifyUserField: async ({ data }) => {
-      if (!client.cookie.logged_in) return
-      const result = await modifyField(data)
-      client.sendCookie()
-      return result
-    },
     login: async ({ cred }) => {
       const userId = await login(cred)
       if (userId) {
@@ -106,6 +63,54 @@ const resolvers = async (req, res) => {
       }
       client.sendCookie()
       return 'OK'
+    },
+    addPost: async ({ post }) => {
+      if (!client.session.get('logged_in')) return
+      post.user_id = client.session.get('user_id')
+
+      const result = await addPost(post)
+      console.log('result in addPost: ', result.data)
+      client.sendCookie()
+      return result.data
+    },
+    updatePost: async ({ post }) => {
+      if (!client.session.get('logged_in')) return
+      const result = await updatePost(post)
+      client.sendCookie()
+      return result
+    },
+    deletePost: async ({ post }) => {
+      if (!client.session.get('logged_in')) return
+      const result = await deletePost(post)
+      client.sendCookie()
+      return result
+    },
+    createUser: async ({ info }) => {
+      const result = await createUser(info)
+      client.sendCookie()
+      return result.data
+    },
+    getUser: async ({ id }) => {
+      const result = await getUser(id)
+      client.sendCookie()
+      return result
+    },
+    removeUser: async ({ id }) => {
+      if (
+        !client.session.get('logged_in') &&
+        client.session.get('user_id') != id
+      )
+        return
+      const result = await removeUser(id)
+      client.sendCookie()
+      return result
+    },
+    modifyUserField: async ({ data }) => {
+      if (!client.session.get('logged_in')) return
+      data.id = client.session.get('user_id')
+      const result = await updateField(data)
+      client.sendCookie()
+      return result
     },
     getPost: async ({ data }) => {
       const result = await getPost(data)
@@ -120,9 +125,8 @@ const resolvers = async (req, res) => {
       return result
     },
     listPostsByUser: async ({ paginationByUser }) => {
-      if (!client.cookie.logged_in) return
       console.log(paginationByUser)
-      const result = await getUserPosts(paginationByUser)
+      const result = await listPostsByUser(paginationByUser)
       console.log(result)
       client.sendCookie()
       return result
@@ -134,9 +138,9 @@ const resolvers = async (req, res) => {
       client.sendCookie()
       return result
     },
-    listPostsByKeyword: async ({ pagination }) => {
-      console.log(pagination)
-      const result = await listPosts(pagination)
+    listPostsByKeyword: async ({ paginationByKeyword }) => {
+      console.log(paginationByKeyword)
+      const result = await listPosts(paginationByKeyword)
       console.log(result)
       client.sendCookie()
       return result

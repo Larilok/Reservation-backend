@@ -22,7 +22,6 @@ input UpdatePostOperation {
 
 input NewPost {
   category_id: Int
-  user_id: Int
   title: String
   description: String
   price: Int
@@ -34,15 +33,12 @@ input NewPost {
 input NewUser {
   name: String!
   surname: String!
-  email: String!
   phone: String!
-  password: String!
 }
 
 input ModifyUserInfo {
   fieldName: String
   value: String
-  id: ID
 }
 
 input Pagination {
@@ -119,9 +115,7 @@ type User {
   id: ID!
   name: String!
   surname: String!
-  email: String!
   phone: String!
-  password: String!
   created_at: String!
   updated_at: String!
 }

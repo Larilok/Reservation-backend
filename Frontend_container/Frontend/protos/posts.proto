@@ -20,7 +20,6 @@ message Category {
   string name = 2;
   string created_at = 3;
   string updated_at = 4; 
-
 }
 
 message Categories {
