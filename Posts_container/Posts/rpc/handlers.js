@@ -17,7 +17,7 @@ const getCategoriesRPC = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
     const categories = await getCategories()
-    callback(null, categories)
+    callback(null, { categories })
     console.log(categories)
     return
   } catch (err) {
@@ -64,7 +64,7 @@ const addPostRPC = async (call, callback) => {
 const updatePostRPC = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
-    const result = await addPost(call.request)
+    const result = await updatePost(call.request)
     console.log(result)
     callback(null, result)
     return

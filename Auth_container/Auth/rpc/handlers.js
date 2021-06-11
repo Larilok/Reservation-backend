@@ -17,12 +17,10 @@ const login = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
     const { email, password } = call.request
-    const { id: id, password: userPassword } = await getCredentials(email)
+    const user = await getCredentials(email)
 
-    console.log('User password', userPassword)
-
-    if (!userPassword) {
-      console.log('Wrong login')
+    if (!user) {
+      console.log('Wrong Login')
       //timebase attacks protection
       await argon2.verify(FAKE_ARGON2, password)
 
@@ -31,6 +29,9 @@ const login = async (call, callback) => {
         message: 'Login or password is incorrect'
       })
     }
+    const { id: id, password: userPassword } = user
+
+    console.log('User password', userPassword)
 
     const isPasswordValid = await argon2.verify(userPassword, password)
     if (!isPasswordValid) {
@@ -56,9 +57,9 @@ const signup = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
     const { email, password } = call.request
-    const { password: userPassword } = await getCredentials(email)
+    const user = await getCredentials(email)
 
-    if (userPassword) {
+    if (user) {
       callback({
         code: grpc.status.INVALID_ARGUMENT,
         message: 'User already exists'

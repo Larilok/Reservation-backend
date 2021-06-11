@@ -91,7 +91,7 @@ type Query {
     paginationByKeywordAndCategoryId: PaginationByKeywordAndCategoryId!
   ): PaginationResult
   getUser(id: ID!): User
-  getCategories: Category
+  getCategories: [Category]
 }
 
 type Mutation {
