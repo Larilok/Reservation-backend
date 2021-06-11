@@ -18,7 +18,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRES_PASSWORD
-              value: 6545352
+              value: '6545352'
           ports:
             - name: db
               containerPort: 5432
