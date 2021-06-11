@@ -627,22 +627,8 @@ ALTER TABLE ONLY public.posts_request ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.categories (id, name, created_at, updated_at) FROM stdin;
-1       category1       2021-06-09 21:15:52.73841+00    2021-06-09 21:15:52.73841+00
-2       category2       2021-06-09 21:15:52.73841+00    2021-06-09 21:15:52.73841+00
-3       category3       2021-06-09 21:15:52.73841+00    2021-06-09 21:15:52.73841+00
-\.
-
-
---
 -- Data for Name: features; Type: TABLE DATA; Schema: public; Owner: postgres
 --
-
-COPY public.features (id, name, created_at, updated_at) FROM stdin;
-\.
 
 
 --
@@ -958,38 +944,15 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: knex_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.knex_migrations (id, name, batch, migration_time) FROM stdin;
-3       20210521070742_create_users_table.js    1       2021-06-09 12:24:12.927+00
-\.
-
 
 --
 -- Data for Name: knex_migrations_lock; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.knex_migrations_lock (index, is_locked) FROM stdin;
-1       0
-\.
-
-
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, surname, phone, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Name: knex_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.knex_migrations_id_seq', 3, true);
-
-
---
--- Name: knex_migrations_lock_index_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
 
 SELECT pg_catalog.setval('public.knex_migrations_lock_index_seq', 1, true);
 
@@ -1032,10 +995,3 @@ ALTER TABLE ONLY public.users
 --
 -- PostgreSQL database cluster dump complete
 --
-CREATE TABLE public.auth (
-    id integer NOT NULL,
-    password character varying(255) NOT NULL,
-    email character varying(255) NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
