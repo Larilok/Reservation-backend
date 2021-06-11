@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: auth-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: auth-pod
@@ -13,10 +13,9 @@ spec:
         app: auth-pod
     spec:
       containers:
-      - name: auth-server
-        image: larilok/cms:auth-latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - name: auth
-          containerPort: 4240
-
+        - name: auth-server
+          image: gcr.io/gks-cluster-316500/auth
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: auth
+              containerPort: 4240

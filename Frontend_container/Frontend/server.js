@@ -12,7 +12,7 @@ const app = express()
   const schema = createSchema()
   app.use(
     cors({
-      origin: 'http://localhost:8080',
+      origin: '*',
       optionsSuccessStatus: 200,
       credentials: true
     })
@@ -24,7 +24,8 @@ const app = express()
     graphqlHTTP(async (request, response, graphQLParams) => ({
       schema: schema,
       rootValue: await resolvers(request, response),
-      context: context
+      context: context,
+      graphiql: true
     }))
   )
 })()

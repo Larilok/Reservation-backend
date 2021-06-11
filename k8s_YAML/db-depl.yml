@@ -13,11 +13,9 @@ spec:
         app: db-pod
     spec:
       containers:
-      - name: db-server
-        image: larilok/cms:db-latest
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/sh"]
-        args: ["-c", "psql -U postgres postgres < postgres_localhost-2019_12_17_01_03_20-dump.sql"]
-        ports:
-        - name: db
-          containerPort: 5432
+        - name: db-server
+          image: gcr.io/gks-cluster-316500/db
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: db
+              containerPort: 5432

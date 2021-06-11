@@ -4,7 +4,7 @@ const grpc = require('@grpc/grpc-js')
 const protoLoader = require('@grpc/proto-loader')
 const path = require('path')
 
-const authServerAddress = 'reservation-web-application_auth_1:4240'
+const authServerAddress = 'auth-service:80'
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(path.resolve(__dirname, '../protos/auth.proto'), {

@@ -1,11 +1,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: proto-service
+  name: users-service
 spec:
   selector:
-    app: proto-pod
+    app: users-pod
   ports:
-  - protocol: TCP
-    port: 4250
-    targetPort: proto
+    - protocol: TCP
+      port: 80
+      targetPort: users

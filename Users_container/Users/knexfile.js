@@ -1,7 +1,7 @@
 module.exports = {
   client: 'pg',
   connection: {
-    host: 'reservation-web-application_db_1',
+    host: 'db-service',
     port: '5432',
     database: 'users',
     user: 'postgres',

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway-pod
+  template:
+    metadata:
+      labels:
+        app: api-gateway-pod
+    spec:
+      containers:
+        - name: api-gateway-server
+          image: gcr.io/gks-cluster-316500/api-gateway
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: api-gateway
+              containerPort: 4241

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: proto-deployment
+  name: users-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: proto-pod
+      app: users-pod
   template:
     metadata:
       labels:
-        app: proto-pod
+        app: users-pod
     spec:
       containers:
-      - name: proto-server
-        image: larilok/cms:proto-latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - name: proto
-          containerPort: 4250
+        - name: users-server
+          image: gcr.io/gks-cluster-316500/users
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: users
+              containerPort: 4243

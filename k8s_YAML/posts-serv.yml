@@ -1,13 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: book-service
+  name: posts-service
 spec:
-  type: NodePort
   selector:
-    app: book-pod
+    app: posts-pod
+  type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 4241
-    targetPort: book
-    nodePort: 31001
+    - protocol: TCP
+      port: 80
+      targetPort: posts

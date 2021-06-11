@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: book-deployment
+  name: posts-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: book-pod
+      app: posts-pod
   template:
     metadata:
       labels:
-        app: book-pod
+        app: posts-pod
     spec:
       containers:
-      - name: book-server
-        image: larilok/cms:book-latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - name: book
-          containerPort: 4241
+        - name: posts-server
+          image: gcr.io/gks-cluster-316500/posts
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: posts
+              containerPort: 4242

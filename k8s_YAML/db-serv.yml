@@ -5,7 +5,8 @@ metadata:
 spec:
   selector:
     app: db-pod
+  type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: db
+    - protocol: TCP
+      port: 5432
+      targetPort: db

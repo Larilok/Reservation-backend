@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-gateway-service
+spec:
+  selector:
+    app: api-gateway-pod
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: api-gateway
