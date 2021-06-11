@@ -16,6 +16,9 @@ spec:
         - name: db-server
           image: gcr.io/gks-cluster-316500/db
           imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_PASSWORD
+              value: 6545352
           ports:
             - name: db
               containerPort: 5432
