@@ -1,14 +1,14 @@
 module.exports = {
   client: 'pg',
   connection: {
-    host: 'localhost',
+    host: '34.89.239.237',
     port: '5432',
-    database: 'posts',
+    database: 'auth',
     user: 'postgres',
     password: '6545352'
   },
   migrations: {
-    directory: __dirname + 'db/migrations/posts',
+    directory: __dirname + '/DB_container/db/migrations/auth',
     tableName: 'knex_migrations'
   },
   seeds: {
