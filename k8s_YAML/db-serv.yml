@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     app: db-pod
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 5432
