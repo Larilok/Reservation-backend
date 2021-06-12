@@ -11,6 +11,7 @@ const {
   addPost,
   deletePost,
   updatePost,
+  getCategory,
   getCategories,
   listPosts,
   listPostsByUser,
@@ -113,9 +114,58 @@ const resolvers = async (req, res) => {
       return result
     },
     getPost: async ({ data }) => {
-      const result = await getPost(data)
+      const post = await getPost(data)
+      console.log(post)
+      const user = await getUser({ id: post.user_id })
+      console.log(user)
+      const category = await getCategory({ id: post.category_id })
+      console.log(category)
+      const result = {
+        id: post.id,
+        category_name: category.name,
+        user_phone: user.phone,
+        user_name: user.name,
+        user_surname: user.surname,
+        title: post.title,
+        description: post.description,
+        price: post.price,
+        picture_url: post.picture_url,
+        is_active: post.is_active,
+        created_at: post.created_at,
+        updated_at: post.updated_at
+      }
       client.sendCookie()
       return result
+    },
+    getPosts: async ({ pagination }) => {
+      console.log(pagination)
+      let postAndTotal
+      if (!pagination.page_num) pagination.page_num = 0
+      if (!pagination.limit) pagination.limit = 20
+      if (!pagination.type) pagination.type = 'OFFER'
+      if (
+        !pagination.category_id &&
+        !pagination.user_id &&
+        !pagination.keyword
+      ) {
+        pagination.keyword = '_'
+        postAndTotal = listPostsByKeyword(pagination)
+      }
+      if (!pagination.category_id && !pagination.user_id) {
+        postAndTotal = listPostsByKeyword(pagination)
+      }
+      if (!pagination.keyword && !pagination.user_id) {
+        postAndTotal = listPostsByCategoryId(pagination)
+      }
+      if (!pagination.keyword && !pagination.category_id) {
+        postAndTotal = listPostsByUser(pagination)
+      }
+      if (!pagination.user_id) {
+        postAndTotal = listPostsByKeywordAndCategoryId(pagination)
+      }
+      console.log(postAndTotal)
+      client.sendCookie()
+      return postAndTotal
     },
     listPosts: async ({ pagination }) => {
       console.log(pagination)
@@ -133,14 +183,15 @@ const resolvers = async (req, res) => {
     },
     listPostsByCategoryId: async ({ paginationByCategoryId }) => {
       console.log(paginationByCategoryId)
-      const result = await listPosts(paginationByCategoryId)
+      const result = await listPostsByCategoryId(paginationByCategoryId)
       console.log(result)
       client.sendCookie()
       return result
     },
     listPostsByKeyword: async ({ paginationByKeyword }) => {
       console.log(paginationByKeyword)
-      const result = await listPosts(paginationByKeyword)
+      if (!paginationByKeyword.keyword) paginationByKeyword.keyword = '_'
+      const result = await listPostsByKeyword(paginationByKeyword)
       console.log(result)
       client.sendCookie()
       return result
@@ -149,7 +200,9 @@ const resolvers = async (req, res) => {
       paginationByKeywordAndCategoryId
     }) => {
       console.log(paginationByKeywordAndCategoryId)
-      const result = await listPosts(paginationByKeywordAndCategoryId)
+      const result = await listPostsByKeywordAndCategoryId(
+        paginationByKeywordAndCategoryId
+      )
       console.log(result)
       client.sendCookie()
       return result

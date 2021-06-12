@@ -42,54 +42,18 @@ input ModifyUserInfo {
 }
 
 input Pagination {
-  page_num: Int!
-  limit: Int!
-  type: PostType!
-}
-
-input PaginationByUser {
-  user_id: ID
+  page_num: Int
+  limit: Int
   type: PostType
-  page_num: Int!
-  limit: Int!
-}
-
-input PaginationByCategoryId {
-  page_num: Int!
-  limit: Int!
-  type: PostType!
-  category_id: ID!
-}
-
-input PaginationByKeyword {
-  page_num: Int!
-  limit: Int!
-  type: PostType!
-  keyword: String!
-}
-
-input PaginationByKeywordAndCategoryId {
-  page_num: Int!
-  limit: Int!
-  type: PostType!
-  keyword: String!
+  keyword: String
   category_id: Int
+  user_id: ID
 }
 
 type Query {
   login(cred: Credentials!): String
   getPost(data: PostOperation!): Post
-  listPosts(pagination: Pagination!): PaginationResult
-  listPostsByUser(paginationByUser: PaginationByUser!): PaginationResult
-  listPostsByCategoryId(
-    paginationByCategoryId: PaginationByCategoryId!
-  ): PaginationResult
-  listPostsByKeyword(
-    paginationByKeyword: PaginationByKeyword!
-  ): PaginationResult
-  listPostsByKeywordAndCategoryId(
-    paginationByKeywordAndCategoryId: PaginationByKeywordAndCategoryId!
-  ): PaginationResult
+  getPosts(pagination: Pagination!): PaginationResult
   getUser(id: ID!): User
   getCategories: [Category]
 }
@@ -122,8 +86,10 @@ type User {
 
 type Post {
   id: ID!
-  category_id: Int
-  user_id: Int
+  category_name: String
+  user_phone: String
+  user_name: String
+  user_surname: String
   title: String
   description: String
   price: Int

@@ -1,11 +1,27 @@
 'use strict'
 
+const { Query } = require('pg')
 const config = require('../knexfile')
 
 const knex = require('knex')(config)
 
 const selectTable = type => {
   return type === 'REQ' ? knex('posts_request') : knex('posts_offer')
+}
+
+const getCategory = async ({ id }) => {
+  console.log('getCategory ')
+  let result
+  try {
+    result = await knex('categories')
+      .where('id', id)
+      .select()
+    console.log(result)
+  } catch (err) {
+    console.log(err)
+    throw new Error(err)
+  }
+  return result[0]
 }
 
 const getCategories = async () => {
@@ -90,11 +106,11 @@ const deletePost = async ({ id, type }) => {
   return result[0]
 }
 
-const countPosts = async type => {
+const countPosts = async query => {
   console.log('CountPosts', type)
   let result
   try {
-    result = await selectTable(type).count({ total: 'id' })
+    result = await query()
     console.log(result)
   } catch (err) {
     console.log(err)
@@ -162,17 +178,26 @@ const getPostsByKeyword = async ({
   page_num = 0,
   limit = 20,
   type,
-  keyword
+  keyword = ''
 }) => {
   console.log('getPostsByKeyword ', page_num, limit, type, keyword)
   let posts, total
   try {
+    console.log(
+      selectTable(type)
+        .whereRaw("title ilike '%??%'", [keyword])
+        .andWhere('id', '>', page_num * limit)
+        .limit(limit)
+        .toString()
+    )
     posts = await selectTable(type)
-      .whereRaw("title like '%??%'", [keyword])
+      .whereRaw("title ilike '%??%'", [keyword])
       .andWhere('id', '>', page_num * limit)
       .limit(limit)
     console.log(posts)
-    total = await countPosts(type)
+    const query = async () =>
+      await selectTable(type).whereRaw("title ilike '%??%'", [keyword])
+    total = await countPosts(query)
   } catch (err) {
     console.log(err)
     throw new Error(err)
@@ -212,6 +237,7 @@ const getPostsByKeywordAndCategoryId = async ({
 }
 
 module.exports = {
+  getCategory,
   getCategories,
   getPost,
   addPost,
