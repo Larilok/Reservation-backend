@@ -7,6 +7,7 @@ const { bodyParserGraphQL } = require('body-parser-graphql')
 const { resolvers, createSchema, context } = require('./gql/resolver')
 
 const app = express()
+const path = __dirname + '/static/'
 
 ;(async () => {
   const schema = createSchema()
@@ -18,7 +19,10 @@ const app = express()
     })
   )
   app.use(bodyParserGraphQL()) // to correctly parse the body
-  app.use(express.static(__dirname + '/static'))
+  app.use(express.static(path))
+  app.get('/', function (req, res) {
+    res.sendFile(path + 'index.html')
+  })
   app.use(
     '/graphql',
     graphqlHTTP(async (request, response, graphQLParams) => ({
