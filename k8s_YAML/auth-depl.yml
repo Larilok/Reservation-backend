@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth-server
-          image: gcr.io/gks-cluster-316500/auth
+          image: gcr.io/rent-316614/auth
           imagePullPolicy: Always
           ports:
             - name: auth

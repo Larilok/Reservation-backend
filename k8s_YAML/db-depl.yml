@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: db-server
-          image: gcr.io/gks-cluster-316500/db
+          image: gcr.io/rent-316614/db
           imagePullPolicy: Always
           env:
             - name: POSTGRES_PASSWORD

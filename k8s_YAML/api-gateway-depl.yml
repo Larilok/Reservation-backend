@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-gateway-server
-          image: gcr.io/gks-cluster-316500/api-gateway
+          image: gcr.io/rent-316614/api-gateway
           imagePullPolicy: Always
           ports:
             - name: api-gateway
