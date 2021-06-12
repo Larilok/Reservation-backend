@@ -15,7 +15,7 @@ spec:
       containers:
         - name: users-server
           image: gcr.io/gks-cluster-316500/users
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: users
               containerPort: 4243

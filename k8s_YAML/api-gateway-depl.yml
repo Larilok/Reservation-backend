@@ -15,7 +15,7 @@ spec:
       containers:
         - name: api-gateway-server
           image: gcr.io/gks-cluster-316500/api-gateway
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: api-gateway
               containerPort: 4241
