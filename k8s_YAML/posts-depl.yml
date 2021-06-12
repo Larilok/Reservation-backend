@@ -15,7 +15,7 @@ spec:
       containers:
         - name: posts-server
           image: gcr.io/gks-cluster-316500/posts
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: posts
               containerPort: 4242
