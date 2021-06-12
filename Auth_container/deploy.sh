@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcloud builds submit --tag gcr.io/{$PROJECT_ID}/auth .
+gcloud builds submit --tag gcr.io/$PROJECT_ID/auth .

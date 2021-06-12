@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcloud builds submit --tag gcr.io/{$PROJECT_ID}/db .
+gcloud builds submit --tag gcr.io/$PROJECT_ID/db .
