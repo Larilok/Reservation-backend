@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: db-service
+  name: db
 spec:
   selector:
     app: db-pod

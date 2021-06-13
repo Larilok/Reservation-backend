@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: api-gateway-service
+  name: api-gateway
 spec:
   selector:
     app: api-gateway-pod
