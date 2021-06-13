@@ -167,46 +167,46 @@ const resolvers = async (req, res) => {
       client.sendCookie()
       return postAndTotal
     },
-    listPosts: async ({ pagination }) => {
-      console.log(pagination)
-      const result = await listPosts(pagination)
-      console.log(result)
-      client.sendCookie()
-      return result
-    },
-    listPostsByUser: async ({ paginationByUser }) => {
-      console.log(paginationByUser)
-      const result = await listPostsByUser(paginationByUser)
-      console.log(result)
-      client.sendCookie()
-      return result
-    },
-    listPostsByCategoryId: async ({ paginationByCategoryId }) => {
-      console.log(paginationByCategoryId)
-      const result = await listPostsByCategoryId(paginationByCategoryId)
-      console.log(result)
-      client.sendCookie()
-      return result
-    },
-    listPostsByKeyword: async ({ paginationByKeyword }) => {
-      console.log(paginationByKeyword)
-      if (!paginationByKeyword.keyword) paginationByKeyword.keyword = '_'
-      const result = await listPostsByKeyword(paginationByKeyword)
-      console.log(result)
-      client.sendCookie()
-      return result
-    },
-    listPostsByKeywordAndCategoryId: async ({
-      paginationByKeywordAndCategoryId
-    }) => {
-      console.log(paginationByKeywordAndCategoryId)
-      const result = await listPostsByKeywordAndCategoryId(
-        paginationByKeywordAndCategoryId
-      )
-      console.log(result)
-      client.sendCookie()
-      return result
-    },
+    // listPosts: async ({ pagination }) => {
+    //   console.log(pagination)
+    //   const result = await listPosts(pagination)
+    //   console.log(result)
+    //   client.sendCookie()
+    //   return result
+    // },
+    // listPostsByUser: async ({ paginationByUser }) => {
+    //   console.log(paginationByUser)
+    //   const result = await listPostsByUser(paginationByUser)
+    //   console.log(result)
+    //   client.sendCookie()
+    //   return result
+    // },
+    // listPostsByCategoryId: async ({ paginationByCategoryId }) => {
+    //   console.log(paginationByCategoryId)
+    //   const result = await listPostsByCategoryId(paginationByCategoryId)
+    //   console.log(result)
+    //   client.sendCookie()
+    //   return result
+    // },
+    // listPostsByKeyword: async ({ paginationByKeyword }) => {
+    //   console.log(paginationByKeyword)
+    //   if (!paginationByKeyword.keyword) paginationByKeyword.keyword = '_'
+    //   const result = await listPostsByKeyword(paginationByKeyword)
+    //   console.log(result)
+    //   client.sendCookie()
+    //   return result
+    // },
+    // listPostsByKeywordAndCategoryId: async ({
+    //   paginationByKeywordAndCategoryId
+    // }) => {
+    //   console.log(paginationByKeywordAndCategoryId)
+    //   const result = await listPostsByKeywordAndCategoryId(
+    //     paginationByKeywordAndCategoryId
+    //   )
+    //   console.log(result)
+    //   client.sendCookie()
+    //   return result
+    // },
     getCategories: async () => {
       const result = await getCategories()
       console.log(result)

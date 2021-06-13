@@ -106,19 +106,6 @@ const deletePost = async ({ id, type }) => {
   return result[0]
 }
 
-const countPosts = async query => {
-  console.log('CountPosts', type)
-  let result
-  try {
-    result = await query()
-    console.log(result)
-  } catch (err) {
-    console.log(err)
-    throw new Error(err)
-  }
-  return result[0].total
-}
-
 const getPosts = async ({ page_num = 0, limit = 20, type }) => {
   console.log('getPosts ', page_num, limit, type)
   let posts, total
@@ -126,8 +113,10 @@ const getPosts = async ({ page_num = 0, limit = 20, type }) => {
     posts = await selectTable(type)
       .where('id', '>', page_num * limit)
       .limit(limit)
+      .select(knex.raw('*, count(*) over() as total'))
     console.log(posts)
-    total = await countPosts(type)
+    total = posts[0].total
+    posts.forEach(el => delete el.total)
   } catch (err) {
     console.log(err)
     throw new Error(err)
@@ -143,8 +132,10 @@ const getPostsByUser = async ({ page_num = 0, limit = 20, type, user_id }) => {
       .where('user_id', user_id)
       .andWhere('id', '>', page_num * limit)
       .limit(limit)
+      .select(knex.raw('*, count(*) over() as total'))
     console.log(posts)
-    total = await countPosts(type)
+    total = posts[0].total
+    posts.forEach(el => delete el.total)
   } catch (err) {
     console.log(err)
     throw new Error(err)
@@ -165,8 +156,10 @@ const getPostsByCategoryId = async ({
       .where('category_id', category_id)
       .andWhere('id', '>', page_num * limit)
       .limit(limit)
+      .select(knex.raw('*, count(*) over() as total'))
     console.log(posts)
-    total = await countPosts(type)
+    total = posts[0].total
+    posts.forEach(el => delete el.total)
   } catch (err) {
     console.log(err)
     throw new Error(err)
@@ -185,19 +178,20 @@ const getPostsByKeyword = async ({
   try {
     console.log(
       selectTable(type)
-        .whereRaw("title ilike '%??%'", [keyword])
+        .where('title', 'ilike', `%${keyword}%`)
         .andWhere('id', '>', page_num * limit)
         .limit(limit)
+        .select(knex.raw('*, count(*) over() as total'))
         .toString()
     )
     posts = await selectTable(type)
-      .whereRaw("title ilike '%??%'", [keyword])
+      .where('title ', 'ilike', `%${keyword}%`)
       .andWhere('id', '>', page_num * limit)
       .limit(limit)
+      .select(knex.raw('*, count(*) over() as total'))
     console.log(posts)
-    const query = async () =>
-      await selectTable(type).whereRaw("title ilike '%??%'", [keyword])
-    total = await countPosts(query)
+    total = posts[0].total
+    posts.forEach(el => delete el.total)
   } catch (err) {
     console.log(err)
     throw new Error(err)
@@ -223,12 +217,14 @@ const getPostsByKeywordAndCategoryId = async ({
   let posts, total
   try {
     posts = await selectTable(type)
-      .whereRaw("title like '%??%'", [keyword])
+      .where('title ', 'ilike', `%${keyword}%`)
       .andWhere('id', '>', page_num * limit)
       .andWhere('category_id', category_id)
       .limit(limit)
+      .select(knex.raw('*, count(*) over() as total'))
     console.log(posts)
-    total = await countPosts(type)
+    total = posts[0].total
+    posts.forEach(el => delete el.total)
   } catch (err) {
     console.log(err)
     throw new Error(err)
