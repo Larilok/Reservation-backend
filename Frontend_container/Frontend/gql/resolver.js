@@ -150,17 +150,13 @@ const resolvers = async (req, res) => {
       ) {
         pagination.keyword = '_'
         postAndTotal = listPostsByKeyword(pagination)
-      }
-      if (!pagination.category_id && !pagination.user_id) {
+      } else if (!pagination.category_id && !pagination.user_id) {
         postAndTotal = listPostsByKeyword(pagination)
-      }
-      if (!pagination.keyword && !pagination.user_id) {
+      } else if (!pagination.keyword && !pagination.user_id) {
         postAndTotal = listPostsByCategoryId(pagination)
-      }
-      if (!pagination.keyword && !pagination.category_id) {
+      } else if (!pagination.keyword && !pagination.category_id) {
         postAndTotal = listPostsByUser(pagination)
-      }
-      if (!pagination.user_id) {
+      } else if (!pagination.user_id) {
         postAndTotal = listPostsByKeywordAndCategoryId(pagination)
       }
       console.log(postAndTotal)
