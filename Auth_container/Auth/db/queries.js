@@ -5,12 +5,12 @@ const config = require('../knexfile')
 
 const knex = require('knex')(config)
 
-const getCredentials = async email => {
-  console.log('getCredentials ', email)
+const getCredentials = async phone => {
+  console.log('getCredentials ', phone)
   let result
   try {
-    result = await knex('auth')
-      .where('email', email)
+    result = await knex('credentials')
+      .where('phone', phone)
       .select()
     console.log('Result:', result)
     if (!result) {
@@ -27,7 +27,7 @@ const createCredentials = async credentials => {
   console.log('createCredentials ', credentials)
   let result
   try {
-    result = await knex('auth').insert(credentials, ['id'])
+    result = await knex('credentials').insert(credentials, ['id'])
     console.log('Result:', result)
   } catch (err) {
     console.log(err)

@@ -4,7 +4,9 @@ exports.up = async function (knex) {
     table.increments('id')
     table.string('name').notNullable()
     table.string('surname')
+    table.string('email')
     table.string('phone').notNullable()
+    table.string('password').notNullable()
     table.timestamps(false, true)
   })
 }

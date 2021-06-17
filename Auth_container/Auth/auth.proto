@@ -10,7 +10,7 @@ service AuthService {
 }
 
 message Credentials {
-  string email = 1;
+  string phone = 1;
   string password = 2;
 }
 

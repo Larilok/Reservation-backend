@@ -4,7 +4,7 @@ enum PostType {
 }
 
 input Credentials {
-  email: String!
+  phone: String!
   password: String!
 }
 
@@ -33,7 +33,7 @@ input NewPost {
 input NewUser {
   name: String!
   surname: String!
-  phone: String!
+  email: String!
 }
 
 input ModifyUserInfo {
@@ -79,7 +79,7 @@ type User {
   id: ID!
   name: String!
   surname: String!
-  phone: String!
+  email: String!
   created_at: String!
   updated_at: String!
 }

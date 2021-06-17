@@ -1,3 +1,3 @@
-create database auth;
+create database sessions;
 create database posts;
 create database users;

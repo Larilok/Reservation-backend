@@ -16,8 +16,8 @@ const VERSION = 1
 const login = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
-    const { email, password } = call.request
-    const user = await getCredentials(email)
+    const { phone, password } = call.request
+    const user = await getCredentials(phone)
 
     if (!user) {
       console.log('Wrong Login')
@@ -56,8 +56,8 @@ const login = async (call, callback) => {
 const signup = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
-    const { email, password } = call.request
-    const user = await getCredentials(email)
+    const { phone, password } = call.request
+    const user = await getCredentials(phone)
 
     if (user) {
       callback({
@@ -68,7 +68,7 @@ const signup = async (call, callback) => {
     }
     const hashedPassword = await argon2.hash(password)
 
-    const idObj = await createCredentials({ email, password: hashedPassword })
+    const idObj = await createCredentials({ phone, password: hashedPassword })
 
     callback(null, idObj)
   } catch (err) {

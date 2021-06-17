@@ -18,6 +18,8 @@ exports.up = async function (knex) {
     table.integer('price').notNullable()
     table.string('picture_url').notNullable()
     table.boolean('is_active').defaultTo(false)
+    table.boolean('is_booked').defaultTo(false)
+    table.integer('booked_used_id').index()
     table.timestamps(false, true)
   })
 }
