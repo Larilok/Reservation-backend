@@ -5,7 +5,7 @@ const protoLoader = require('@grpc/proto-loader')
 
 const path = require('path')
 
-const usersServerAddress = 'users-service:80'
+const usersServerAddress = 'users:80'
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(path.resolve(__dirname, '../protos/users.proto'), {

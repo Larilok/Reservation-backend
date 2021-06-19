@@ -4,7 +4,7 @@ const grpc = require('@grpc/grpc-js')
 const protoLoader = require('@grpc/proto-loader')
 const path = require('path')
 
-const authServerAddress = 'auth-service:80'
+const authServerAddress = 'auth:80'
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(path.resolve(__dirname, '../protos/auth.proto'), {
