@@ -1,10 +1,31 @@
 syntax = "proto3";
 
 service UsersService {
+  rpc Login(Credentials) returns (UserId) {}
   rpc CreateUser(NewUser) returns (Result) {}
   rpc GetUser(UserId) returns (User) {}
   rpc UpdateField(UpdateUserInfo) returns (Result) {}
   rpc RemoveUser(UserId) returns (Result) {}
+  rpc CreateLikedPost(LikedPost) returns (Result) {}
+  rpc DeleteLikedPost(LikedPost) returns (Result) {}
+  rpc GetLikedPosts(UserId) returns (LikedPosts) {}
+  rpc SendSMS(SendSMSInfo) returns (Result) {}
+  rpc ValidateSMSCode(ValidateInfo) returns (Result) {}
+}
+
+message SendSMSInfo {
+  string phone = 1;
+  string recaptcha_token = 2;
+}
+
+message ValidateInfo {
+  string phone = 1;
+  string code = 2;
+}
+
+message Credentials {
+  string phone = 1;
+  string password = 2;
 }
 
 message UserId {
@@ -13,6 +34,15 @@ message UserId {
 
 message Result { 
   string data = 1;
+}
+
+message LikedPost {
+  int32 user_id = 1;
+  int32 post_id = 2;
+}
+
+message LikedPosts {
+  repeated LikedPost posts = 1;
 }
 
 message NewUser {

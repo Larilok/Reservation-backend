@@ -12,6 +12,7 @@ service PostsService {
   rpc ListPostsByCategoryId(PaginationByCategoryId) returns (PagiantionResult) {}
   rpc ListPostsByKeyword(PaginationByKeyword) returns (PagiantionResult) {}
   rpc ListPostsByKeywordAndCategoryId(PaginationByKeywordAndCategoryId) returns (PagiantionResult) {}
+  rpc BookPost(BookPostOperation) returns (Result) {}
 }
 
 message Empty {}
@@ -75,6 +76,12 @@ message UpdatePostOperation {
 message PostOperation {
   int32 id = 1;
   PostType type = 2;
+}
+
+message BookPostOperation {
+  int32 id = 1;
+  PostType type = 2;
+  int32 booked_user_id = 3;
 }
 
 message Pagination {

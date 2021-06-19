@@ -1,6 +1,5 @@
 'use strict'
 
-const { Query } = require('pg')
 const config = require('../knexfile')
 
 const knex = require('knex')(config)
@@ -83,6 +82,21 @@ const updatePost = async ({ id, type, fieldname, value }) => {
     result = await selectTable(type)
       .where('id', id)
       .update(fieldname, value)
+    console.log(result)
+  } catch (err) {
+    console.log(err)
+    throw new Error(err)
+  }
+  return result
+}
+
+const bookPost = async ({ id, type, booked_user_id }) => {
+  console.log('getPost ', id, type, booked_user_id)
+  let result
+  try {
+    result = await selectTable(type)
+      .where('id', id)
+      .update({ is_booked: true, booked_user_id })
     console.log(result)
   } catch (err) {
     console.log(err)
@@ -243,5 +257,6 @@ module.exports = {
   getPostsByUser,
   getPostsByCategoryId,
   getPostsByKeyword,
-  getPostsByKeywordAndCategoryId
+  getPostsByKeywordAndCategoryId,
+  bookPost
 }

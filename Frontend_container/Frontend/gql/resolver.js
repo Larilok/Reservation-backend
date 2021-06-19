@@ -4,8 +4,6 @@ const { readFileSync } = require('fs')
 const { buildSchema } = require('graphql')
 const path = require('path')
 
-const { login, signup } = require('../rpc_clients/authClient')
-
 const {
   getPost,
   addPost,
@@ -17,14 +15,21 @@ const {
   listPostsByUser,
   listPostsByCategoryId,
   listPostsByKeyword,
-  listPostsByKeywordAndCategoryId
+  listPostsByKeywordAndCategoryId,
+  bookPost
 } = require('../rpc_clients/postsClient')
 
 const {
   createUser,
   getUser,
   removeUser,
-  updateField
+  updateField,
+  createLikedPost,
+  deleteLikedPost,
+  getLikedPosts,
+  validateSMSCode,
+  sendSMS,
+  login
 } = require('../rpc_clients/usersClient')
 
 const Client = require('../session/client')
@@ -163,48 +168,47 @@ const resolvers = async (req, res) => {
       client.sendCookie()
       return postAndTotal
     },
-    // listPosts: async ({ pagination }) => {
-    //   console.log(pagination)
-    //   const result = await listPosts(pagination)
-    //   console.log(result)
-    //   client.sendCookie()
-    //   return result
-    // },
-    // listPostsByUser: async ({ paginationByUser }) => {
-    //   console.log(paginationByUser)
-    //   const result = await listPostsByUser(paginationByUser)
-    //   console.log(result)
-    //   client.sendCookie()
-    //   return result
-    // },
-    // listPostsByCategoryId: async ({ paginationByCategoryId }) => {
-    //   console.log(paginationByCategoryId)
-    //   const result = await listPostsByCategoryId(paginationByCategoryId)
-    //   console.log(result)
-    //   client.sendCookie()
-    //   return result
-    // },
-    // listPostsByKeyword: async ({ paginationByKeyword }) => {
-    //   console.log(paginationByKeyword)
-    //   if (!paginationByKeyword.keyword) paginationByKeyword.keyword = '_'
-    //   const result = await listPostsByKeyword(paginationByKeyword)
-    //   console.log(result)
-    //   client.sendCookie()
-    //   return result
-    // },
-    // listPostsByKeywordAndCategoryId: async ({
-    //   paginationByKeywordAndCategoryId
-    // }) => {
-    //   console.log(paginationByKeywordAndCategoryId)
-    //   const result = await listPostsByKeywordAndCategoryId(
-    //     paginationByKeywordAndCategoryId
-    //   )
-    //   console.log(result)
-    //   client.sendCookie()
-    //   return result
-    // },
+    bookPost: async ({ bookPostOperation }) => {
+      const result = await bookPost(bookPostOperation)
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
     getCategories: async () => {
       const result = await getCategories()
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
+    getLikedPosts: async ({ userId }) => {
+      const result = await getLikedPosts(userId)
+      console.log(result)
+      const posts = await Promise.all(
+        result.map(async ({ user_id, post_id }) => await getPost(post_id))
+      )
+      client.sendCookie()
+      return result
+    },
+    validateSMSCode: async ({ info }) => {
+      const result = await validateSMSCode(info)
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
+    createLikedPost: async ({ likedPost }) => {
+      const result = await createLikedPost(likedPost)
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
+    deleteLikedPost: async ({ likedPost }) => {
+      const result = await deleteLikedPost(likedPost)
+      console.log(result)
+      client.sendCookie()
+      return result
+    },
+    sendSMS: async ({ sendSMSInfo }) => {
+      const result = await sendSMS(sendSMSInfo)
       console.log(result)
       client.sendCookie()
       return result

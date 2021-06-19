@@ -4,15 +4,13 @@ const grpc = require('@grpc/grpc-js')
 const protoLoader = require('@grpc/proto-loader')
 
 const {
-  login,
-  signup,
   createSessionRPC,
   deleteSessionRPC,
   getSessionRPC,
   updateSessionRPC
 } = require('./rpc/handlers')
 
-const PROTO_PATH = __dirname + '/auth.proto'
+const PROTO_PATH = __dirname + '/sessions.proto'
 
 const serverAddress = '0.0.0.0:4240'
 
@@ -26,13 +24,11 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 
 const protoDescriptor = grpc.loadPackageDefinition(packageDefinition)
 
-const authService = protoDescriptor.AuthService
+const sessionsService = protoDescriptor.SessionsService
 
 const getServer = () => {
   const server = new grpc.Server()
-  server.addService(authService.service, {
-    login: login,
-    signup: signup,
+  server.addService(sessionsService.service, {
     CreateSession: createSessionRPC,
     GetSession: getSessionRPC,
     UpdateSession: updateSessionRPC,

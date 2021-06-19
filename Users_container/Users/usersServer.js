@@ -6,8 +6,11 @@ const protoLoader = require('@grpc/proto-loader')
 const {
   createUserRPC,
   removeUserRPC,
-  modifyFieldRPC,
-  getUserRPC
+  updateFieldRPC,
+  getUserRPC,
+  login,
+  sendSMSRPC,
+  validateSMSCodeRPC
 } = require('./rpc/handlers')
 
 const PROTO_PATH = __dirname + '/users.proto'
@@ -31,7 +34,13 @@ const getServer = () => {
     CreateUser: createUserRPC,
     RemoveUser: removeUserRPC,
     GetUser: getUserRPC,
-    ModifyField: modifyFieldRPC
+    UpdateField: updateFieldRPC,
+    Login: login,
+    CreateLikedPost: createLikedPostRPC,
+    DeleteLikedPost: deleteLikedPostRPC,
+    GetLikedPosts: getLikedPostsRPC,
+    SendSMS: sendSMSRPC,
+    ValidateSMSCode: validateSMSCodeRPC
   })
   return server
 }

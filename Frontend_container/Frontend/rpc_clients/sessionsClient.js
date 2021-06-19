@@ -21,20 +21,6 @@ const authClient = new proto.AuthService(
   grpc.credentials.createInsecure()
 )
 
-const login = credentials =>
-  new Promise((res, rej) => {
-    console.log('Login func Client', credentials)
-    authClient.Login(credentials, (err, resp) => {
-      if (err) {
-        console.log('Error: ', err)
-        rej(err.message)
-        return
-      }
-      console.log(resp)
-      res(resp.id)
-    })
-  })
-
 const signup = credentials =>
   new Promise((res, rej) => {
     console.log(`SignUp func Client `, credentials)

@@ -1,40 +1,8 @@
 'use strict'
 
-const { credentials } = require('@grpc/grpc-js')
 const config = require('../knexfile')
 
 const knex = require('knex')(config)
-
-const getCredentials = async phone => {
-  console.log('getCredentials ', phone)
-  let result
-  try {
-    result = await knex('credentials')
-      .where('phone', phone)
-      .select()
-    console.log('Result:', result)
-    if (!result) {
-      return {}
-    }
-  } catch (err) {
-    console.log(err)
-    throw new Error(err)
-  }
-  return result[0]
-}
-
-const createCredentials = async credentials => {
-  console.log('createCredentials ', credentials)
-  let result
-  try {
-    result = await knex('credentials').insert(credentials, ['id'])
-    console.log('Result:', result)
-  } catch (err) {
-    console.log(err)
-    throw new Error(err)
-  }
-  return result[0]
-}
 
 const createSession = async newSession => {
   console.log('createSession ', newSession)
@@ -95,8 +63,6 @@ const updateSession = async ({ token, data }) => {
 }
 
 module.exports = {
-  getCredentials,
-  createCredentials,
   createSession,
   deleteSession,
   getSession,

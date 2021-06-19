@@ -22,6 +22,90 @@ const usersClient = new proto.UsersService(
   grpc.credentials.createInsecure()
 )
 
+const login = credentials =>
+  new Promise((res, rej) => {
+    console.log('Login func Client', credentials)
+    usersClient.Login(credentials, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.id)
+    })
+  })
+
+const createLikedPost = likedPost =>
+  new Promise((res, rej) => {
+    console.log('Login func Client', likedPost)
+    usersClient.CreateLikedPost(likedPost, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.id)
+    })
+  })
+
+const deleteLikedPost = likedPost =>
+  new Promise((res, rej) => {
+    console.log('Login func Client', likedPost)
+    usersClient.DeleteLikedPost(likedPost, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.id)
+    })
+  })
+
+const getLikedPosts = userId =>
+  new Promise((res, rej) => {
+    console.log('Login func Client', userId)
+    usersClient.GetLikedPost(userId, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.id)
+    })
+  })
+
+const sendSMS = sendSMSInfo =>
+  new Promise((res, rej) => {
+    console.log('sendSMS func Client ', sendSMSInfo)
+    usersClient.SendSMS(sendSMSInfo, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.data)
+    })
+  })
+
+const validateSMSCode = validateInfo =>
+  new Promise((res, rej) => {
+    console.log('validateSMSCode func Client ', validateInfo)
+    usersClient.ValidateSMSCode(validateInfo, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp.data)
+    })
+  })
+
 const createUser = newUser =>
   new Promise((res, rej) => {
     console.log('createUser func Client ', newUser)
@@ -82,5 +166,11 @@ module.exports = {
   createUser,
   getUser,
   removeUser,
-  updateField
+  updateField,
+  login,
+  createLikedPost,
+  deleteLikedPost,
+  getLikedPosts,
+  sendSMS,
+  validateSMSCode
 }

@@ -4,6 +4,8 @@
   "dependencies": {
     "@grpc/grpc-js": "latest",
     "@grpc/proto-loader": "^0.6.2",
+    "argon2": "^0.27.2",
+    "googleapis": "^77.0.0",
     "knex": "^0.21.19",
     "pg": "^8.6.0"
   }

@@ -1,10 +1,9 @@
 {
-  "name": "auth",
+  "name": "sessions",
   "version": "1.0.0",
   "dependencies": {
     "@grpc/grpc-js": "latest",
     "@grpc/proto-loader": "^0.6.2",
-    "argon2": "^0.27.2",
     "knex": "^0.95.6",
     "pg": "^8.6.0"
   }

@@ -4,16 +4,33 @@ const config = require('../knexfile')
 
 const knex = require('knex')(config)
 
+const getCredentials = async phone => {
+  console.log('getCredentials ', phone)
+  let result
+  try {
+    result = await knex('users')
+      .where('phone', phone)
+      .select('id', 'password')
+    console.log('Result:', result)
+    if (!result) {
+      return {}
+    }
+  } catch (err) {
+    console.log(err)
+    throw new Error(err)
+  }
+  return result[0]
+}
 const createUser = async userInfo => {
   console.log('CreateUser ', userInfo)
-  let user_id
+  let userId
   try {
-    user_id = await knex('users').insert(userInfo, ['id'])
+    userId = await knex('users').insert(userInfo, ['id'])
   } catch (err) {
     console.log(err)
   }
-  console.log(user_id)
-  return user_id[0].id
+  console.log(userId)
+  return userId[0].id
 }
 
 const getUser = async ({ id }) => {
@@ -58,9 +75,53 @@ const modifyField = async ({ fieldname, value, id }) => {
   return user
 }
 
+const createLikedPost = async likedPost => {
+  console.log('createLikedPost ', likedPost)
+  let user
+  try {
+    await knex('users').insert(likedPost)
+  } catch (err) {
+    console.log(err)
+  }
+  console.log(user)
+  return user
+}
+
+const deleteLikedPost = async likedPost => {
+  console.log('deleteLikedPost ', likedPost)
+  let user
+  try {
+    user = knex('users')
+      .where(likedPost)
+      .del()
+  } catch (err) {
+    console.log(err)
+  }
+  console.log(user)
+  return user
+}
+
+const getLikedPosts = async userId => {
+  console.log('getLikedPosts ', userId)
+  let posts
+  try {
+    posts = knex('users')
+      .where(userId)
+      .select()
+  } catch (err) {
+    console.log(err)
+  }
+  console.log(posts)
+  return posts
+}
+
 module.exports = {
   createUser,
   getUser,
   removeUser,
-  modifyField
+  modifyField,
+  getCredentials,
+  createLikedPost,
+  deleteLikedPost,
+  getLikedPosts
 }

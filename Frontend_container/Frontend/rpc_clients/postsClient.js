@@ -181,6 +181,21 @@ const listPostsByKeywordAndCategoryId = paginationByKeywordAndCategoryId =>
       }
     )
   })
+
+const bookPost = bookPostOperation =>
+  new Promise((res, rej) => {
+    console.log('bookPost func Client', bookPostOperation)
+    postsClient.BookPost(bookPostOperation, (err, resp) => {
+      if (err) {
+        console.log('Error: ', err)
+        rej(err.message)
+        return
+      }
+      console.log(resp)
+      res(resp)
+    })
+  })
+
 module.exports = {
   getPost,
   addPost,
@@ -192,5 +207,6 @@ module.exports = {
   listPostsByUser,
   listPostsByCategoryId,
   listPostsByKeyword,
-  listPostsByKeywordAndCategoryId
+  listPostsByKeywordAndCategoryId,
+  bookPost
 }

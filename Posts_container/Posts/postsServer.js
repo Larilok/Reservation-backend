@@ -12,7 +12,8 @@ const {
   listPostsByUserRPC,
   listPostsByCategoryIdRPC,
   listPostsByKeywordRPC,
-  listPostsByKeywordAndCategoryIdRPC
+  listPostsByKeywordAndCategoryIdRPC,
+  bookPostRPC
 } = require('./rpc/handlers')
 
 const PROTO_PATH = __dirname + '/posts.proto'
@@ -43,7 +44,8 @@ const getServer = () => {
     ListPostsByUser: listPostsByUserRPC,
     ListPostsByCategoryId: listPostsByCategoryIdRPC,
     ListPostsByKeyword: listPostsByKeywordRPC,
-    ListPostsByKeywordAndCategoryId: listPostsByKeywordAndCategoryIdRPC
+    ListPostsByKeywordAndCategoryId: listPostsByKeywordAndCategoryIdRPC,
+    BookPost: bookPostRPC
   })
   return server
 }

@@ -1,8 +1,8 @@
 FROM node:alpine
-WORKDIR /auth
+WORKDIR /session
 COPY package*.json ./ 
 RUN npm install
 COPY . .
-WORKDIR Auth
+WORKDIR Session
 EXPOSE 4240
-CMD ["node","authServer.js"]
+CMD ["node","sessionServer.js"]

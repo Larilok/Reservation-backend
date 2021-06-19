@@ -11,7 +11,8 @@ const {
   getPostsByUser,
   getPostsByCategoryId,
   getPostsByKeyword,
-  getPostsByKeywordAndCategoryId
+  getPostsByKeywordAndCategoryId,
+  bookPost
 } = require('../db/queries')
 
 const getCategoryRPC = async (call, callback) => {
@@ -189,6 +190,23 @@ const listPostsByKeywordAndCategoryIdRPC = async (call, callback) => {
     })
   }
 }
+
+const bookPostRPC = async (call, callback) => {
+  console.log('Request: ', call.request)
+  try {
+    const result = await bookPost(call.request)
+    console.log(result)
+    callback(null, result)
+    return
+  } catch (err) {
+    console.log(err)
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      message: 'book post error'
+    })
+  }
+}
+
 module.exports = {
   getPostRPC,
   getCategoryRPC,
@@ -200,5 +218,6 @@ module.exports = {
   listPostsByUserRPC,
   listPostsByCategoryIdRPC,
   listPostsByKeywordRPC,
-  listPostsByKeywordAndCategoryIdRPC
+  listPostsByKeywordAndCategoryIdRPC,
+  bookPostRPC
 }
