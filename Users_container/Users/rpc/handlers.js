@@ -1,4 +1,5 @@
 const argon2 = require('argon2')
+const grpc = require('@grpc/grpc-js')
 
 const {
   getCredentials,
