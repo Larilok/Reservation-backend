@@ -187,7 +187,7 @@ const resolvers = async (req, res) => {
         result.map(async ({ user_id, post_id }) => await getPost(post_id))
       )
       client.sendCookie()
-      return result
+      return posts
     },
     validateSMSCode: async ({ info }) => {
       const result = await validateSMSCode(info)
