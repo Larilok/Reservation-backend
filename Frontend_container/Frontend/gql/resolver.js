@@ -60,7 +60,13 @@ const resolvers = async (req, res) => {
       return 'OK'
     },
     addPost: async ({ post }) => {
-      if (!client.session.get('logged_in')) return
+      if (!client.session.get('logged_in')) {
+        console.log('Not logged in')
+
+        console.log(client.session.get('logged_in'))
+        console.log(client.session.get('user_id'))
+        return
+      }
       post.user_id = client.session.get('user_id')
 
       const result = await addPost(post)
