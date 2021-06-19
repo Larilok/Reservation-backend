@@ -10,7 +10,10 @@ const {
   getUserRPC,
   login,
   sendSMSRPC,
-  validateSMSCodeRPC
+  validateSMSCodeRPC,
+  createLikedPostRPC,
+  deleteLikedPostRPC,
+  getLikedPostsRPC
 } = require('./rpc/handlers')
 
 const PROTO_PATH = __dirname + '/users.proto'

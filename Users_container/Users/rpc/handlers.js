@@ -150,7 +150,7 @@ const deleteLikedPostRPC = async (call, callback) => {
   }
 }
 
-const getLikedPostRPC = async (call, callback) => {
+const getLikedPostsRPC = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
     const result = await getLikedPosts(call.request)
@@ -208,5 +208,5 @@ module.exports = {
   validateSMSCodeRPC,
   createLikedPostRPC,
   deleteLikedPostRPC,
-  getLikedPostRPC
+  getLikedPostsRPC
 }
