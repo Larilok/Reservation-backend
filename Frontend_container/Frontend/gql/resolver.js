@@ -50,17 +50,6 @@ const resolvers = async (req, res) => {
     if (client.session) client.session.save()
   })
   return {
-    signup: async ({ cred }) => {
-      let password
-      try {
-        password = await signup(cred)
-        console.log(`Password ${password}`)
-      } catch (err) {
-        console.log(err)
-      }
-      client.sendCookie()
-      return 'OK'
-    },
     login: async ({ cred }) => {
       const userId = await login(cred)
       if (userId) {
@@ -97,6 +86,8 @@ const resolvers = async (req, res) => {
       return result.data
     },
     getUser: async ({ id }) => {
+      if (!id) id = client.session.get('user_id')
+
       const result = await getUser(id)
       client.sendCookie()
       return result

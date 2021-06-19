@@ -77,7 +77,7 @@ type Query {
   login(cred: Credentials!): String
   getPost(data: PostOperation!): Post
   getPosts(pagination: Pagination!): PaginationResult
-  getUser(id: ID!): User
+  getUser(id: ID): User
   getCategories: [Category]
   getLikedPosts(userId: Int): [LikedPost]
   validateSMSCode(info: ValidateInfo): String
