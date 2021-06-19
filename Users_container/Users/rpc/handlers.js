@@ -60,8 +60,10 @@ const login = async (call, callback) => {
 const createUserRPC = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
-    const result = await createUser(call.request)
+    const hashedPassword = await argon2.hash(call.request.password)
+    call.request.password = hashedPassword
 
+    const result = await createUser(call.request)
     console.log(result)
     callback(null, { data: 'Created' })
   } catch (err) {
