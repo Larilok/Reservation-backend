@@ -50,7 +50,7 @@ input Pagination {
   user_id: ID
 }
 
-input LikedPost {
+input LikedPostInput {
   user_id: Int
   post_id: Int
 }
@@ -83,8 +83,8 @@ type Query {
 
 type Mutation {
   bookPost(bookPostOperation: BookPostOperation): String
-  createLikedPost(likedPost: LikedPost!): String
-  deleteLikedPost(likedPost: LikedPost!): String
+  createLikedPost(likedPost: LikedPostInput!): String
+  deleteLikedPost(likedPost: LikedPostInput!): String
   sendSMS(sendSMSInfo: SendSMSInfo): String
   signup(cred: Credentials!): String
   addPost(post: NewPost): String
@@ -93,6 +93,11 @@ type Mutation {
   createUser(info: NewUser): String
   removeUser(id: ID!): String
   modifyUserField(data: ModifyUserInfo): String
+}
+
+type LikedPost {
+  user_id: Int
+  post_id: Int
 }
 
 type Category {
