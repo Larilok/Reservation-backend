@@ -14,11 +14,8 @@ spec:
     spec:
       containers:
         - name: api-gateway-server
-          image: gcr.io/${PROJECT_ID}/api-gateway
+          image: gcr.io/k8s-rent/api-gateway
           imagePullPolicy: Always
           ports:
             - name: api-gateway
               containerPort: 4241
-          env:
-            - name: PROJECT_ID
-              value: '${PROJECT_ID}'

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: posts-server
-          image: gcr.io/${PROJECT_ID}/posts
+          image: gcr.io/k8s-rent/posts
           imagePullPolicy: Always
           ports:
             - name: posts

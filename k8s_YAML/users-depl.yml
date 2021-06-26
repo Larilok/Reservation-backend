@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: users-server
-          image: gcr.io/${PROJECT_ID}/users
+          image: gcr.io/k8s-rent/users
           imagePullPolicy: Always
           ports:
             - name: users
