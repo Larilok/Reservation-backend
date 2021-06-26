@@ -84,15 +84,14 @@ type Query {
 }
 
 type Mutation {
-  bookPost(bookPostOperation: BookPostOperation): String
+  bookPost(bookPostOperation: BookPostOperation!): String
   createLikedPost(likedPost: LikedPostInput!): String
   deleteLikedPost(likedPost: LikedPostInput!): String
-  sendSMS(sendSMSInfo: SendSMSInfo): String
-  signup(cred: Credentials!): String
-  addPost(post: NewPost): String
-  updatePost(post: UpdatePostOperation): String
-  deletePost(post: PostOperation): String
-  createUser(info: NewUser): String
+  sendSMS(sendSMSInfo: SendSMSInfo!): String
+  addPost(post: NewPost!): String
+  updatePost(post: UpdatePostOperation!): String
+  deletePost(post: PostOperation!): String
+  createUser(info: NewUser!): String
   removeUser(id: ID!): String
   modifyUserField(data: ModifyUserInfo): String
 }
