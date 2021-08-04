@@ -1,9 +1,9 @@
 module.exports = {
   client: 'pg',
   connection: {
-    host: '10.88.208.2',
+    host: '10.88.224.70',
     // host: 'localhost',
-    port: '31612',
+    port: '5432',
     database: 'users',
     user: 'postgres',
     password: '6545352'

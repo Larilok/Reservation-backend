@@ -89,7 +89,7 @@ const resolvers = async (req, res) => {
     createUser: async ({ info }) => {
       const result = await createUser(info)
       client.sendCookie()
-      return result.data
+      return 'OK'
     },
     getUser: async ({ id }) => {
       if (!id) id = client.session.get('user_id')
