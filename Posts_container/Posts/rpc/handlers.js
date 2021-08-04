@@ -7,7 +7,7 @@ const {
   addPost,
   updatePost,
   deletePost,
-  getPosts,
+  getAnyPosts,
   getPostsByUser,
   getPostsByCategoryId,
   getPostsByKeyword,
@@ -114,7 +114,7 @@ const deletePostRPC = async (call, callback) => {
 const listPostsRPC = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
-    const result = await getPosts(call.request)
+    const result = await getAnyPosts(call.request)
     console.log(result)
     callback(null, result)
     return
