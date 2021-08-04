@@ -32,12 +32,14 @@ class Session extends Map {
     const session = new Session(token)
     client.session = session
     client.setCookie('token', token)
+    console.log(token)
     storage.set(token, session)
     return session
   }
 
   static restore (client) {
     const { cookie } = client
+    console.log(cookie)
     if (!cookie) return
     const sessionToken = cookie.token
     if (sessionToken) {
