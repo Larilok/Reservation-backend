@@ -134,7 +134,7 @@ const getPosts = async query => {
   let posts, total
   try {
     console.log(query.toString())
-    posts = await query()
+    posts = await query
     console.log(posts)
     if (!post[0]) return { posts, total: 0 }
     total = posts[0].total
