@@ -133,7 +133,7 @@ const getAnyPosts = async ({ page_num = 0, limit = 20, type }) => {
 const getPosts = async query => {
   let posts, total
   try {
-    console.log(quety.toString())
+    console.log(query.toString())
     posts = await query()
     console.log(posts)
     if (!post[0]) return { posts, total: 0 }
