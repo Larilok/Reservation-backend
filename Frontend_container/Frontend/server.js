@@ -13,7 +13,7 @@ const path = __dirname + '/static/'
   const schema = createSchema()
   app.use(
     cors({
-      origin: '*',
+      origin: 'http://localhost:8080',
       optionsSuccessStatus: 200,
       credentials: true
     })
