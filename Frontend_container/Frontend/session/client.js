@@ -49,8 +49,6 @@ class Client {
   }
 
   setCookie (name, val, httpOnly = false) {
-    console.log('val: ', val)
-    console.log('name: ', name)
     const { host } = this
     const expires = `expires=${COOKIE_EXPIRE}`
     let cookie = `${name}=${val}; ${expires}; Path=/; Domain=${host}`
@@ -64,6 +62,8 @@ class Client {
 
   sendCookie () {
     const { res, preparedCookie } = this
+    console.log(res)
+    console.log(preparedCookie)
     if (preparedCookie.length && !res.headersSent) {
       console.dir({ preparedCookie })
       res.setHeader('Set-Cookie', preparedCookie)
