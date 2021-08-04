@@ -62,7 +62,6 @@ class Client {
 
   sendCookie () {
     const { res, preparedCookie } = this
-    console.log(res)
     console.log(preparedCookie)
     if (preparedCookie.length && !res.headersSent) {
       console.dir({ preparedCookie })
