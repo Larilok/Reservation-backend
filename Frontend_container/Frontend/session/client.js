@@ -49,6 +49,8 @@ class Client {
   }
 
   setCookie (name, val, httpOnly = false) {
+    console.log('val: ', val)
+    console.log('name: ', name)
     const { host } = this
     const expires = `expires=${COOKIE_EXPIRE}`
     let cookie = `${name}=${val}; ${expires}; Path=/; Domain=${host}`
