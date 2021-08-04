@@ -136,7 +136,7 @@ const getPosts = async query => {
     console.log(query.toString())
     posts = await query
     console.log(posts)
-    if (!post[0]) return { posts, total: 0 }
+    if (!posts[0]) return { posts, total: 0 }
     total = posts[0].total
     posts.forEach(el => delete el.total)
   } catch (err) {
