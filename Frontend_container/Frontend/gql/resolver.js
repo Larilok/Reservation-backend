@@ -143,6 +143,8 @@ const resolvers = async (req, res) => {
       console.log(pagination)
       let postAndTotal
       if (!pagination.page_num) pagination.page_num = 0
+      // client count from 1, backend should count from 0
+      pagination.page_num--
       if (!pagination.limit) pagination.limit = 20
       if (!pagination.type) pagination.type = 'OFFER'
       if (
