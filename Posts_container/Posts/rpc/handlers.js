@@ -20,7 +20,7 @@ const getCategoryRPC = async (call, callback) => {
   try {
     const categories = await getCategory(call.request)
     callback(null, { categories })
-    console.log(categories)
+    // console.log(categories)
     return
   } catch (err) {
     console.log(err)
@@ -115,7 +115,7 @@ const listPostsRPC = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
     const result = await getAnyPosts(call.request)
-    console.log(result)
+    // console.log(result)
     callback(null, result)
     return
   } catch (err) {
@@ -163,7 +163,7 @@ const listPostsByKeywordRPC = async (call, callback) => {
   console.log('Request: ', call.request)
   try {
     const result = await getPostsByKeyword(call.request)
-    console.log(result)
+    // console.log(result)
     callback(null, result)
     return
   } catch (err) {

@@ -164,7 +164,7 @@ const resolvers = async (req, res) => {
       } else if (!pagination.user_id) {
         postAndTotal = listPostsByKeywordAndCategoryId(pagination)
       }
-      console.log(postAndTotal)
+      // console.log(postAndTotal)
       client.sendCookie()
       return postAndTotal
     },
@@ -176,7 +176,7 @@ const resolvers = async (req, res) => {
     },
     getCategories: async () => {
       const result = await getCategories()
-      console.log(result)
+      // console.log(result)
       client.sendCookie()
       return result
     },
