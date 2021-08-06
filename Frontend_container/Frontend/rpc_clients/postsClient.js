@@ -24,28 +24,28 @@ const postsClient = new proto.PostsService(
 
 const getCategories = () =>
   new Promise((res, rej) => {
-    console.log('getCategories func Client: ')
+    // console.log('getCategories func Client: ')
     postsClient.GetCategories({}, (err, resp) => {
       if (err) {
         console.log('Error: ', err)
         rej(err.message)
         return
       }
-      console.log(resp)
+      // console.log(resp)
       res(resp.categories)
     })
   })
 
 const getCategory = id =>
   new Promise((res, rej) => {
-    console.log('getCategory func Client: ')
+    // console.log('getCategory func Client: ')
     postsClient.GetCategory(id, (err, resp) => {
       if (err) {
         console.log('Error: ', err)
         rej(err.message)
         return
       }
-      console.log(resp)
+      // console.log(resp)
       res(resp.categories)
     })
   })
@@ -115,7 +115,7 @@ const listPosts = pagination =>
         rej(err.message)
         return
       }
-      console.log(resp)
+      // console.log(resp)
       res(resp)
     })
   })
@@ -129,7 +129,7 @@ const listPostsByUser = paginationByUser =>
         rej(err.message)
         return
       }
-      console.log(resp)
+      // console.log(resp)
       res(resp)
     })
   })
@@ -143,7 +143,7 @@ const listPostsByCategoryId = paginationByCategoryId =>
         rej(err.message)
         return
       }
-      console.log(resp)
+      // console.log(resp)
       res(resp)
     })
   })
@@ -157,7 +157,7 @@ const listPostsByKeyword = paginationByKeyword =>
         rej(err.message)
         return
       }
-      console.log(resp)
+      // console.log(resp)
       res(resp)
     })
   })
@@ -176,7 +176,7 @@ const listPostsByKeywordAndCategoryId = paginationByKeywordAndCategoryId =>
           rej(err.message)
           return
         }
-        console.log(resp)
+        // console.log(resp)
         res(resp)
       }
     )
