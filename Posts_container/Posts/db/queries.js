@@ -15,7 +15,7 @@ const getCategory = async ({ id }) => {
     result = await knex('categories')
       .where('id', id)
       .select()
-    console.log(result)
+    // console.log(result)
   } catch (err) {
     console.log(err)
     throw new Error(err)
@@ -28,7 +28,7 @@ const getCategories = async () => {
   let result
   try {
     result = await knex('categories').select()
-    console.log(result)
+    // console.log(result)
   } catch (err) {
     console.log(err)
     throw new Error(err)

@@ -41,7 +41,6 @@ class Storage extends Map {
       super.set(key, session)
       callback(null, session)
     })
-    console.log('reade')
   }
 
   save (key) {

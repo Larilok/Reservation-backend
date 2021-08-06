@@ -36,7 +36,7 @@ const getCategoriesRPC = async (call, callback) => {
   try {
     const categories = await getCategories()
     callback(null, { categories })
-    console.log(categories)
+    // console.log(categories)
     return
   } catch (err) {
     console.log(err)
