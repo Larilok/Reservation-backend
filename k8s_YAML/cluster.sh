@@ -4,7 +4,6 @@ gcloud container clusters create rent-private \
 --enable-master-authorized-networks \
 --enable-ip-alias \
 --enable-private-nodes \
---enable-private-endpoint \
 --master-ipv4-cidr 172.16.0.0/28 \
 --zone us-central1-c \
 --enable-intra-node-visibility \

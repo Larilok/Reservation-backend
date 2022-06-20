@@ -2,7 +2,7 @@ version: '3.8'
 services:
         auth:
                 image: auth:dev
-                build: ./Auth_container
+                build: ./Sessions_container
                 ports:
                         - "4240:4240"
                 deploy:

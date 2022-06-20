@@ -2,6 +2,7 @@
   "name": "posts",
   "version": "1.0.0",
   "dependencies": {
+    "@google-cloud/storage": "^5.12.0",
     "@grpc/grpc-js": "latest",
     "@grpc/proto-loader": "^0.6.2",
     "knex": "^0.95.6",
